@@ -137,12 +137,12 @@ namespace larlite {
         if (Ntot == 2) {
             if (protons.size() == 2 ){
                 Prec    = protons.at(1).Vect();
-                if (Prec.Mag() < 10e1) {
-                    Printf("Uprotons.size() = %ld, Uprotons.at(0).P() = %f, Uprotons.at(1).P() = %f"
-                           ,Uprotons.size(),Uprotons.at(0).P(), Uprotons.at(1).P() );
-                    Printf("Pmiss = %f , protons.size() = %ld, protons.at(0).P() = %f, protons.at(1).P() = %f, Precoil = %f"
-                           ,Pmiss.Mag() , protons.size(),protons.at(0).P(), protons.at(1).P() , Prec.Mag());
-                }
+//                if (Prec.Mag() < 10e1) {
+//                    Printf("Uprotons.size() = %ld, Uprotons.at(0).P() = %f, Uprotons.at(1).P() = %f"
+//                           ,Uprotons.size(),Uprotons.at(0).P(), Uprotons.at(1).P() );
+//                    Printf("Pmiss = %f , Precoil = %f, cos (opening angle) = %f"
+//                           ,Pmiss.Mag() , Prec.Mag() , cos(Pmiss.Angle(Prec)));
+//                }
             }
             else if (protons.size() == 1 && neutrons.size() == 1 )
                 Prec    = neutrons.at(0).Vect();
