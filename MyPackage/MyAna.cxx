@@ -3,81 +3,164 @@
 
 #include "MyAna.h"
 #include "DataFormat/mctrack.h"
+#include "DataFormat/mctruth.h"
 
 namespace larlite {
     
     bool MyAna::initialize() {
-        OutTree = new TTree("anaTree","tracks analysis by LArLite");
-        OutTree -> Branch("pdgID"               ,   &T                  ,   "pdgID/I");
-        OutTree -> Branch("StraightTrackLength" ,   &StraightTrackLength    ,   "StraightTrackLength/D");
-        OutTree -> Branch("TrackLength"         ,   &TrackLength            ,   "TrackLength/D");
-        //
-        // This function is called in the beggining of event loop
-        // Do all variable initialization you wish to do here.
-        // If you have a histogram to fill in the event loop, for example,
-        // here is a good place to create one on the heap (i.e. "new TH1D").
-        //
-        
+        TracksTree  = new TTree("TracksTree","tracks analysis by LArLite");
+        TracksTree -> Branch("PdgCode"              ,   &PdgCode                ,   "PdgCode/I");
+        TracksTree -> Branch("StartMomentum"        ,   "TLorentzVector"        ,   &StartMomentum );
+        TracksTree -> Branch("EndMomentum"          ,   "TLorentzVector"        ,   &EndMomentum);
+        TracksTree -> Branch("StraightTrackLength"  ,   &StraightTrackLength    ,   "StraightTrackLength/D");
+        TracksTree -> Branch("TrackLength"          ,   &TrackLength            ,   "TrackLength/D");
+        Printf("Initialized TracksTree");
+
+        EventsTree  = new TTree("EventsTree","events analysis LArLite");
+        EventsTree -> Branch("Ntot"                 ,   &Ntot                   ,   "Ntot/I");
+        EventsTree -> Branch("Np"                   ,   &Np                     ,   "Np/I");
+        EventsTree -> Branch("Nn"                   ,   &Nn                     ,   "Nn/I");
+        EventsTree -> Branch("ThetaPQ"              ,   &ThetaPQ                ,   "ThetaPQ/D");
+        EventsTree -> Branch("PoverQ"               ,   &PoverQ                 ,   "PoverQ/D");
+        EventsTree -> Branch("Xb"                   ,   &Xb                     ,   "Xb/D");
+        EventsTree -> Branch("Q2"                   ,   &Q2                     ,   "Q2/D");
+        EventsTree -> Branch("q"                    ,   "TLorentzVector"        ,   &q          );
+        EventsTree -> Branch("neutrino"             ,   "TLorentzVector"        ,   &neutrino   );
+        EventsTree -> Branch("muon"                 ,   "TLorentzVector"        ,   &muon       );
+        EventsTree -> Branch("protons"              ,   &protons        );
+        EventsTree -> Branch("neutrons"             ,   &neutrons       );
+        EventsTree -> Branch("Pmiss"                ,   "TVector3"              ,   &Pmiss      );
+        EventsTree -> Branch("Prec"                 ,   "TVector3"              ,   &Prec       );
+        Printf("Initialized EventsTree");
         return true;
     }
     
-    bool MyAna::analyze(storage_manager* storage) {
-        
-        //
-        // Do your event-by-event analysis here. This function is called for
-        // each event in the loop. You have "storage" pointer which contains
-        // event-wise data. To see what is available, check the "Manual.pdf":
-        //
-        // http://microboone-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=3183
-        //
-        // Or you can refer to Base/DataFormatConstants.hh for available data type
-        // enum values. Here is one example of getting PMT waveform collection.
-        //
-        // event_fifo* my_pmtfifo_v = (event_fifo*)(storage->get_data(DATA::PMFIFO));
-        //
-        // if( event_fifo )
-        //
-        //   std::cout << "Event ID: " << my_pmtfifo_v->event_id() << std::endl;
-        //
-        auto ev_mctrack = storage -> get_data<event_mctrack> ("mcreco");
-        
-        if(ev_mctrack)
-            for (auto const& t: *ev_mctrack){
-                pdgID           = t.PdgCode();
-                StraightTrackLength += (t.End().Position() - t.Start().Position()).Vect().Mag();
-                TrackLength     = 0;
-                if(t.size()){
-                    for(size_t i=0; i<t.size()-1; ++i) {
-                        auto const& this_step = t[i];
-                        auto const& next_step = t[i+1];
-                        TrackLength += (next_step.Position() - this_step.Position()).Vect().Mag();
-                    }
-                }
-                OutTree -> Fill();
-            }
     
+    
+    bool MyAna::analyze(storage_manager* storage) {
+        InitializeEvent();
         
+        auto ev_mctrack = storage -> get_data<event_mctrack> ("mcreco");
+        auto ev_mctruth = storage -> get_data<event_mctruth> ("generator");
+        
+        if(ev_mctruth){
+            // neutrino
+            auto Nu = ev_mctruth->at(0).GetNeutrino().Nu();
+            Ev = Nu.Trajectory().front().E();       // [GeV]
+            Ev = Ev * 1000; // [MeV]
+            neutrino = TLorentzVector(0,0,Ev,Ev);
+            
+            if(ev_mctrack){
+                
+                Ntot        = (int)ev_mctrack->size();
+             
+                for (auto const& t: *ev_mctrack){
+                    // tracks
+                    PdgCode             = t.PdgCode();
+                    StartMomentum       = t.Start().Momentum(); // 4-vector MeV/c
+                    EndMomentum         = t.End().Momentum();   // 4-vector MeV/c
+                    StraightTrackLength += (t.End().Position() - t.Start().Position()).Vect().Mag();    // cm
+                    TrackLength         = 0;
+                    if(t.size()){
+                        for(size_t i=0; i<t.size()-1; ++i) {
+                            auto const& this_step = t[i];
+                            auto const& next_step = t[i+1];
+                            TrackLength += (next_step.Position() - this_step.Position()).Vect().Mag();
+                        }
+                    }
+                    TracksTree -> Fill();
+                    if (StartMomentum.P() < 10)
+                        Printf("t.PdgCode() = %d, t.Start().Momentum().P() = %f, t.End().Momentum().P() = %f",PdgCode,StartMomentum.P(),EndMomentum.P());
+                    
+                    // outgoing lepton, and nucleons
+                    switch (PdgCode) { //[http://pdg.lbl.gov/2002/montecarlorpp.pdf]
+                        case 13: // µ-
+                            muon = StartMomentum;
+                            break;
+                        case 2212: // proton
+                            Uprotons.push_back(StartMomentum);
+                            pMag.push_back(StartMomentum.P());
+                            break;
+                        case 2112: // neutron
+                            neutrons.push_back(StartMomentum);
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                }
+                if (Uprotons.size() > 0 || neutrons.size() > 0) {
+                    q           = neutrino - muon;
+                    Q2          = -q.Mag2();
+                    Xb          = Q2 / 2. * 938.272 * q.E();
+                    SortProtons();
+                    Np          = (int)protons.size();
+                    Nn          = (int)neutrons.size();
+                    EventsTree -> Fill();
+                }
+            }
+        }
         return true;
     }
     
     bool MyAna::finalize() {
-        
-        // This function is called at the end of event loop.
-        // Do all variable finalization you wish to do here.
-        // If you need, you can store your ROOT class instance in the output
-        // file. You have an access to the output file through "_fout" pointer.
-        //
-        // Say you made a histogram pointer h1 to store. You can do this:
-        //
-        // if(_fout) { _fout->cd(); h1->Write(); }
-        //
-        // else 
-        //   print(MSG::ERROR,__FUNCTION__,"Did not find an output file pointer!!! File not opened?");
-        //
-        if(_fout)
-            OutTree -> Write();
+        Printf("Tracks filled with %lld entries, events filled with %lld entries",EventsTree -> GetEntries(),TracksTree -> GetEntries());
+        if(_fout){
+            TracksTree -> Write();
+            if (EventsTree -> GetEntries())
+                EventsTree -> Write();
+        }
+        delete EventsTree;
+        delete TracksTree;
         return true;
     }
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    void MyAna::InitializeEvent(){
+        if (!Uprotons.empty())  Uprotons.clear();   // unsorted protons
+        if (!protons.empty())   protons.clear();
+        if (!neutrons.empty())  neutrons.clear();
+        if (!pMag.empty())      pMag.clear();
+        Pmiss       = TVector3();
+        Prec        = TVector3();
+    }
+    
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    void MyAna::SortProtons(){
+        for (auto i: sort_pMag_for_indexes(pMag))
+            protons.push_back(Uprotons.at(i));
+        Plead   = protons.at(0).Vect();
+        ThetaPQ = Plead.Angle(q.Vect());
+        PoverQ  = Plead.Mag() / q.P();
+        Pmiss   = Plead - q.Vect();
+        if (Ntot == 2) {
+            if (protons.size() == 2 ){
+                Prec    = protons.at(1).Vect();
+                if (Prec.Mag() < 10e1) {
+                    Printf("Uprotons.size() = %ld, Uprotons.at(0).P() = %f, Uprotons.at(1).P() = %f"
+                           ,Uprotons.size(),Uprotons.at(0).P(), Uprotons.at(1).P() );
+                    Printf("Pmiss = %f , protons.size() = %ld, protons.at(0).P() = %f, protons.at(1).P() = %f, Precoil = %f"
+                           ,Pmiss.Mag() , protons.size(),protons.at(0).P(), protons.at(1).P() , Prec.Mag());
+                }
+            }
+            else if (protons.size() == 1 && neutrons.size() == 1 )
+                Prec    = neutrons.at(0).Vect();
+        }
+    }
+    
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    std::vector<size_t> MyAna::sort_pMag_for_indexes(const std::vector<float> &v) {
+        // initialize original index locations
+        std::vector<size_t> idx(v.size());
+        for (size_t i = 0; i != idx.size(); ++i) idx[i] = i;
+        // sort indexes based on comparing values in v
+        std::sort(idx.begin(), idx.end(),
+                  [&v](size_t i1, size_t i2) {return v[i1] > v[i2];});
+        return idx;
+    }
+    
     
 }
 #endif

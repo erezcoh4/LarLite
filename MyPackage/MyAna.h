@@ -12,11 +12,14 @@
 
     @{*/
 
+
 #ifndef LARLITE_MYANA_H
 #define LARLITE_MYANA_H
 
-#include "Analysis/ana_base.h"
 
+
+#include "Analysis/ana_base.h"
+#include "TLorentzVector.h"
 namespace larlite {
   /**
      \class MyAna
@@ -32,27 +35,38 @@ namespace larlite {
     /// Default destructor
     virtual ~MyAna(){}
 
-    /** IMPLEMENT in MyAna.cc!
-        Initialization method to be called before the analysis event loop.
-    */ 
     virtual bool initialize();
 
-    /** IMPLEMENT in MyAna.cc! 
-        Analyze a data event-by-event  
-    */
     virtual bool analyze(storage_manager* storage);
 
-    /** IMPLEMENT in MyAna.cc! 
-        Finalize method to be called after all events processed.
-    */
     virtual bool finalize();
 
   protected:
       
-      Int_t     Ntracks ,   pdgID;
-      Double_t  StraightTrackLength , TrackLength;
-      TTree * OutTree;
-    
+      
+      // tracks
+      TTree             * TracksTree;
+      Int_t             PdgCode;
+      Double_t          StraightTrackLength , TrackLength;
+      TLorentzVector    StartMomentum       , EndMomentum ;
+      
+      // events
+      TTree                         * EventsTree;
+      // nucleons
+      Int_t                         Ntot        ,   Np      ,   Nn;
+      TLorentzVector                neutrino    ,   muon    ,   q;
+      std::vector<TLorentzVector>   Uprotons    ,   protons ,   neutrons;
+      std::vector<float>            pMag;
+      Double_t                      Ev          ,   PoverQ  , ThetaPQ   ,   Q2  ,   Xb;
+      TVector3                      Plead       ,   Pmiss   , Prec;
+ 
+      
+      
+      
+      // my methods
+      void SortProtons();
+      void InitializeEvent();
+      std::vector<size_t> sort_pMag_for_indexes(const std::vector<float> &v);
   };
 }
 #endif
