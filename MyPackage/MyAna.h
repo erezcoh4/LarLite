@@ -53,7 +53,7 @@ namespace larlite {
       // events
       TTree                         * EventsTree;
       // nucleons
-      Int_t                         Ntot        ,   Np      ,   Nn;
+      Int_t                         Ntot        ,   Ne      , Nmu   ,   Nl      ,   Np      ,   Nn;
       TLorentzVector                neutrino    ,   muon    ,   q;
       std::vector<TLorentzVector>   Uprotons    ,   protons ,   neutrons;
       std::vector<float>            pMag;
