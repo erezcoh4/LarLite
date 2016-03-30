@@ -11,7 +11,8 @@ void DrawPlots(){
     bool DoSRCEvents            = false;
     bool DoAngles               = false;
     bool DoHighMomentumTail     = false;
-    bool DothetaPPFinalInitial  = true;
+    bool DothetaPPFinalInitial  = false;
+    bool DoDrawQ                = true;
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     TPlots  * tracks   = new TPlots("Ana.root","TracksTree");
@@ -111,5 +112,18 @@ void DrawPlots(){
         
      }
 
+    
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    if(DoDrawQ){
+        plot -> CreateCanvas("q");
+        TString var = "TMath::RadToDeg()*q.Theta()";
+//        TString var = plot->Theta("neutrino.Vect()","Pmiss"); //"TMath::RadToDeg()*q.Theta()"
+        events -> H2("q.Vect().Mag()",var,cutCC2p,"colz"
+                     ,50,1,1400,50,0,180,"","momentum transfer [MeV/c]","#theta_{q}");
+//        events -> H2("Prec.Mag()",var,cutCC2p,"colz"
+//                     ,50,1,1400,50,0,180,"","recoil momentum [MeV/c]","#theta_{q}");
+        
+    }
 }
 
