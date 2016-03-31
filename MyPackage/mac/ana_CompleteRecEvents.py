@@ -5,7 +5,7 @@ import time
 ROOT.gStyle.SetOptStat(0000)
 
 
-DoVarsDependingOnEv     = True
+DoVarsDependingOnEv     = False
 DoLowEv                 = True
 
 
@@ -44,16 +44,30 @@ if DoVarsDependingOnEv :
 
 
 if DoLowEv:
-    cLowEv = ana.CreateCanvas("low Ev")
-    ana.H1("neutrino.E()",ROOT.TCut(),"HIST",Nbins,0,2000,"#nu energy","E#nu [GeV]","",1,1)
-    CutLowEv = ROOT.TCut("protons[0].P() < 400")
-    ana.H1("neutrino.E()",CutLowEv,"HIST same",Nbins,0,2000,"#nu energy","E#nu [GeV]","",2,2)
-    CutLowEv = ROOT.TCut("protons[0].P()+muon.P() < 400")
-    ana.H1("neutrino.E()",CutLowEv,"HIST same",Nbins,0,2000,"#nu energy","E#nu [GeV]","",3,3)
-    CutLowEv = ROOT.TCut( "%s< 40" % ana.Theta("protons[0].Vect()","muon.Vect()") )
-    ana.H1("neutrino.E()",CutLowEv,"HIST same",Nbins,0,2000,"#nu energy","E#nu [GeV]","",4,4)
+    cLowEv = ana.CreateCanvas("low Ev","Divide",1,1)
+    
+    cLowEv.cd(1)
+    ana.H1("neutrino.E()",ROOT.TCut(),"HIST",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",1,1)
+    Cut800 = ROOT.TCut("protons[0].P()+muon.P() < 800")
+    h800 = ana.H1("neutrino.E()",Cut800,"HIST same",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",2,2)
+    Cut600 = ROOT.TCut("protons[0].P()+muon.P() < 600")
+    h600 =ana.H1("neutrino.E()",Cut600,"HIST same",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",3,3)
+    Cut400 = ROOT.TCut("protons[0].P()+muon.P() < 400")
+    h400 = ana.H1("neutrino.E()",Cut400,"HIST same",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",4,4)
+    ana.Text(1000 , 150 , "(%.1f%%)<800 MeV/c" % (100.*ana.GetEntries(Cut800)/ana.GetEntries()) , 2)
+    ana.Text(1000 , 100 , "(%.1f%%)<600 MeV/c" % (100.*ana.GetEntries(Cut600)/ana.GetEntries()) , 3)
+    ana.Text(1000 , 50 , "(%.1f%%)<400 MeV/c" %  (100.*ana.GetEntries(Cut400)/ana.GetEntries()) , 4)
+    
     cLowEv.Update()
     wait()
+    file = ROOT.TFile("~/Desktop/uBoone/SpecialAttention/Data/MCC6recEventsEv.root","recreate")
+    h800.SetName("hEflux_PpPlusPmuBelow800")
+    h800.Write()
+    h600.SetName("hEflux_PpPlusPmuBelow600")
+    h600.Write()
+    h400.SetName("hEflux_PpPlusPmuBelow400")
+    h400.Write()
+    file.Close()
 
 
 
