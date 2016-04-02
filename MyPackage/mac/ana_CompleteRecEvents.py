@@ -10,9 +10,11 @@ DoLowEv                 = True
 
 
 Path        = "/Users/erezcohen/Desktop/uBoone/AnaFiles"
-FileName    = "CompleteRecEvents"
+FileName    = "CompleteRecEvents_mcc6"
 ana         = TPlots(Path + "/Ana_"+FileName+".root","EventsTree","complete reconstructed events")
 Nbins       = 50
+N2p         = 12000 # uboone expectation (GENIE)
+Nccqe       = 0.4 * N2p # 40% of 2p CCQE events at ArgoNeuT were CCQE
 
 
 
@@ -44,29 +46,30 @@ if DoVarsDependingOnEv :
 
 
 if DoLowEv:
-    cLowEv = ana.CreateCanvas("low Ev","Divide",1,1)
-    
+    cLowEv = ana.CreateCanvas("low Ev","Divide",2,3)
     cLowEv.cd(1)
-    ana.H1("neutrino.E()",ROOT.TCut(),"HIST",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",1,1)
-    Cut800 = ROOT.TCut("protons[0].P()+muon.P() < 800")
-    h800 = ana.H1("neutrino.E()",Cut800,"HIST same",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",2,2)
-    Cut600 = ROOT.TCut("protons[0].P()+muon.P() < 600")
-    h600 =ana.H1("neutrino.E()",Cut600,"HIST same",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",3,3)
-    Cut400 = ROOT.TCut("protons[0].P()+muon.P() < 400")
-    h400 = ana.H1("neutrino.E()",Cut400,"HIST same",Nbins,0,2000,"#nu energy - cut on |#vec{p}(p)|+|#vec{p}(#mu)|","E#nu [GeV]","",4,4)
-    ana.Text(1000 , 150 , "(%.1f%%)<800 MeV/c" % (100.*ana.GetEntries(Cut800)/ana.GetEntries()) , 2)
-    ana.Text(1000 , 100 , "(%.1f%%)<600 MeV/c" % (100.*ana.GetEntries(Cut600)/ana.GetEntries()) , 3)
-    ana.Text(1000 , 50 , "(%.1f%%)<400 MeV/c" %  (100.*ana.GetEntries(Cut400)/ana.GetEntries()) , 4)
-    
+    ana.H1("neutrino.E()",ROOT.TCut(),"HIST",Nbins,0,2000,"#nu energy","E#nu [GeV]","",1,1)
+
+    # BINS in |p(p)|+|p(mu)|
+    file = ROOT.TFile("~/Desktop/uBoone/SpecialAttention/Data/MCC6recEventsEv.root","recreate")
+    PpPmuMin = [0   , 400 , 600 , 800  , 1000]
+    PpPmuMax = [400 , 600 , 800 , 1000 , 3000]
+    CutPpPmu = []
+    h        = []
+    for i in range(0,len(PpPmuMin)):
+        CutPpPmu.append(ROOT.TCut("%f < protons[0].P()+muon.P() && protons[0].P()+muon.P() < %f"%(PpPmuMin[i],PpPmuMax[i])))
+        cLowEv.cd(i+2)
+        frac    = float(ana.GetEntries(CutPpPmu[i]))/ana.GetEntries()
+        Nevents = int(frac * Nccqe)
+        h.append(ana.H1("neutrino.E()",CutPpPmu[i],"HIST",Nbins,0,2000
+                      ,"%.0f<p(p)+p(#mu)<%.0f MeV/c (%.1f%% ~ %d +/- %d events)"%(PpPmuMin[i],PpPmuMax[i],100.*frac,int(Nevents),int(ROOT.sqrt(Nevents)))
+                      ,"E#nu [GeV]","",i+2,i+2))
+        h[i].SetName("hEflux_%dPpPlusPmu%d"%(int(PpPmuMin[i]),int(PpPmuMax[i])))
+        h[i].Scale(float(Nevents)/h[i].Integral())
+        h[i].Write()
     cLowEv.Update()
     wait()
-    file = ROOT.TFile("~/Desktop/uBoone/SpecialAttention/Data/MCC6recEventsEv.root","recreate")
-    h800.SetName("hEflux_PpPlusPmuBelow800")
-    h800.Write()
-    h600.SetName("hEflux_PpPlusPmuBelow600")
-    h600.Write()
-    h400.SetName("hEflux_PpPlusPmuBelow400")
-    h400.Write()
+    cLowEv.SaveAs("~/Desktop/EvBins.pdf")
     file.Close()
 
 
