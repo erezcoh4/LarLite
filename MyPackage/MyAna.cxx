@@ -113,7 +113,7 @@ namespace larlite {
                 if (Nmu == 1 && Npi0 == 0 && Npiminus == 0 && Npiplus == 0) { // CC0π events
                     q           = neutrino - muon;
                     Q2          = -q.Mag2();
-                    Xb          = Q2 / 2. * 938.272 * q.E(); // x = Q²/2m𝜔
+                    Xb          = Q2 / (2. * 938.272 * q.E()); // x = Q²/2m𝜔
                     if (protons.size() > 1) {
                         SortProtons();
                     }

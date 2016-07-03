@@ -1,6 +1,4 @@
-#
-# This is an example GNUmakefile for my packages
-#
+# GNUmakefile for my packages
 
 # specific names for this package
 DICT  = MyRepo_MyPackageDict
@@ -12,6 +10,7 @@ OBJECTS = $(SOURCES:.cxx=.o)
 
 # include options for this package
 INCFLAGS  = -I.                       #Include itself
+INCFLAGS += -I$(LARLITE_USERDEVDIR)/mySoftware
 INCFLAGS += $(shell larlite-config --includes)
 
 # platform-specific options

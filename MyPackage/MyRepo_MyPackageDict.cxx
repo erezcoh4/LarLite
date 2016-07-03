@@ -42,6 +42,7 @@ namespace std {} using namespace std;
 #include "Kazu.h"
 #include "MyAna.h"
 #include "MyLArTools.h"
+#include "sample.h"
 
 // Header files passed via #pragma extra_include
 
@@ -757,13 +758,14 @@ namespace {
 "Kazu.h",
 "MyAna.h",
 "MyLArTools.h",
+"sample.h",
 0
     };
     static const char* includePaths[] = {
 "/Users/erezcohen/larlite/UserDev/mySoftware",
 "/Users/erezcohen/larlite/core",
 "/Users/erezcohen/root6/root-6.04.10/include",
-"/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/",
+"/Users/erezcohen/larlite/UserDev/MyLarLite/MyPackage/",
 0
     };
     static const char* fwdDeclCode = 
@@ -788,6 +790,7 @@ class __attribute__((annotate("$clingAutoload$Kazu.h")))  Kazu;
 #include "Kazu.h"
 #include "MyAna.h"
 #include "MyLArTools.h"
+#include "sample.h"
 
 #undef  _BACKWARD_BACKWARD_WARNING_H
 )DICTPAYLOAD";
