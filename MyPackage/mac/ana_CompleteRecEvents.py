@@ -46,23 +46,26 @@ if DoVarsDependingOnEv :
 
 
 if DoLowEv:
-    cLowEv = ana.CreateCanvas("low Ev","Divide",2,3)
-    cLowEv.cd(1)
+    cEv = ana.CreateCanvas("Ev")
     ana.H1("neutrino.E()",ROOT.TCut(),"HIST",Nbins,0,2000,"#nu energy","E#nu [GeV]","",1,1)
+    cEv.Update()
+    wait()
+    cEv.SaveAs("~/Desktop/Ev.pdf")
 
     # BINS in |p(p)|+|p(mu)|
+    cLowEv = ana.CreateCanvas("low Ev","Divide",2,2)
     file = ROOT.TFile("~/Desktop/uBoone/SpecialAttention/Data/MCC6recEventsEv.root","recreate")
-    PpPmuMin = [0   , 400 , 600 , 800  , 1000]
-    PpPmuMax = [400 , 600 , 800 , 1000 , 3000]
+    PpPmuMin = [0   , 400 , 600 , 800  ]
+    PpPmuMax = [400 , 600 , 800 , 3000 ]
     CutPpPmu = []
     h        = []
     for i in range(0,len(PpPmuMin)):
         CutPpPmu.append(ROOT.TCut("%f < protons[0].P()+muon.P() && protons[0].P()+muon.P() < %f"%(PpPmuMin[i],PpPmuMax[i])))
-        cLowEv.cd(i+2)
+        cLowEv.cd(i+1)
         frac    = float(ana.GetEntries(CutPpPmu[i]))/ana.GetEntries()
         Nevents = int(frac * Nccqe)
         h.append(ana.H1("neutrino.E()",CutPpPmu[i],"HIST",Nbins,0,2000
-                      ,"%.0f<p(p)+p(#mu)<%.0f MeV/c (%.1f%% ~ %d +/- %d events)"%(PpPmuMin[i],PpPmuMax[i],100.*frac,int(Nevents),int(ROOT.sqrt(Nevents)))
+                      ,"%.0f<p(proton)+p(muon)<%.0f MeV/c (%.1f%% ~ %d +/- %d events)"%(PpPmuMin[i],PpPmuMax[i],100.*frac,int(Nevents),int(ROOT.sqrt(Nevents)))
                       ,"E#nu [GeV]","",i+2,i+2))
         h[i].SetName("hEflux_%dPpPlusPmu%d"%(int(PpPmuMin[i]),int(PpPmuMax[i])))
         h[i].Scale(float(Nevents)/h[i].Integral())

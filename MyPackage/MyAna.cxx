@@ -71,8 +71,8 @@ namespace larlite {
                              }
                          }
                          TracksTree -> Fill();
-                         //                    if (StartMomentum.P() < 1e1)
-                         //                        Printf("t.PdgCode() = %d, t.Start().Momentum().P() = %f, t.End().Momentum().P() = %f",PdgCode,StartMomentum.P(),EndMomentum.P());
+//                                             if (StartMomentum.P() < 1e1)
+//                        Printf("t.PdgCode() = %d, t.Start().Momentum().P() = %f, t.End().Momentum().P() = %f",PdgCode,StartMomentum.P(),EndMomentum.P());
                          
                          // outgoing lepton, and nucleons
                          switch (PdgCode) { //[http://pdg.lbl.gov/2002/montecarlorpp.pdf]
@@ -82,6 +82,15 @@ namespace larlite {
                              case 13: // µ-
                                  Nmu ++;
                                  muon = StartMomentum;
+                                 break;
+                             case 111: // π0
+                                 Npi0 ++;
+                                 break;
+                             case 211: // π+
+                                 Npiplus ++;
+                                 break;
+                             case -211: // π-
+                                 Npiminus ++;
                                  break;
                              case 2212: // proton
                                  Uprotons.push_back(StartMomentum);
@@ -100,12 +109,15 @@ namespace larlite {
                 Nl      = Nmu + Ne;
                 Np      = (int)Uprotons.size();
                 Nn      = (int)neutrons.size();
-                if (Ntot == 3 && Nmu == 1 && Np == 2) { // CC0π events with 2 protons in the final state
+//                if (Ntot == 3 && Nmu == 1 && Np == 2) { // CC0π events with 2 protons in the final state
+                if (Nmu == 1 && Npi0 == 0 && Npiminus == 0 && Npiplus == 0) { // CC0π events
                     q           = neutrino - muon;
                     Q2          = -q.Mag2();
                     Xb          = Q2 / 2. * 938.272 * q.E(); // x = Q²/2m𝜔
-                    SortProtons();
-                    EventsTree -> Fill();
+                    if (protons.size() > 1) {
+                        SortProtons();
+                    }
+                   EventsTree -> Fill();
                 }
             }
         }
@@ -132,7 +144,7 @@ namespace larlite {
         if (!pMag.empty())      pMag.clear();
         Pmiss       = TVector3();
         Prec        = TVector3();
-        Ne = Nmu = Nl = Np = Nn = Ntot = 0;
+        Ne = Nmu = Nl = Np = Nn = Ntot = Npi0 = Npiminus = Npiplus =  0;
     }
     
     
@@ -152,8 +164,8 @@ namespace larlite {
     }
     
     
-        //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-        std::vector<size_t> MyAna::sort_pMag_for_indexes(const std::vector<float> &v) {
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    std::vector<size_t> MyAna::sort_pMag_for_indexes(const std::vector<float> &v) {
         // initialize original index locations
         std::vector<size_t> idx(v.size());
         for (size_t i = 0; i != idx.size(); ++i) idx[i] = i;
