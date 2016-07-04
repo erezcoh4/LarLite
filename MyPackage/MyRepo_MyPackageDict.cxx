@@ -39,7 +39,6 @@ namespace std {} using namespace std;
 
 // Header files passed as explicit arguments
 #include "AnaPandoraNuTracks.h"
-#include "Kazu.h"
 #include "MyAna.h"
 #include "MyLArTools.h"
 #include "sample.h"
@@ -182,51 +181,6 @@ namespace ROOT {
 } // end of namespace ROOT
 
 namespace ROOT {
-   static TClass *Kazu_Dictionary();
-   static void Kazu_TClassManip(TClass*);
-   static void *new_Kazu(void *p = 0);
-   static void *newArray_Kazu(Long_t size, void *p);
-   static void delete_Kazu(void *p);
-   static void deleteArray_Kazu(void *p);
-   static void destruct_Kazu(void *p);
-
-   // Function generating the singleton type initializer
-   static TGenericClassInfo *GenerateInitInstanceLocal(const ::Kazu*)
-   {
-      ::Kazu *ptr = 0;
-      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::Kazu));
-      static ::ROOT::TGenericClassInfo 
-         instance("Kazu", "Kazu.h", 24,
-                  typeid(::Kazu), DefineBehavior(ptr, ptr),
-                  &Kazu_Dictionary, isa_proxy, 4,
-                  sizeof(::Kazu) );
-      instance.SetNew(&new_Kazu);
-      instance.SetNewArray(&newArray_Kazu);
-      instance.SetDelete(&delete_Kazu);
-      instance.SetDeleteArray(&deleteArray_Kazu);
-      instance.SetDestructor(&destruct_Kazu);
-      return &instance;
-   }
-   TGenericClassInfo *GenerateInitInstance(const ::Kazu*)
-   {
-      return GenerateInitInstanceLocal((::Kazu*)0);
-   }
-   // Static variable to force the class initialization
-   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const ::Kazu*)0x0); R__UseDummy(_R__UNIQUE_(Init));
-
-   // Dictionary for non-ClassDef classes
-   static TClass *Kazu_Dictionary() {
-      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const ::Kazu*)0x0)->GetClass();
-      Kazu_TClassManip(theClass);
-   return theClass;
-   }
-
-   static void Kazu_TClassManip(TClass* ){
-   }
-
-} // end of namespace ROOT
-
-namespace ROOT {
    // Wrappers around operator new
    static void *new_larlitecLcLMyAna(void *p) {
       return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::MyAna : new ::larlite::MyAna;
@@ -288,27 +242,6 @@ namespace ROOT {
       ((current_t*)p)->~current_t();
    }
 } // end of namespace ROOT for class ::MyLArTools
-
-namespace ROOT {
-   // Wrappers around operator new
-   static void *new_Kazu(void *p) {
-      return  p ? new(p) ::Kazu : new ::Kazu;
-   }
-   static void *newArray_Kazu(Long_t nElements, void *p) {
-      return p ? new(p) ::Kazu[nElements] : new ::Kazu[nElements];
-   }
-   // Wrapper around operator delete
-   static void delete_Kazu(void *p) {
-      delete ((::Kazu*)p);
-   }
-   static void deleteArray_Kazu(void *p) {
-      delete [] ((::Kazu*)p);
-   }
-   static void destruct_Kazu(void *p) {
-      typedef ::Kazu current_t;
-      ((current_t*)p)->~current_t();
-   }
-} // end of namespace ROOT for class ::Kazu
 
 namespace ROOT {
    static TClass *vectorlEfloatgR_Dictionary();
@@ -755,7 +688,6 @@ namespace {
   void TriggerDictionaryInitialization_libMyRepo_MyPackage_Impl() {
     static const char* headers[] = {
 "AnaPandoraNuTracks.h",
-"Kazu.h",
 "MyAna.h",
 "MyLArTools.h",
 "sample.h",
@@ -777,7 +709,6 @@ extern int __Cling_Autoloading_Map;
 namespace larlite{class __attribute__((annotate("$clingAutoload$MyAna.h")))  MyAna;}
 namespace larlite{class __attribute__((annotate("$clingAutoload$AnaPandoraNuTracks.h")))  AnaPandoraNuTracks;}
 class __attribute__((annotate("$clingAutoload$AnaPandoraNuTracks.h")))  MyLArTools;
-class __attribute__((annotate("$clingAutoload$Kazu.h")))  Kazu;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 
@@ -787,7 +718,6 @@ class __attribute__((annotate("$clingAutoload$Kazu.h")))  Kazu;
 
 #define _BACKWARD_BACKWARD_WARNING_H
 #include "AnaPandoraNuTracks.h"
-#include "Kazu.h"
 #include "MyAna.h"
 #include "MyLArTools.h"
 #include "sample.h"
@@ -795,7 +725,6 @@ class __attribute__((annotate("$clingAutoload$Kazu.h")))  Kazu;
 #undef  _BACKWARD_BACKWARD_WARNING_H
 )DICTPAYLOAD";
     static const char* classesHeaders[]={
-"Kazu", payloadCode, "@",
 "MyLArTools", payloadCode, "@",
 "larlite::AnaPandoraNuTracks", payloadCode, "@",
 "larlite::MyAna", payloadCode, "@",
