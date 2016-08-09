@@ -30,6 +30,8 @@
 #ifndef __CINT__
 
 #define PrintBox(box) cout << #box << ": (" << box._start_wire << "," << box._start_t << ") => (" << box._end_wire << "," << box._end_t << ")" << std::endl;
+#endif
+
 #define ADC_threshold 5
 #define time_tick_max_distance 15
 
@@ -113,7 +115,8 @@ namespace larlite {
         TH2F * hTrackROI[3] , * hTrackROIzoomout[3];
         
         
-    protected:
+    #ifndef __CINT__
+   protected:
         
                
         //    run - subrun - event - track id - Box( s-wire , s-time , e-wire , e-time )

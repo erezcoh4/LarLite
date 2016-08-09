@@ -105,7 +105,7 @@ namespace ROOT {
       ::larlite::AnaPandoraNuTracks *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::larlite::AnaPandoraNuTracks));
       static ::ROOT::TGenericClassInfo 
-         instance("larlite::AnaPandoraNuTracks", "AnaPandoraNuTracks.h", 76,
+         instance("larlite::AnaPandoraNuTracks", "AnaPandoraNuTracks.h", 78,
                   typeid(::larlite::AnaPandoraNuTracks), DefineBehavior(ptr, ptr),
                   &larlitecLcLAnaPandoraNuTracks_Dictionary, isa_proxy, 0,
                   sizeof(::larlite::AnaPandoraNuTracks) );
