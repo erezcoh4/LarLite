@@ -578,8 +578,8 @@ namespace larlite {
     bool AnaPandoraNuTracks::LoadBDTCandidates(bool DoPrint){
         
         //        ifstream fin("/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/passing_score_95_4874_tracks.csv");
-//        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv"); // my mac
-        ifstream fin("/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles/passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95"); // uboone
+        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv"); // my mac
+//        ifstream fin("/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles/passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95.csv"); // uboone
 
         // Read one line at a time.
         string line ;
@@ -609,17 +609,17 @@ namespace larlite {
         // check
         if (DoPrint) {
             for(auto it : BDTcandidates) {
-                std::cout << "run "  << it.first;
+                std::cout << "run"  << it.first << "\n";
                 for(auto inner_it : it.second ) {
-                    std::cout  << ",subrun " << inner_it.first;
+                    std::cout  << "subrun " << inner_it.first;
                     for(auto inner_inner_it : inner_it.second ) {
                         std::cout  << ",event "       << inner_inner_it.first;
                         for(auto inner_inner_inner_it : inner_inner_it.second ) {
-                            std::cout  << ",track_id "       << inner_inner_inner_it.first;
+                            std::cout  << ",track_id "       << inner_inner_inner_it.first << "\n";
                             auto b = inner_inner_inner_it.second ;
-                            for (int plane = 0 ; plane < 3 ; plane++){
-                                PrintBox(b[plane]);
-                            }
+                            
+                            PrintBox(b[0]); PrintBox(b[1]); PrintBox(b[2]);
+                            
                         }
                     }
                 }
