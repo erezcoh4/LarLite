@@ -8,7 +8,6 @@
 #include "TSystem.h"
 #include "MySoftwarePackage/TPlots.cxx"
 
-
 namespace larlite {
     
     
@@ -492,10 +491,13 @@ namespace larlite {
                             cZoomOut[plane] = new TCanvas(Form("track ROI plane %d zoomout",plane));
                             hTrackROIzoomout[plane] -> Draw("colz");
                             plot -> Box((double)b[plane]._start_wire,(double)b[plane]._start_t,(double)b[plane]._end_wire,(double)b[plane]._end_t , 46 , 0 , 1);
+                            gStyle->SetOptStat(0000);
                             cZoomOut[plane] -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_zoomout_plane%d.pdf",images_path.Data(),run,subrun,event,track_id,track_id,plane));
+
                             cZoomIn[plane] = new TCanvas(Form("track ROI plane %d zoomin",plane));
                             hTrackROI[plane] -> Draw("colz");
                             plot -> Box((double)b[plane]._start_wire,(double)b[plane]._start_t,(double)b[plane]._end_wire,(double)b[plane]._end_t , 46 , 0 , 1);
+                            gStyle->SetOptStat(0000);
                             cZoomIn[plane] -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_ROI_plane%d.pdf",images_path.Data(),run,subrun,event,track_id,track_id,plane));
                             delete cZoomOut[plane];
                             delete cZoomIn[plane];
