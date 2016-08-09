@@ -68,7 +68,7 @@ namespace larlite {
 //        out_csv_file = ofstream("/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/selected_GBDTcandidates_score_95.csv");
 //        out_csv_file << "run, subrun, event, track-id, start wire, start time-tick, end wire, end time-tick " << endl;
         
-        LoadBDTCandidates( false );
+        LoadBDTCandidates( true );
         
         lar_tools = new MyLArTools();
         plot = new TPlots();
