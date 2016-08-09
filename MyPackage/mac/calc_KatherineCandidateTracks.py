@@ -4,7 +4,8 @@ sys.path.insert(0, '../../mySoftware/MySoftwarePackage/mac')
 import input_flags
 flags = input_flags.get_args()
 
-Path = "/Users/erezcohen/Desktop/uBoone" if flags.worker == 'erez' else "/uboone/...."
+Path = "/Users/erezcohen/Desktop/uBoone" if flags.worker == 'erez' else "/uboone/data/users/ecohen/GBDTp\
+rotons"
 
 infilename = "larlite_9131runs_multipscore0.95_595evts_03082016.root"
 #"larlite_95_wire_pandoraNu_543_evts.root"#"larlite_95_wire_pandoraNu_4519_evts.root"

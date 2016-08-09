@@ -17,8 +17,8 @@ namespace larlite {
     bool AnaPandoraNuTracks::initialize() {
         
         // change this path in order to generate the images elsewhere
-        images_path = "/Users/erezcohen/Desktop/uBoone/GBDTprotonCandidates/images/JustMCtraining"; // my mac
-//        images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining"; // uboone servers
+//        images_path = "/Users/erezcohen/Desktop/uBoone/GBDTprotonCandidates/images/JustMCtraining"; // my mac
+        images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining"; // uboone servers
 
         
         TracksTree  = new TTree("TracksTree"        ,"GBDT classified proton tracks analysis by LArLite"   );
@@ -578,8 +578,9 @@ namespace larlite {
     bool AnaPandoraNuTracks::LoadBDTCandidates(bool DoPrint){
         
         //        ifstream fin("/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/passing_score_95_4874_tracks.csv");
-        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv");
-        
+//        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv"); // my mac
+        ifstream fin("/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles/passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95"); // uboone
+
         // Read one line at a time.
         string line ;
         
