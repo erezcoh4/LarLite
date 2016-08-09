@@ -27,6 +27,8 @@
 #include <fstream>
 #include "MyLArTools.h"
 
+#ifndef __CINT__
+
 #define PrintBox(box) cout << #box << ": (" << box._start_wire << "," << box._start_t << ") => (" << box._end_wire << "," << box._end_t << ")" << std::endl;
 #define ADC_threshold 5
 #define time_tick_max_distance 15
@@ -127,7 +129,8 @@ namespace larlite {
         Double_t          straight_track_length , segmented_track_length , momentum;
         
         TVector3          vertex , end , straight_track ;
-        
+    #endif
+       
 
         
     };

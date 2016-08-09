@@ -11,7 +11,7 @@
 
 
 #pragma link C++ class larlite::MyAna+;
-#pragma link C++ class larlite::AnaPandoraNuTracks+;
+#pragma link C++ class larlite::AnaPandoraNuTracks;
 #pragma link C++ class MyLArTools+;
 
 //ADD_NEW_CLASS ... do not change this line
