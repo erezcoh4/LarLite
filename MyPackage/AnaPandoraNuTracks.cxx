@@ -578,8 +578,8 @@ namespace larlite {
     bool AnaPandoraNuTracks::LoadBDTCandidates(bool DoPrint){
         
         //        ifstream fin("/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/passing_score_95_4874_tracks.csv");
-        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv"); // my mac
-//        ifstream fin("/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles/passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95.csv"); // uboone
+//        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv"); // my mac
+        ifstream fin("/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles/passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95.csv"); // uboone
 
         // Read one line at a time.
         string line ;
