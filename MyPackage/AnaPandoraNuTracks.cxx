@@ -16,10 +16,27 @@ namespace larlite {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnaPandoraNuTracks::initialize() {
         
-        // change this path in order to generate the images elsewhere
-//        images_path = "/Users/erezcohen/Desktop/uBoone/GBDTprotonCandidates/images/JustMCtraining"; // my mac
-        images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining"; // uboone servers
+        on_uboone_grid              = false ;
+        DoPrint                     = true;
+        CreateImagas                = true;
+        calculate_adc_in_corners    = false;
+       
+        
+        if (on_uboone_grid) {
 
+            images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining";
+            PassedGBDTFiles_path = "/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles";
+            csv_file_name = "passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95.csv";
+
+        }
+        else {
+            
+            images_path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons/images/JustMCtraining";
+            PassedGBDTFiles_path = "/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees";
+            csv_file_name = "passedGBDT_extBNB_AnalysisTrees_score_0.95.csv";
+            
+        }
+        
         
         TracksTree  = new TTree("TracksTree"        ,"GBDT classified proton tracks analysis by LArLite"   );
         TracksTree -> Branch("vertex"               ,   "TVector3"          ,   &vertex );
@@ -68,7 +85,7 @@ namespace larlite {
 //        out_csv_file = ofstream("/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/selected_GBDTcandidates_score_95.csv");
 //        out_csv_file << "run, subrun, event, track-id, start wire, start time-tick, end wire, end time-tick " << endl;
         
-        LoadBDTCandidates( true );
+        LoadBDTCandidates();
         
         lar_tools = new MyLArTools();
         plot = new TPlots();
@@ -88,9 +105,6 @@ namespace larlite {
     bool AnaPandoraNuTracks::analyze(storage_manager* storage) {
 
         TTreeEntry++;
-        bool DoPrint = false;
-        bool CreateImagas = false;
-        bool calculate_adc_in_corners = false;
         
         auto ev_track = storage -> get_data<event_track> ("pandoraNu");
         auto ev_wire  = storage -> get_data<event_wire> ("caldata");
@@ -201,9 +215,7 @@ namespace larlite {
                 if (DoPrint) {
                     PrintLine();
                     std::cout << "run " << run << ", subrun " << subrun << ", event " << event << ", track id " << track_id << std::endl;
-                    for (int plane = 0 ; plane < 3 ; plane++){
-                        PrintBox(b[plane]);
-                    }
+                    PrintBox(b[0]); PrintBox(b[1]); PrintBox(b[2]);
                 }
                 
                 
@@ -236,14 +248,20 @@ namespace larlite {
                             hTrackROI[plane] -> GetXaxis() -> CenterTitle();
                             hTrackROI[plane] -> GetYaxis() -> SetTitle("time tick");
                             hTrackROI[plane] -> GetYaxis() -> CenterTitle();
+                            hTrackROI[plane] -> GetYaxis() -> SetTitleOffset(1.3);
+                            
+                            Nbins_w = b[plane]._end_wire - b[plane]._start_wire + 41;
+                            Nbins_t = (int)(b[plane]._end_t - b[plane]._start_t) + 81;
+
                             hTrackROIzoomout[plane] = new TH2F(Form("%s_zoomout",hName.Data()) ,Form("%s zoomout",hName.Data())
-                                                               , Nbins_w + 40  , b[plane]._start_wire-20 , b[plane]._end_wire+20
-                                                               , Nbins_t + 60  , b[plane]._start_t-30 , b[plane]._end_t+30);
+                                                               , Nbins_w  , b[plane]._start_wire - 20 , b[plane]._end_wire + 20
+                                                               , Nbins_t  , b[plane]._start_t - 40 , b[plane]._end_t + 40);
                             hTrackROIzoomout[plane] -> GetXaxis() -> SetTitle("wire number");
                             hTrackROIzoomout[plane] -> GetXaxis() -> CenterTitle();
                             hTrackROIzoomout[plane] -> GetYaxis() -> SetTitle("time tick");
                             hTrackROIzoomout[plane] -> GetYaxis() -> CenterTitle();
-                            
+                            hTrackROIzoomout[plane] -> GetYaxis() -> SetTitleOffset(1.3);
+                           
                         }
                     }
                     
@@ -292,9 +310,9 @@ namespace larlite {
                                         const int FirstTick = iROI.begin_index();
                                         time_tick = FirstTick;
                                         for (float ADC : iROI) {
-                                            if ( b[plane]._start_t - 30 <= time_tick && time_tick <= b[plane]._end_t + 30 ) {
+                                            if ( b[plane]._start_t - 40 <= time_tick && time_tick <= b[plane]._end_t + 40 ) {
                                                 hTrackROIzoomout[plane] -> SetBinContent( detWire - b[plane]._start_wire + 20
-                                                                                         , time_tick - b[plane]._start_t + 30 , ADC );
+                                                                                         , time_tick - b[plane]._start_t + 40 , ADC );
                                             }
                                             time_tick++;
                                         }
@@ -536,51 +554,51 @@ namespace larlite {
     
     
     
+  // unused - delete by Sep-09,2016
+//    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//    bool AnaPandoraNuTracks::inBDTcandidates(TVector3 vertex , TVector3 end, box b){
+//        
+//        auto geomH = ::larutil::GeometryHelper::GetME();
+//        
+//        for (int plane = 0 ; plane < 3 ; plane++){
+//            
+//            larutil::Point2D start_point_plane2 = geomH->Point_3Dto2D(vertex.X() ,vertex.Y() ,vertex.Z() , plane);
+//            start_wire[plane] = start_point_plane2.w / geomH->WireToCm();
+//            start_t[plane]    = start_point_plane2.t / geomH->TimeToCm();
+//            
+//            larutil::Point2D end_point_plane2 = geomH->Point_3Dto2D(end.X() , end.Y() , end.Z() , plane);
+//            end_wire[plane] = end_point_plane2.w / geomH->WireToCm();
+//            end_t[plane]    = end_point_plane2.t / geomH->TimeToCm();
+//            
+//            
+//            cout << "plane "<<plane<<", (" << start_wire[plane] << "," << start_t[plane]
+//            << ") => ("
+//            << end_wire[plane] << "," << end_t[plane] << ")" << std::endl;
+//        }
+//        
+//        
+//        //        if (    fabs( start_wire-b._start_wire )  < 2
+//        //            &&  fabs( end_wire-b._end_wire )      < 2 ) return true;
+//        //        else if( fabs( start_wire-b._end_wire )   < 2
+//        //            &&   fabs( end_wire-b._start_wire )   < 2 ) return true;
+//        //
+//        return false;
+//    }
+//    
+//    //..............................................................................
+    
+    
+    
+    
+    
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-    bool AnaPandoraNuTracks::inBDTcandidates(TVector3 vertex , TVector3 end, box b){
+    bool AnaPandoraNuTracks::LoadBDTCandidates(){
         
-        auto geomH = ::larutil::GeometryHelper::GetME();
+        ifstream fin(Form("%s/%s",PassedGBDTFiles_path.Data(),csv_file_name.Data()));
         
-        for (int plane = 0 ; plane < 3 ; plane++){
-            
-            larutil::Point2D start_point_plane2 = geomH->Point_3Dto2D(vertex.X() ,vertex.Y() ,vertex.Z() , plane);
-            start_wire[plane] = start_point_plane2.w / geomH->WireToCm();
-            start_t[plane]    = start_point_plane2.t / geomH->TimeToCm();
-            
-            larutil::Point2D end_point_plane2 = geomH->Point_3Dto2D(end.X() , end.Y() , end.Z() , plane);
-            end_wire[plane] = end_point_plane2.w / geomH->WireToCm();
-            end_t[plane]    = end_point_plane2.t / geomH->TimeToCm();
-            
-            
-            cout << "plane "<<plane<<", (" << start_wire[plane] << "," << start_t[plane]
-            << ") => ("
-            << end_wire[plane] << "," << end_t[plane] << ")" << std::endl;
-        }
-        
-        
-        //        if (    fabs( start_wire-b._start_wire )  < 2
-        //            &&  fabs( end_wire-b._end_wire )      < 2 ) return true;
-        //        else if( fabs( start_wire-b._end_wire )   < 2
-        //            &&   fabs( end_wire-b._start_wire )   < 2 ) return true;
-        //
-        return false;
-    }
-    
-    //..............................................................................
-    
-    
-    
-    
-    
-    
-    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-    bool AnaPandoraNuTracks::LoadBDTCandidates(bool DoPrint){
-        
-        //        ifstream fin("/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/passing_score_95_4874_tracks.csv");
-//        ifstream fin("/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees/passedGBDT_extBNB_AnalysisTrees_score_0.95.csv"); // my mac
-        ifstream fin("/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles/passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95.csv"); // uboone
-
+        if (DoPrint)
+            std::cout << "loading data from file \n" << Form("%s/%s",PassedGBDTFiles_path.Data(),csv_file_name.Data()) << endl;
         // Read one line at a time.
         string line ;
         

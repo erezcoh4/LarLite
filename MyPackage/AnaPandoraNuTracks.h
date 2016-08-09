@@ -90,18 +90,23 @@ namespace larlite {
         
         
         virtual bool finalize();
-      
-        TString images_path;
-        bool LoadBDTCandidates (bool DoPrint = false);
-        bool inBDTcandidates (TVector3 vertex , TVector3 end, box Box);
+        bool    LoadBDTCandidates ();
+        //        bool    inBDTcandidates (TVector3 vertex , TVector3 end, box Box); // unused - delete Sep-09,2016
         
+        
+        
+      
+        TString images_path , PassedGBDTFiles_path  , csv_file_name;
+        
+        
+        bool    GoodTrack;
+        bool    on_uboone_grid  , DoPrint  , CreateImagas , calculate_adc_in_corners ;
         int     TTreeEntry;
         int     run , subrun ,  event , track_id ,  start_wire[3] , end_wire[3] , NgoodTracks;
         float   start_t[3] , end_t[3];
         
         
         ofstream out_csv_file;
-        bool GoodTrack;
         MyLArTools * lar_tools;
         TPlots * plot;
         
