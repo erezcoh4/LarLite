@@ -6,12 +6,9 @@ flags = input_flags.get_args()
 
 Path = "/Users/erezcohen/Desktop/uBoone" if flags.worker == 'erez' else "/uboone/...."
 
-if len(sys.argv) > 2:
-    infilename = sys.argv[1]
-else:
-    infilename = "larlite_9131runs_multipscore0.95_595evts_03082016.root"
-    #"larlite_95_wire_pandoraNu_543_evts.root"#"larlite_95_wire_pandoraNu_4519_evts.root"
-    sys.stderr.write("\nUsage: python mac/calc_KatherineCandidateTracks.py <infilename>\n\n" )
+infilename = "larlite_9131runs_multipscore0.95_595evts_03082016.root"
+#"larlite_95_wire_pandoraNu_543_evts.root"#"larlite_95_wire_pandoraNu_4519_evts.root"
+sys.stderr.write("\nUsage: python mac/calc_KatherineCandidateTracks.py <infilename>\n\n" )
 
 sys.stderr.write("\n runnnig %s \n\n" % infilename)
 

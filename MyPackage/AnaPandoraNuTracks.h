@@ -115,7 +115,7 @@ namespace larlite {
         
                
         //    run - subrun - event - track id - Box( s-wire , s-time , e-wire , e-time )
-        map < int , map < int , map < int , map < int , vector<box> > > > > BDTcandidates;
+        std::map < int , std::map < int , std::map < int , std::map < int , std::vector<box> > > > > BDTcandidates;
 
         
         Int_t N_close_tracks;
