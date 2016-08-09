@@ -22,7 +22,8 @@ namespace larlite {
        
         
         if (on_uboone_grid) {
-
+            
+            gROOT->SetBatch(kTRUE);
             images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining";
             PassedGBDTFiles_path = "/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles";
             csv_file_name = "passedGBDT_extBNB_AnalysisTrees_score_0.95.csv";
