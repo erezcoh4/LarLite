@@ -119,7 +119,7 @@ namespace larlite {
 
         
         Int_t N_close_tracks;
-        vector<Double_t> Angle_close_track;
+        std::vector<Double_t> Angle_close_track;
         
         
         // tracks

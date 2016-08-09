@@ -200,7 +200,7 @@ namespace larlite {
                 //
                 if (DoPrint) {
                     PrintLine();
-                    cout << "run " << run << ", subrun " << subrun << ", event " << event << ", track id " << track_id << endl;
+                    std::cout << "run " << run << ", subrun " << subrun << ", event " << event << ", track id " << track_id << std::endl;
                     for (int plane = 0 ; plane < 3 ; plane++){
                         PrintBox(b[plane]);
                     }
@@ -466,7 +466,7 @@ namespace larlite {
                     //                }
                     //
                     if (CreatingTrackImage) {
-                        cout << "creating images of " << Form("r%d_s%d_e%d_t%d.pdf",run,subrun,event,track_id) << endl;
+                        std::cout << "creating images of " << Form("r%d_s%d_e%d_t%d.pdf",run,subrun,event,track_id) << std::endl;
                         gSystem -> mkdir(Form("%s/r%d",images_path.Data(),run));
                         gSystem -> mkdir(Form("%s/r%d/s%d_e%d_t%d",images_path.Data(),run,subrun,event,track_id));
                         TCanvas * cZoomIn[3] , * cZoomOut[3];
@@ -608,13 +608,13 @@ namespace larlite {
         // check
         if (DoPrint) {
             for(auto it : BDTcandidates) {
-                cout << "run "  << it.first;
+                std::cout << "run "  << it.first;
                 for(auto inner_it : it.second ) {
-                    cout  << ",subrun " << inner_it.first;
+                    std::cout  << ",subrun " << inner_it.first;
                     for(auto inner_inner_it : inner_it.second ) {
-                        cout  << ",event "       << inner_inner_it.first;
+                        std::cout  << ",event "       << inner_inner_it.first;
                         for(auto inner_inner_inner_it : inner_inner_it.second ) {
-                            cout  << ",track_id "       << inner_inner_inner_it.first;
+                            std::cout  << ",track_id "       << inner_inner_inner_it.first;
                             auto b = inner_inner_inner_it.second ;
                             for (int plane = 0 ; plane < 3 ; plane++){
                                 PrintBox(b[plane]);
@@ -622,7 +622,7 @@ namespace larlite {
                         }
                     }
                 }
-                cout << endl;
+                std::cout << std::endl;
             }
         }
         
