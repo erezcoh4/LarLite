@@ -26,7 +26,7 @@ namespace larlite {
 
             images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining";
             PassedGBDTFiles_path = "/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles";
-            csv_file_name = "passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.95.csv";
+            csv_file_name = "passedGBDT_extBNB_AnalysisTrees_score_0.95.csv";
 
         }
         else {
