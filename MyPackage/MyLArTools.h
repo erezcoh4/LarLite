@@ -15,11 +15,12 @@
 #define MYLARTOOLS_H
 
 #include <iostream>
-#include "MySoftwarePackage/TPlots.h"
+//#include "MySoftwarePackage/TPlots.h"
 #include "TGraph.h"
 #include "TSpline.h"
+#include "TCanvas.h"
 
-
+using namespace std;
 /**
  \class MyLArTools
  User defined class MyLArTools ... these comments are used to generate
@@ -31,7 +32,7 @@ public:
 
     double E;
     
-    TPlots plot;
+//    TPlots plot;
     
     
     

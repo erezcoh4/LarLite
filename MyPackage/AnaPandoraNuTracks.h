@@ -87,18 +87,19 @@ namespace larlite {
         
         virtual bool finalize();
       
-        
+        TString images_path;
         bool LoadBDTCandidates (bool DoPrint = false);
         bool inBDTcandidates (TVector3 vertex , TVector3 end, box Box);
         
-        int     run , subrun ,  event , track_id ,  start_wire , end_wire , NgoodTracks;
-        float   start_t , end_t;
+        int     TTreeEntry;
+        int     run , subrun ,  event , track_id ,  start_wire[3] , end_wire[3] , NgoodTracks;
+        float   start_t[3] , end_t[3];
         
         
         ofstream out_csv_file;
         bool GoodTrack;
         MyLArTools * lar_tools;
-
+        TPlots * plot;
         
         
         Double_t SumADC_around_lt , SumADC_around_lt_in_track_direction  ,  SumADC_around_lb , SumADC_around_lb_in_track_direction;
@@ -107,14 +108,14 @@ namespace larlite {
         
         int time_tick;
         size_t i;
-        TH2F * hTrackROI , * hTrackROIzoomout;
+        TH2F * hTrackROI[3] , * hTrackROIzoomout[3];
         
         
     protected:
         
                
         //    run - subrun - event - track id - Box( s-wire , s-time , e-wire , e-time )
-        map < int , map < int , map < int , map < int , box > > > > BDTcandidates;
+        map < int , map < int , map < int , map < int , vector<box> > > > > BDTcandidates;
 
         
         Int_t N_close_tracks;

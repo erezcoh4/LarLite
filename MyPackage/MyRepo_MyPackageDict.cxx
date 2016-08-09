@@ -150,7 +150,7 @@ namespace ROOT {
       ::MyLArTools *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::MyLArTools));
       static ::ROOT::TGenericClassInfo 
-         instance("MyLArTools", "MyLArTools.h", 28,
+         instance("MyLArTools", "MyLArTools.h", 29,
                   typeid(::MyLArTools), DefineBehavior(ptr, ptr),
                   &MyLArTools_Dictionary, isa_proxy, 4,
                   sizeof(::MyLArTools) );
@@ -370,6 +370,69 @@ namespace ROOT {
 } // end of namespace ROOT for class vector<double>
 
 namespace ROOT {
+   static TClass *vectorlEboxgR_Dictionary();
+   static void vectorlEboxgR_TClassManip(TClass*);
+   static void *new_vectorlEboxgR(void *p = 0);
+   static void *newArray_vectorlEboxgR(Long_t size, void *p);
+   static void delete_vectorlEboxgR(void *p);
+   static void deleteArray_vectorlEboxgR(void *p);
+   static void destruct_vectorlEboxgR(void *p);
+
+   // Function generating the singleton type initializer
+   static TGenericClassInfo *GenerateInitInstanceLocal(const vector<box>*)
+   {
+      vector<box> *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<box>));
+      static ::ROOT::TGenericClassInfo 
+         instance("vector<box>", -2, "vector", 457,
+                  typeid(vector<box>), DefineBehavior(ptr, ptr),
+                  &vectorlEboxgR_Dictionary, isa_proxy, 0,
+                  sizeof(vector<box>) );
+      instance.SetNew(&new_vectorlEboxgR);
+      instance.SetNewArray(&newArray_vectorlEboxgR);
+      instance.SetDelete(&delete_vectorlEboxgR);
+      instance.SetDeleteArray(&deleteArray_vectorlEboxgR);
+      instance.SetDestructor(&destruct_vectorlEboxgR);
+      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::Pushback< vector<box> >()));
+      return &instance;
+   }
+   // Static variable to force the class initialization
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const vector<box>*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+
+   // Dictionary for non-ClassDef classes
+   static TClass *vectorlEboxgR_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const vector<box>*)0x0)->GetClass();
+      vectorlEboxgR_TClassManip(theClass);
+   return theClass;
+   }
+
+   static void vectorlEboxgR_TClassManip(TClass* ){
+   }
+
+} // end of namespace ROOT
+
+namespace ROOT {
+   // Wrappers around operator new
+   static void *new_vectorlEboxgR(void *p) {
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<box> : new vector<box>;
+   }
+   static void *newArray_vectorlEboxgR(Long_t nElements, void *p) {
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<box>[nElements] : new vector<box>[nElements];
+   }
+   // Wrapper around operator delete
+   static void delete_vectorlEboxgR(void *p) {
+      delete ((vector<box>*)p);
+   }
+   static void deleteArray_vectorlEboxgR(void *p) {
+      delete [] ((vector<box>*)p);
+   }
+   static void destruct_vectorlEboxgR(void *p) {
+      typedef vector<box> current_t;
+      ((current_t*)p)->~current_t();
+   }
+} // end of namespace ROOT for class vector<box>
+
+namespace ROOT {
    static TClass *vectorlETLorentzVectorgR_Dictionary();
    static void vectorlETLorentzVectorgR_TClassManip(TClass*);
    static void *new_vectorlETLorentzVectorgR(void *p = 0);
@@ -433,256 +496,256 @@ namespace ROOT {
 } // end of namespace ROOT for class vector<TLorentzVector>
 
 namespace ROOT {
-   static TClass *maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR_Dictionary();
-   static void maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR_TClassManip(TClass*);
-   static void *new_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p = 0);
-   static void *newArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(Long_t size, void *p);
-   static void delete_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p);
-   static void deleteArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p);
-   static void destruct_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p);
+   static TClass *maplEintcOvectorlEboxgRsPgR_Dictionary();
+   static void maplEintcOvectorlEboxgRsPgR_TClassManip(TClass*);
+   static void *new_maplEintcOvectorlEboxgRsPgR(void *p = 0);
+   static void *newArray_maplEintcOvectorlEboxgRsPgR(Long_t size, void *p);
+   static void delete_maplEintcOvectorlEboxgRsPgR(void *p);
+   static void deleteArray_maplEintcOvectorlEboxgRsPgR(void *p);
+   static void destruct_maplEintcOvectorlEboxgRsPgR(void *p);
 
    // Function generating the singleton type initializer
-   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,map<int,map<int,map<int,box> > > >*)
+   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,vector<box> >*)
    {
-      map<int,map<int,map<int,map<int,box> > > > *ptr = 0;
-      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,map<int,map<int,box> > > >));
+      map<int,vector<box> > *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,vector<box> >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,map<int,map<int,map<int,box> > > >", -2, "map", 830,
-                  typeid(map<int,map<int,map<int,map<int,box> > > >), DefineBehavior(ptr, ptr),
-                  &maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR_Dictionary, isa_proxy, 0,
-                  sizeof(map<int,map<int,map<int,map<int,box> > > >) );
-      instance.SetNew(&new_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR);
-      instance.SetNewArray(&newArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR);
-      instance.SetDelete(&delete_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR);
-      instance.SetDeleteArray(&deleteArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR);
-      instance.SetDestructor(&destruct_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR);
-      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,map<int,map<int,map<int,box> > > > >()));
+         instance("map<int,vector<box> >", -2, "map", 830,
+                  typeid(map<int,vector<box> >), DefineBehavior(ptr, ptr),
+                  &maplEintcOvectorlEboxgRsPgR_Dictionary, isa_proxy, 0,
+                  sizeof(map<int,vector<box> >) );
+      instance.SetNew(&new_maplEintcOvectorlEboxgRsPgR);
+      instance.SetNewArray(&newArray_maplEintcOvectorlEboxgRsPgR);
+      instance.SetDelete(&delete_maplEintcOvectorlEboxgRsPgR);
+      instance.SetDeleteArray(&deleteArray_maplEintcOvectorlEboxgRsPgR);
+      instance.SetDestructor(&destruct_maplEintcOvectorlEboxgRsPgR);
+      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,vector<box> > >()));
       return &instance;
    }
    // Static variable to force the class initialization
-   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,map<int,map<int,map<int,box> > > >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,vector<box> >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
 
    // Dictionary for non-ClassDef classes
-   static TClass *maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR_Dictionary() {
-      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,map<int,map<int,map<int,box> > > >*)0x0)->GetClass();
-      maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR_TClassManip(theClass);
+   static TClass *maplEintcOvectorlEboxgRsPgR_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,vector<box> >*)0x0)->GetClass();
+      maplEintcOvectorlEboxgRsPgR_TClassManip(theClass);
    return theClass;
    }
 
-   static void maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR_TClassManip(TClass* ){
+   static void maplEintcOvectorlEboxgRsPgR_TClassManip(TClass* ){
    }
 
 } // end of namespace ROOT
 
 namespace ROOT {
    // Wrappers around operator new
-   static void *new_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,map<int,box> > > > : new map<int,map<int,map<int,map<int,box> > > >;
+   static void *new_maplEintcOvectorlEboxgRsPgR(void *p) {
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,vector<box> > : new map<int,vector<box> >;
    }
-   static void *newArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,map<int,box> > > >[nElements] : new map<int,map<int,map<int,map<int,box> > > >[nElements];
+   static void *newArray_maplEintcOvectorlEboxgRsPgR(Long_t nElements, void *p) {
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,vector<box> >[nElements] : new map<int,vector<box> >[nElements];
    }
    // Wrapper around operator delete
-   static void delete_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p) {
-      delete ((map<int,map<int,map<int,map<int,box> > > >*)p);
+   static void delete_maplEintcOvectorlEboxgRsPgR(void *p) {
+      delete ((map<int,vector<box> >*)p);
    }
-   static void deleteArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p) {
-      delete [] ((map<int,map<int,map<int,map<int,box> > > >*)p);
+   static void deleteArray_maplEintcOvectorlEboxgRsPgR(void *p) {
+      delete [] ((map<int,vector<box> >*)p);
    }
-   static void destruct_maplEintcOmaplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgRsPgR(void *p) {
-      typedef map<int,map<int,map<int,map<int,box> > > > current_t;
+   static void destruct_maplEintcOvectorlEboxgRsPgR(void *p) {
+      typedef map<int,vector<box> > current_t;
       ((current_t*)p)->~current_t();
    }
-} // end of namespace ROOT for class map<int,map<int,map<int,map<int,box> > > >
+} // end of namespace ROOT for class map<int,vector<box> >
 
 namespace ROOT {
-   static TClass *maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR_Dictionary();
-   static void maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR_TClassManip(TClass*);
-   static void *new_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p = 0);
-   static void *newArray_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(Long_t size, void *p);
-   static void delete_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p);
-   static void deleteArray_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p);
-   static void destruct_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p);
+   static TClass *maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR_Dictionary();
+   static void maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR_TClassManip(TClass*);
+   static void *new_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p = 0);
+   static void *newArray_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(Long_t size, void *p);
+   static void delete_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p);
+   static void deleteArray_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p);
+   static void destruct_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p);
 
    // Function generating the singleton type initializer
-   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,map<int,map<int,box> > >*)
+   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,map<int,vector<box> > >*)
    {
-      map<int,map<int,map<int,box> > > *ptr = 0;
-      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,map<int,box> > >));
+      map<int,map<int,vector<box> > > *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,vector<box> > >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,map<int,map<int,box> > >", -2, "map", 830,
-                  typeid(map<int,map<int,map<int,box> > >), DefineBehavior(ptr, ptr),
-                  &maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR_Dictionary, isa_proxy, 0,
-                  sizeof(map<int,map<int,map<int,box> > >) );
-      instance.SetNew(&new_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR);
-      instance.SetNewArray(&newArray_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR);
-      instance.SetDelete(&delete_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR);
-      instance.SetDeleteArray(&deleteArray_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR);
-      instance.SetDestructor(&destruct_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR);
-      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,map<int,map<int,box> > > >()));
+         instance("map<int,map<int,vector<box> > >", -2, "map", 830,
+                  typeid(map<int,map<int,vector<box> > >), DefineBehavior(ptr, ptr),
+                  &maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR_Dictionary, isa_proxy, 0,
+                  sizeof(map<int,map<int,vector<box> > >) );
+      instance.SetNew(&new_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR);
+      instance.SetNewArray(&newArray_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR);
+      instance.SetDelete(&delete_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR);
+      instance.SetDeleteArray(&deleteArray_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR);
+      instance.SetDestructor(&destruct_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR);
+      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,map<int,vector<box> > > >()));
       return &instance;
    }
    // Static variable to force the class initialization
-   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,map<int,map<int,box> > >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,map<int,vector<box> > >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
 
    // Dictionary for non-ClassDef classes
-   static TClass *maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR_Dictionary() {
-      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,map<int,map<int,box> > >*)0x0)->GetClass();
-      maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR_TClassManip(theClass);
+   static TClass *maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,map<int,vector<box> > >*)0x0)->GetClass();
+      maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR_TClassManip(theClass);
    return theClass;
    }
 
-   static void maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR_TClassManip(TClass* ){
+   static void maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR_TClassManip(TClass* ){
    }
 
 } // end of namespace ROOT
 
 namespace ROOT {
    // Wrappers around operator new
-   static void *new_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,box> > > : new map<int,map<int,map<int,box> > >;
+   static void *new_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p) {
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,vector<box> > > : new map<int,map<int,vector<box> > >;
    }
-   static void *newArray_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,box> > >[nElements] : new map<int,map<int,map<int,box> > >[nElements];
+   static void *newArray_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(Long_t nElements, void *p) {
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,vector<box> > >[nElements] : new map<int,map<int,vector<box> > >[nElements];
    }
    // Wrapper around operator delete
-   static void delete_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p) {
-      delete ((map<int,map<int,map<int,box> > >*)p);
+   static void delete_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p) {
+      delete ((map<int,map<int,vector<box> > >*)p);
    }
-   static void deleteArray_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p) {
-      delete [] ((map<int,map<int,map<int,box> > >*)p);
+   static void deleteArray_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p) {
+      delete [] ((map<int,map<int,vector<box> > >*)p);
    }
-   static void destruct_maplEintcOmaplEintcOmaplEintcOboxgRsPgRsPgR(void *p) {
-      typedef map<int,map<int,map<int,box> > > current_t;
+   static void destruct_maplEintcOmaplEintcOvectorlEboxgRsPgRsPgR(void *p) {
+      typedef map<int,map<int,vector<box> > > current_t;
       ((current_t*)p)->~current_t();
    }
-} // end of namespace ROOT for class map<int,map<int,map<int,box> > >
+} // end of namespace ROOT for class map<int,map<int,vector<box> > >
 
 namespace ROOT {
-   static TClass *maplEintcOmaplEintcOboxgRsPgR_Dictionary();
-   static void maplEintcOmaplEintcOboxgRsPgR_TClassManip(TClass*);
-   static void *new_maplEintcOmaplEintcOboxgRsPgR(void *p = 0);
-   static void *newArray_maplEintcOmaplEintcOboxgRsPgR(Long_t size, void *p);
-   static void delete_maplEintcOmaplEintcOboxgRsPgR(void *p);
-   static void deleteArray_maplEintcOmaplEintcOboxgRsPgR(void *p);
-   static void destruct_maplEintcOmaplEintcOboxgRsPgR(void *p);
+   static TClass *maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR_Dictionary();
+   static void maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR_TClassManip(TClass*);
+   static void *new_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p = 0);
+   static void *newArray_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(Long_t size, void *p);
+   static void delete_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p);
+   static void deleteArray_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p);
+   static void destruct_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p);
 
    // Function generating the singleton type initializer
-   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,map<int,box> >*)
+   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,map<int,map<int,vector<box> > > >*)
    {
-      map<int,map<int,box> > *ptr = 0;
-      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,box> >));
+      map<int,map<int,map<int,vector<box> > > > *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,map<int,vector<box> > > >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,map<int,box> >", -2, "map", 830,
-                  typeid(map<int,map<int,box> >), DefineBehavior(ptr, ptr),
-                  &maplEintcOmaplEintcOboxgRsPgR_Dictionary, isa_proxy, 0,
-                  sizeof(map<int,map<int,box> >) );
-      instance.SetNew(&new_maplEintcOmaplEintcOboxgRsPgR);
-      instance.SetNewArray(&newArray_maplEintcOmaplEintcOboxgRsPgR);
-      instance.SetDelete(&delete_maplEintcOmaplEintcOboxgRsPgR);
-      instance.SetDeleteArray(&deleteArray_maplEintcOmaplEintcOboxgRsPgR);
-      instance.SetDestructor(&destruct_maplEintcOmaplEintcOboxgRsPgR);
-      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,map<int,box> > >()));
+         instance("map<int,map<int,map<int,vector<box> > > >", -2, "map", 830,
+                  typeid(map<int,map<int,map<int,vector<box> > > >), DefineBehavior(ptr, ptr),
+                  &maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR_Dictionary, isa_proxy, 0,
+                  sizeof(map<int,map<int,map<int,vector<box> > > >) );
+      instance.SetNew(&new_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR);
+      instance.SetNewArray(&newArray_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR);
+      instance.SetDelete(&delete_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR);
+      instance.SetDeleteArray(&deleteArray_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR);
+      instance.SetDestructor(&destruct_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR);
+      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,map<int,map<int,vector<box> > > > >()));
       return &instance;
    }
    // Static variable to force the class initialization
-   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,map<int,box> >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,map<int,map<int,vector<box> > > >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
 
    // Dictionary for non-ClassDef classes
-   static TClass *maplEintcOmaplEintcOboxgRsPgR_Dictionary() {
-      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,map<int,box> >*)0x0)->GetClass();
-      maplEintcOmaplEintcOboxgRsPgR_TClassManip(theClass);
+   static TClass *maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,map<int,map<int,vector<box> > > >*)0x0)->GetClass();
+      maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR_TClassManip(theClass);
    return theClass;
    }
 
-   static void maplEintcOmaplEintcOboxgRsPgR_TClassManip(TClass* ){
+   static void maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR_TClassManip(TClass* ){
    }
 
 } // end of namespace ROOT
 
 namespace ROOT {
    // Wrappers around operator new
-   static void *new_maplEintcOmaplEintcOboxgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,box> > : new map<int,map<int,box> >;
+   static void *new_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p) {
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,vector<box> > > > : new map<int,map<int,map<int,vector<box> > > >;
    }
-   static void *newArray_maplEintcOmaplEintcOboxgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,box> >[nElements] : new map<int,map<int,box> >[nElements];
+   static void *newArray_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(Long_t nElements, void *p) {
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,vector<box> > > >[nElements] : new map<int,map<int,map<int,vector<box> > > >[nElements];
    }
    // Wrapper around operator delete
-   static void delete_maplEintcOmaplEintcOboxgRsPgR(void *p) {
-      delete ((map<int,map<int,box> >*)p);
+   static void delete_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p) {
+      delete ((map<int,map<int,map<int,vector<box> > > >*)p);
    }
-   static void deleteArray_maplEintcOmaplEintcOboxgRsPgR(void *p) {
-      delete [] ((map<int,map<int,box> >*)p);
+   static void deleteArray_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p) {
+      delete [] ((map<int,map<int,map<int,vector<box> > > >*)p);
    }
-   static void destruct_maplEintcOmaplEintcOboxgRsPgR(void *p) {
-      typedef map<int,map<int,box> > current_t;
+   static void destruct_maplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgR(void *p) {
+      typedef map<int,map<int,map<int,vector<box> > > > current_t;
       ((current_t*)p)->~current_t();
    }
-} // end of namespace ROOT for class map<int,map<int,box> >
+} // end of namespace ROOT for class map<int,map<int,map<int,vector<box> > > >
 
 namespace ROOT {
-   static TClass *maplEintcOboxgR_Dictionary();
-   static void maplEintcOboxgR_TClassManip(TClass*);
-   static void *new_maplEintcOboxgR(void *p = 0);
-   static void *newArray_maplEintcOboxgR(Long_t size, void *p);
-   static void delete_maplEintcOboxgR(void *p);
-   static void deleteArray_maplEintcOboxgR(void *p);
-   static void destruct_maplEintcOboxgR(void *p);
+   static TClass *maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR_Dictionary();
+   static void maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR_TClassManip(TClass*);
+   static void *new_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p = 0);
+   static void *newArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(Long_t size, void *p);
+   static void delete_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p);
+   static void deleteArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p);
+   static void destruct_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p);
 
    // Function generating the singleton type initializer
-   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,box>*)
+   static TGenericClassInfo *GenerateInitInstanceLocal(const map<int,map<int,map<int,map<int,vector<box> > > > >*)
    {
-      map<int,box> *ptr = 0;
-      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,box>));
+      map<int,map<int,map<int,map<int,vector<box> > > > > *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,map<int,map<int,vector<box> > > > >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,box>", -2, "map", 830,
-                  typeid(map<int,box>), DefineBehavior(ptr, ptr),
-                  &maplEintcOboxgR_Dictionary, isa_proxy, 0,
-                  sizeof(map<int,box>) );
-      instance.SetNew(&new_maplEintcOboxgR);
-      instance.SetNewArray(&newArray_maplEintcOboxgR);
-      instance.SetDelete(&delete_maplEintcOboxgR);
-      instance.SetDeleteArray(&deleteArray_maplEintcOboxgR);
-      instance.SetDestructor(&destruct_maplEintcOboxgR);
-      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,box> >()));
+         instance("map<int,map<int,map<int,map<int,vector<box> > > > >", -2, "map", 830,
+                  typeid(map<int,map<int,map<int,map<int,vector<box> > > > >), DefineBehavior(ptr, ptr),
+                  &maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR_Dictionary, isa_proxy, 0,
+                  sizeof(map<int,map<int,map<int,map<int,vector<box> > > > >) );
+      instance.SetNew(&new_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR);
+      instance.SetNewArray(&newArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR);
+      instance.SetDelete(&delete_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR);
+      instance.SetDeleteArray(&deleteArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR);
+      instance.SetDestructor(&destruct_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR);
+      instance.AdoptCollectionProxyInfo(TCollectionProxyInfo::Generate(TCollectionProxyInfo::MapInsert< map<int,map<int,map<int,map<int,vector<box> > > > > >()));
       return &instance;
    }
    // Static variable to force the class initialization
-   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,box>*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const map<int,map<int,map<int,map<int,vector<box> > > > >*)0x0); R__UseDummy(_R__UNIQUE_(Init));
 
    // Dictionary for non-ClassDef classes
-   static TClass *maplEintcOboxgR_Dictionary() {
-      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,box>*)0x0)->GetClass();
-      maplEintcOboxgR_TClassManip(theClass);
+   static TClass *maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const map<int,map<int,map<int,map<int,vector<box> > > > >*)0x0)->GetClass();
+      maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR_TClassManip(theClass);
    return theClass;
    }
 
-   static void maplEintcOboxgR_TClassManip(TClass* ){
+   static void maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR_TClassManip(TClass* ){
    }
 
 } // end of namespace ROOT
 
 namespace ROOT {
    // Wrappers around operator new
-   static void *new_maplEintcOboxgR(void *p) {
-      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,box> : new map<int,box>;
+   static void *new_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p) {
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,map<int,vector<box> > > > > : new map<int,map<int,map<int,map<int,vector<box> > > > >;
    }
-   static void *newArray_maplEintcOboxgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,box>[nElements] : new map<int,box>[nElements];
+   static void *newArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(Long_t nElements, void *p) {
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,map<int,vector<box> > > > >[nElements] : new map<int,map<int,map<int,map<int,vector<box> > > > >[nElements];
    }
    // Wrapper around operator delete
-   static void delete_maplEintcOboxgR(void *p) {
-      delete ((map<int,box>*)p);
+   static void delete_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p) {
+      delete ((map<int,map<int,map<int,map<int,vector<box> > > > >*)p);
    }
-   static void deleteArray_maplEintcOboxgR(void *p) {
-      delete [] ((map<int,box>*)p);
+   static void deleteArray_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p) {
+      delete [] ((map<int,map<int,map<int,map<int,vector<box> > > > >*)p);
    }
-   static void destruct_maplEintcOboxgR(void *p) {
-      typedef map<int,box> current_t;
+   static void destruct_maplEintcOmaplEintcOmaplEintcOmaplEintcOvectorlEboxgRsPgRsPgRsPgRsPgR(void *p) {
+      typedef map<int,map<int,map<int,map<int,vector<box> > > > > current_t;
       ((current_t*)p)->~current_t();
    }
-} // end of namespace ROOT for class map<int,box>
+} // end of namespace ROOT for class map<int,map<int,map<int,map<int,vector<box> > > > >
 
 namespace {
   void TriggerDictionaryInitialization_libMyRepo_MyPackage_Impl() {
