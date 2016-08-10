@@ -90,20 +90,32 @@ namespace larlite {
         
         
         virtual bool finalize();
-        bool    LoadBDTCandidates ();
-        //        bool    inBDTcandidates (TVector3 vertex , TVector3 end, box Box); // unused - delete Sep-09,2016
+
         
+        
+        // my methods...
+        bool    LoadBDTCandidates ();
+        bool            SetWorker (TString worker = "uboone", Int_t fdebug = 0, bool fCreateImagas = false ) ;
+        bool             SetFrame ( TH2F*h , TString xtit , TString ytit );
+
+        //        bool    inBDTcandidates (TVector3 vertex , TVector3 end, box Box); // unused - delete Sep-09,2016
         
         
       
         TString images_path , PassedGBDTFiles_path  , csv_file_name;
         
-        
         bool    GoodTrack;
-        bool    on_uboone_grid  , DoPrint  , CreateImagas , calculate_adc_in_corners ;
+        bool    on_uboone_grid  , CreateImagas , calculate_adc_in_corners ;
+        
         int     TTreeEntry;
         int     run , subrun ,  event , track_id ,  start_wire[3] , end_wire[3] , NgoodTracks;
+        int     Nbins_w , Nbins_t   ;
+        int     Nbins_x , Nbins_y , Nbins_z ;
+        Int_t   debug;
+
         float   start_t[3] , end_t[3];
+        float   Xmin , Xmax , Ymin , Ymax , Zmin , Zmax;
+
         
         
         ofstream out_csv_file;
@@ -117,7 +129,7 @@ namespace larlite {
         
         int time_tick;
         size_t i;
-        TH2F * hTrackROI[3] , * hTrackROIzoomout[3];
+        TH2F * hTrackROI[3] , * hTrackROIzoomout[3] , * hTrack_xy , * hTrack_yz;
         
         
     #ifndef __CINT__

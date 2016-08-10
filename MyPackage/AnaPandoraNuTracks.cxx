@@ -11,14 +11,28 @@
 namespace larlite {
     
     
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    bool AnaPandoraNuTracks::SetWorker( TString worker , Int_t fdebug , bool fCreateImagas ) {
+        
+        if (worker == "erez")
+            on_uboone_grid = false ;
+        
+        else if (worker == "uboone")
+            on_uboone_grid = true ;
+        
+        debug = fdebug;
+        CreateImagas = fCreateImagas;
+        calculate_adc_in_corners = false;
+        
+        std::cout << "worker: " << worker << ", debug: " << debug << std::endl;
+        std::cout << "create-images: " << CreateImagas << std::endl;
+        return true;
+    }
+   
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnaPandoraNuTracks::initialize() {
         
-        on_uboone_grid              = false ;
-        DoPrint                     = true;
-        CreateImagas                = true;
-        calculate_adc_in_corners    = false;
        
         
         if (on_uboone_grid) {
@@ -212,7 +226,7 @@ namespace larlite {
                 //                }
                 //
                 //
-                if (DoPrint) {
+                if (debug>0) {
                     PrintLine();
                     std::cout << "run " << run << ", subrun " << subrun << ", event " << event << ", track id " << track_id << std::endl;
                     PrintBox(b[0]); PrintBox(b[1]); PrintBox(b[2]);
@@ -238,17 +252,13 @@ namespace larlite {
                                                   ,run,subrun,event,track_id,plane
                                                   ,b[plane]._start_wire,b[plane]._start_t,b[plane]._end_wire,b[plane]._end_t);
                             
-                            int Nbins_w = b[plane]._end_wire - b[plane]._start_wire + 11;
-                            int Nbins_t = (int)(b[plane]._end_t - b[plane]._start_t) + 21;
+                            Nbins_w = b[plane]._end_wire - b[plane]._start_wire + 11;
+                            Nbins_t = (int)(b[plane]._end_t - b[plane]._start_t) + 21;
                             
                             hTrackROI[plane] = new TH2F(hName , hTitle
                                                         , Nbins_w  , b[plane]._start_wire - 5 , b[plane]._end_wire + 5
                                                         , Nbins_t  , b[plane]._start_t - 10 , b[plane]._end_t + 10 );
-                            hTrackROI[plane] -> GetXaxis() -> SetTitle("wire number");
-                            hTrackROI[plane] -> GetXaxis() -> CenterTitle();
-                            hTrackROI[plane] -> GetYaxis() -> SetTitle("time tick");
-                            hTrackROI[plane] -> GetYaxis() -> CenterTitle();
-                            hTrackROI[plane] -> GetYaxis() -> SetTitleOffset(1.3);
+                            SetFrame( hTrackROI[plane] , "wire number" , "time tick" );
                             
                             Nbins_w = b[plane]._end_wire - b[plane]._start_wire + 41;
                             Nbins_t = (int)(b[plane]._end_t - b[plane]._start_t) + 81;
@@ -256,21 +266,39 @@ namespace larlite {
                             hTrackROIzoomout[plane] = new TH2F(Form("%s_zoomout",hName.Data()) ,Form("%s zoomout",hName.Data())
                                                                , Nbins_w  , b[plane]._start_wire - 20 , b[plane]._end_wire + 20
                                                                , Nbins_t  , b[plane]._start_t - 40 , b[plane]._end_t + 40);
-                            hTrackROIzoomout[plane] -> GetXaxis() -> SetTitle("wire number");
-                            hTrackROIzoomout[plane] -> GetXaxis() -> CenterTitle();
-                            hTrackROIzoomout[plane] -> GetYaxis() -> SetTitle("time tick");
-                            hTrackROIzoomout[plane] -> GetYaxis() -> CenterTitle();
-                            hTrackROIzoomout[plane] -> GetYaxis() -> SetTitleOffset(1.3);
+                            SetFrame( hTrackROIzoomout[plane] , "wire number" , "time tick" );
+                            
                            
                         }
+                        // histograms in x-z and y-z planes from
+                        Xmin = t.Vertex().x() ; Xmax = t.Vertex().x();
+                        Ymin = t.Vertex().y() ; Ymax = t.Vertex().y();
+                        Zmin = t.Vertex().z() ; Zmax = t.Vertex().z();
+                        Nbins_x = Xmax-Xmin+1; Nbins_y = Ymax-Ymin+1 ; Nbins_z = Zmax-Zmin+1;
+                        
+                        if(debug > 2){
+                            Printf("track (x,y,z) : (%.2f,%.2f,%.2f) -> (%.2f,%.2f,%.2f)",Xmin,Ymin,Zmin,Xmax,Ymax,Zmax);
+                        }
+                        
+                        TString hName = Form("r%d_s%d_e%d_t%d",run,subrun,event,track_id);
+                        TString hTitle = Form("r%d s%d e%d t%d",run,subrun,event,track_id);
+                        TString hNamexy = Form("%s_xy",hName.Data()) , hNameyz = Form("%s_yz",hName.Data());
+                        TString hTitlexy = Form("%s x-y plane",hTitle.Data()) , hTitleyz = Form("%s y-z plane",hTitle.Data());
+
+                        hTrack_xy = new TH2F(hName , hTitle , Nbins_x  , Xmin , Xmax , Nbins_y , Ymin , Ymax );
+                        SetFrame( hTrack_xy , "x [cm] (horizontal)" , "y [cm] (vertical)" );
+
+                        hTrack_yz = new TH2F(hName , hTitle , Nbins_y  , Ymin , Ymax , Nbins_z , Zmin , Zmax);
+                        SetFrame( hTrack_yz , "y [cm] (vertical)" , "z [cm] (beam direction)" );
+
                     }
                     
                     
                     // services and helpers
                     
                     auto geoService = ::larutil::Geometry::GetME();
-                    auto detProp = ::larutil::DetectorProperties::GetME();
                     auto geomH = ::larutil::GeometryHelper::GetME();
+                    //                    auto detProp = ::larutil::DetectorProperties::GetME();
                     
                     //
                     ////
@@ -292,12 +320,14 @@ namespace larlite {
                     ////                        PrintBox(rb_corner_box);
                     ////                    }
                     ////
-                    //
+                    float ADC_value[Nbins_w][Nbins_t][3];
+                    
                     for (auto const& wire : *ev_wire) {
                         
                         unsigned int ch = wire.Channel();
                         unsigned int detWire = geoService->ChannelToWire(ch);
-                        unsigned int plane = geoService->ChannelToPlane(ch);
+                        unsigned int c_plane = geoService->ChannelToPlane(ch);
+
                         
                         //if(DoPrint) cout << "ch " << ch << ", wire " << detWire << ", plane " << plane <<  endl;
                         
@@ -313,6 +343,14 @@ namespace larlite {
                                             if ( b[plane]._start_t - 40 <= time_tick && time_tick <= b[plane]._end_t + 40 ) {
                                                 hTrackROIzoomout[plane] -> SetBinContent( detWire - b[plane]._start_wire + 20
                                                                                          , time_tick - b[plane]._start_t + 40 , ADC );
+                                                
+                                                
+                                                int i_wire = detWire - b[plane]._start_wire + 20;
+                                                int i_time = time_tick - b[plane]._start_t + 40;
+                                                if (debug > 2) SHOW3(i_wire,i_time,ADC)
+                                                ADC_value[i_wire][i_time][plane] = ADC;
+                                                
+                                                
                                             }
                                             time_tick++;
                                         }
@@ -335,6 +373,34 @@ namespace larlite {
                                 }
                             }
                         }
+                        
+                        
+                        
+                        // histograms in x-z and y-z planes
+                        for (int i_w = 0; i_w < Nbins_w; i_w++) {
+                            for (int i_t = 0; i_t < Nbins_t; i_t++) {
+                                
+                                larutil::PxPoint * p0 = new larutil::PxPoint( 0 , i_w , i_t );
+                                
+                                for ( int plane = 0 ; plane < 3; plane++) {
+                                    larutil::PxPoint * p1 = new larutil::PxPoint( 1 , i_w , i_t );
+                                    Double_t* xyz = nullptr;
+                                    geomH -> GetXYZ( p0, p1, xyz );
+                                    
+                                    double x = xyz[0] , y = xyz[1] , z = xyz[2];
+                                    float  ADC = ADC_value[Nbins_w][Nbins_t][plane];
+                                    
+                                    if ( (Xmin < x && x < Xmax) && (Ymin < y && y < Ymax) ){
+                                        hTrack_xy -> SetBinContent( i_w , i_t , ADC );
+                                    }
+                                    if ( (Ymin < y && y < Ymax) && (Zmin < z && z < Zmax) ){
+                                        hTrack_yz -> SetBinContent( i_w , i_t , ADC );
+                                    }
+                                }
+                            }
+                        }
+                       
+                        
                     }
                     //
                     //
@@ -487,7 +553,7 @@ namespace larlite {
                         std::cout << "creating images of " << Form("r%d_s%d_e%d_t%d.pdf",run,subrun,event,track_id) << std::endl;
                         gSystem -> mkdir(Form("%s/r%d",images_path.Data(),run));
                         gSystem -> mkdir(Form("%s/r%d/s%d_e%d_t%d",images_path.Data(),run,subrun,event,track_id));
-                        TCanvas * cZoomIn[3] , * cZoomOut[3];
+                        TCanvas * cZoomIn[3] , * cZoomOut[3] ;
                         for (int plane = 0 ; plane < 3 ; plane++){
                             cZoomOut[plane] = new TCanvas(Form("track ROI plane %d zoomout",plane));
                             hTrackROIzoomout[plane] -> Draw("colz");
@@ -503,6 +569,19 @@ namespace larlite {
                             delete cZoomOut[plane];
                             delete cZoomIn[plane];
                         }
+                        TCanvas * cxy = new TCanvas("track ROI x-y plane");
+                        hTrack_xy -> Draw("colz");
+                        plot -> Box(Xmin,Ymin,Xmax,Ymax , 46 , 0 , 1);
+                        gStyle->SetOptStat(0000);
+                        cxy -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_xy.pdf",images_path.Data(),run,subrun,event,track_id,track_id));
+                        delete cxy;
+                        TCanvas * cyz = new TCanvas("track ROI y-z plane");
+                        hTrack_yz -> Draw("colz");
+                        plot -> Box(Ymin,Zmin,Ymax,Zmax , 46 , 0 , 1);
+                        gStyle->SetOptStat(0000);
+                        cyz -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_yz.pdf",images_path.Data(),run,subrun,event,track_id,track_id));
+                        delete cyz;
+
                     }
                     //
                     //
@@ -542,8 +621,8 @@ namespace larlite {
         if(_fout){
             TracksTree -> Write();
         }
-        Printf("and the total number of good (accepted) tracks is %d",NgoodTracks);
-        Printf("\n\ndon't forget, upload \n /Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/selected_GBDTcandidates_score_95.csv \n to \n $uboone:/uboone/data/users/ecohen/BDTprotonCandidates/\n\n");
+        //        Printf("and the total number of good (accepted) tracks is %d",NgoodTracks);
+        //        Printf("\n\ndon't forget, upload \n /Users/erezcohen/larlite/UserDev/LarLite/MyPackage/lists/selected_GBDTcandidates_score_95.csv \n to \n $uboone:/uboone/data/users/ecohen/BDTprotonCandidates/\n\n");
         delete TracksTree;
         out_csv_file.close();
         
@@ -600,7 +679,7 @@ namespace larlite {
         
         ifstream fin(Form("%s/%s",PassedGBDTFiles_path.Data(),csv_file_name.Data()));
         
-        if (DoPrint)
+        if (debug > 0)
             std::cout << "loading data from file \n" << Form("%s/%s",PassedGBDTFiles_path.Data(),csv_file_name.Data()) << endl;
         // Read one line at a time.
         string line ;
@@ -628,7 +707,7 @@ namespace larlite {
         }
         
         // check
-        if (DoPrint) {
+        if (debug > 1) {
             for(auto it : BDTcandidates) {
                 std::cout << "run"  << it.first << "\n";
                 for(auto inner_it : it.second ) {
@@ -653,6 +732,21 @@ namespace larlite {
         Printf("loaded BDT candidates");
         return true;
     }
+    
+    
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    bool AnaPandoraNuTracks::SetFrame( TH2F*h , TString xtit , TString ytit ){
+
+        h -> GetXaxis() -> SetTitle(xtit);
+        h -> GetXaxis() -> CenterTitle();
+        h -> GetYaxis() -> SetTitle(ytit);
+        h -> GetYaxis() -> CenterTitle();
+        h -> GetYaxis() -> SetTitleOffset(1.3);
+        
+
+    }
+
     //..............................................................................
     
     
