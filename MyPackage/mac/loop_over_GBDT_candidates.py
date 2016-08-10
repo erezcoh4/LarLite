@@ -17,16 +17,17 @@ create_images   = True
 
 if flags.worker == 'erez':
     Path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons"
+    production_path = "/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna"
 
 
 elif flags.worker == 'uboone':
     Path = "/uboone/data/users/ecohen/GBDTprotons"
-
+    production_path = "/uboone/app/users/ecohen/AnalysisTreesAna"
 
 DATAPath = Path+"/MC_DATA" if flags.MCmode == True else Path+"/EXTBNB_DATA"
 
 images_path = Path+"/"+image_name
-roi_map_path = Path+"/"+production_name;
+roi_map_path = production_path+"/"+production_name;
 
 
 sys.stderr.write("\n runnnig %s \n\n" % infilename)
