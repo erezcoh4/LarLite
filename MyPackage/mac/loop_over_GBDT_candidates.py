@@ -6,14 +6,28 @@ import input_flags
 flags = input_flags.get_args()
 
 
-create_images = True
+infilename      = "larlite_44evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
+roi_map_name    = "mc_good_bad_tofilter_ROIs.csv"
 
-Path = "/Users/erezcohen/Desktop/uBoone" if flags.worker == 'erez' else "/uboone/data/users/ecohen/GBDTprotons"
+image_name      = "MCgoodbad"
+production_name = "PassedGBDTFiles"
+create_images   = True
+
+
+
+if flags.worker == 'erez':
+    Path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons"
+
+
+elif flags.worker == 'uboone':
+    Path = "/uboone/data/users/ecohen/GBDTprotons"
+
 
 DATAPath = Path+"/MC_DATA" if flags.MCmode == True else Path+"/EXTBNB_DATA"
 
-infilename = "larlite_44evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
-#"larlite_95_wire_pandoraNu_543_evts.root"#"larlite_95_wire_pandoraNu_4519_evts.root"
+images_path = Path+"/"+image_name
+roi_map_path = Path+"/"+production_name;
+
 
 sys.stderr.write("\n runnnig %s \n\n" % infilename)
 
@@ -29,7 +43,7 @@ my_proc.set_ana_output_file(Path+"/AnaFiles/Ana_%s"%infilename)
 
 
 ana_pandoraNu_tracks = fmwk.AnaPandoraNuTracks()
-ana_pandoraNu_tracks.SetWorker( flags.worker , flags.verbose )
+ana_pandoraNu_tracks.SetWorker( flags.worker , flags.verbose , create_images , images_path , roi_map_path , roi_map_name )
 my_proc.add_process( ana_pandoraNu_tracks )
 
 

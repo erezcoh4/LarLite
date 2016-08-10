@@ -95,14 +95,17 @@ namespace larlite {
         
         // my methods...
         bool    LoadBDTCandidates ();
-        bool            SetWorker (TString worker = "uboone", Int_t fdebug = 0, bool fCreateImagas = false ) ;
+        bool            SetWorker (TString worker = "uboone", Int_t fdebug = 0, bool fCreateImagas = false
+                                   , TString fimages_path = ""
+                                   , TString froi_map_path = "" , TString froi_map_name = "" );
+        
         bool             SetFrame ( TH2F*h , TString xtit , TString ytit );
 
         //        bool    inBDTcandidates (TVector3 vertex , TVector3 end, box Box); // unused - delete Sep-09,2016
         
         
       
-        TString images_path , PassedGBDTFiles_path  , csv_file_name;
+        TString images_path , roi_map_path  , roi_map_name;
         
         bool    GoodTrack;
         bool    on_uboone_grid  , CreateImagas , calculate_adc_in_corners ;

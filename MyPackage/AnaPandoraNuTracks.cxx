@@ -12,16 +12,23 @@ namespace larlite {
     
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-    bool AnaPandoraNuTracks::SetWorker( TString worker , Int_t fdebug , bool fCreateImagas ) {
+    bool AnaPandoraNuTracks::SetWorker( TString worker , Int_t fdebug
+                                       , bool fCreateImagas , TString fimages_path
+                                       , TString froi_map_path , TString froi_map_name ) {
         
         if (worker == "erez")
             on_uboone_grid = false ;
         
-        else if (worker == "uboone")
+        else if (worker == "uboone"){
             on_uboone_grid = true ;
+            gROOT->SetBatch(kTRUE);
+        }
         
-        debug = fdebug;
-        CreateImagas = fCreateImagas;
+        debug           = fdebug;
+        CreateImagas    = fCreateImagas;
+        images_path     = fimages_path;
+        roi_map_path    = froi_map_path;
+        roi_map_name    = froi_map_name;
         calculate_adc_in_corners = false;
         
         std::cout << "worker: " << worker << ", debug: " << debug << std::endl;
@@ -33,23 +40,6 @@ namespace larlite {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnaPandoraNuTracks::initialize() {
         
-       
-        
-        if (on_uboone_grid) {
-            
-            gROOT->SetBatch(kTRUE);
-            images_path = "/uboone/data/users/ecohen/GBDTprotons/images/JustMCtraining";
-            PassedGBDTFiles_path = "/uboone/app/users/ecohen/AnalysisTreesAna/PassedGBDTFiles";
-            csv_file_name = "passedGBDT_extBNB_AnalysisTrees_score_0.95.csv";
-
-        }
-        else {
-            
-            images_path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons/images/JustMCtraining";
-            PassedGBDTFiles_path = "/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna/PassedGBDTFiles/extBNB_AnalysisTrees";
-            csv_file_name = "passedGBDT_extBNB_AnalysisTrees_score_0.95.csv";
-            
-        }
         
         
         TracksTree  = new TTree("TracksTree"        ,"GBDT classified proton tracks analysis by LArLite"   );
@@ -677,10 +667,10 @@ namespace larlite {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnaPandoraNuTracks::LoadBDTCandidates(){
         
-        ifstream fin(Form("%s/%s",PassedGBDTFiles_path.Data(),csv_file_name.Data()));
+        ifstream fin(Form("%s/%s",roi_map_path.Data(),roi_map_name.Data()));
         
         if (debug > 0)
-            std::cout << "loading data from file \n" << Form("%s/%s",PassedGBDTFiles_path.Data(),csv_file_name.Data()) << endl;
+            std::cout << "loading data from file \n" << Form("%s/%s",roi_map_path.Data(),roi_map_name.Data()) << endl;
         // Read one line at a time.
         string line ;
         
