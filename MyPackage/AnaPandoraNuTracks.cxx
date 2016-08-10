@@ -744,6 +744,7 @@ namespace larlite {
         h -> GetYaxis() -> CenterTitle();
         h -> GetYaxis() -> SetTitleOffset(1.3);
         
+        return true;
 
     }
 
