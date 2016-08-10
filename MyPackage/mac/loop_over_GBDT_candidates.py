@@ -6,13 +6,13 @@ import input_flags
 flags = input_flags.get_args()
 
 
-create_images = False
+create_images = True
 
 Path = "/Users/erezcohen/Desktop/uBoone" if flags.worker == 'erez' else "/uboone/data/users/ecohen/GBDTprotons"
 
 DATAPath = Path+"/MC_DATA" if flags.MCmode == True else Path+"/EXTBNB_DATA"
 
-infilename = "larlite_14evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
+infilename = "larlite_44evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
 #"larlite_95_wire_pandoraNu_543_evts.root"#"larlite_95_wire_pandoraNu_4519_evts.root"
 
 sys.stderr.write("\n runnnig %s \n\n" % infilename)
