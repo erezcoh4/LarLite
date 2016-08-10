@@ -1,6 +1,6 @@
 import sys
 from larlite import larlite as fmwk
-sys.path.insert(0, '../../mySoftware/MySoftwarePackage/mac')
+sys.path.insert(0, '$(LARLITE_USERDEVDIR)/mySoftware/MySoftwarePackage/mac')
 import input_flags
 flags = input_flags.get_args()
 
