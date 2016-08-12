@@ -6,12 +6,13 @@ import input_flags
 flags = input_flags.get_args()
 
 
-infilename      = "larlite_44evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
-roi_map_name    = "mc_good_bad_tofilter_ROIs.csv"
+infilename      = "larlite_9131runs_JustMCtraining_pscore_0.99_914evts_11Aug2016.root"
+roi_map_name    = "passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.99.csv"
 
-image_name      = "MCgoodbad"
+image_name      = "cosmic_mctraining_pscore0.99"
 production_name = "PassedGBDTFiles"
 create_images   = True
+
 
 
 
@@ -25,7 +26,17 @@ elif flags.worker == 'uboone':
     Path = "/uboone/data/users/ecohen/GBDTprotons"
     production_path = "/uboone/app/users/ecohen/AnalysisTreesAna"
 
-DATAPath = Path+"/MC_DATA" if flags.MCmode == True else Path+"/EXTBNB_DATA"
+
+DATAPath        = Path+"/EXTBNB_DATA"
+
+
+if flags.MCmode == True:
+    roi_map_name    = "mc_good_bad_tofilter_ROIs.csv"
+    image_name      = "MCgoodbad"
+    DATAPath        = Path+"/MC_DATA"
+
+
+
 
 images_path = Path+"/images/"+image_name
 roi_map_path = production_path+"/"+production_name;

@@ -671,6 +671,7 @@ namespace larlite {
         std::cout << "loading data from file \n" << Form("%s/%s",roi_map_path.Data(),roi_map_name.Data()) << endl;
         // Read one line at a time.
         string line ;
+        float pscore;
         
         while ( getline(fin, line) ) {
             
@@ -681,7 +682,8 @@ namespace larlite {
             ss >> run >> subrun >>  event >> track_id
             >>  start_wire[0] >>  start_t[0] >> end_wire[0] >> end_t[0]
             >>  start_wire[1] >>  start_t[1] >> end_wire[1] >> end_t[1]
-            >>  start_wire[2] >>  start_t[2] >> end_wire[2] >> end_t[2];
+            >>  start_wire[2] >>  start_t[2] >> end_wire[2] >> end_t[2]
+            >>  pscore;
             
             box b_U( start_wire[0] , start_t[0] , end_wire[0] , end_t[0]);
             box b_V( start_wire[1] , start_t[1] , end_wire[1] , end_t[1]);
