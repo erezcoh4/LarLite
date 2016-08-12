@@ -20,6 +20,7 @@ if flags.worker == 'erez':
     Path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons"
     production_path = "/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna"
     infilename      = "larlite_14evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
+    flags.MCmode    = True 
 
 
 elif flags.worker == 'uboone':
