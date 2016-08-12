@@ -263,7 +263,7 @@ namespace larlite {
                         
                         
                         
-                        if(debug > 3) Printf("(2-c-1) loop over all three planes");
+                        if(debug > 4) Printf("(2-c-1) loop over all three planes");
                         // (2-c-1) loop over all three planes
                         if (CreateImagas) {
                             for (int plane = 0 ; plane < 3 ; plane++){
