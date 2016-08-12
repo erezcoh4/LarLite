@@ -425,54 +425,54 @@ namespace larlite {
 //                            }
 //                        }
                         
-                        float adc_UV[MAXbins][MAXbins];
-                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
-                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
-                                adc_UV[bin_z][bin_y] = 0;
-                            }
-                        }
-                        for (int i_w = 0 ; i_w < Nbins_w_zoomout; i_w++) {
-                            for (int i_t = 0 ; i_t < Nbins_t_zoomout; i_t++) {
-                                
-                                float wire_U = hTrackROIzoomout[0] -> GetXaxis() -> GetBinCenter(i_w) ;
-                                float ww_U = wire_U * geomH->WireToCm() ;
-                                float time_U = hTrackROIzoomout[0] -> GetYaxis() -> GetBinCenter(i_t) ;
-                                float tt_U = time_U * geomH->TimeToCm() ;
-                                float  adc_U = hTrackROIzoomout[0] -> GetBinContent( i_w , i_t );
-                                larutil::Point2D * projection_U = new larutil::Point2D( 0 , ww_U , tt_U );
-                                
-                                float wire_V = hTrackROIzoomout[1] -> GetXaxis() -> GetBinCenter(i_w) ;
-                                float ww_V = wire_V * geomH->WireToCm();
-                                float time_V = hTrackROIzoomout[1] -> GetYaxis() -> GetBinCenter(i_t) ;
-                                float tt_V = time_V * geomH->TimeToCm();
-                                float  adc_V = hTrackROIzoomout[1] -> GetBinContent( i_w , i_t );
-                                larutil::Point2D * projection_V = new larutil::Point2D( 1 , ww_V , tt_V );
-                                
-                                
-                                
-                                Double_t yz[2];
-                                geomH -> GetYZ( projection_U , projection_V , yz );
-                                
-                                int bin_z = (int)hTrack_zy -> GetXaxis() -> FindBin(yz[1]);
-                                int bin_y = (int)hTrack_zy -> GetYaxis() -> FindBin(yz[0]);
-                                adc_UV[bin_z][bin_y] += adc_U + adc_V;
-                                if(debug>2){
-
-                                    SHOW3( wire_U , time_U , adc_U );
-
-                                    SHOW3( wire_V , time_V , adc_V );
-
-                                    Printf( "z = %f , y = %f , adc_U = %f , adc_V = %f" , yz[1] , yz[0] , adc_U , adc_V );
-                                    Printf( "bin_z = %d , bin_y = %d , adc_UV = %f" , bin_z , bin_y , adc_UV[bin_z][bin_y] );
-                                }
-
-                            }
-                        }
-                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
-                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
-                                hTrack_zy -> SetBinContent( bin_z , bin_y , adc_UV[bin_z][bin_y] );
-                            }
-                        }
+//                        float adc_UV[MAXbins][MAXbins];
+//                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
+//                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
+//                                adc_UV[bin_z][bin_y] = 0;
+//                            }
+//                        }
+//                        for (int i_w = 0 ; i_w < Nbins_w_zoomout; i_w++) {
+//                            for (int i_t = 0 ; i_t < Nbins_t_zoomout; i_t++) {
+//                                
+//                                float wire_U = hTrackROIzoomout[0] -> GetXaxis() -> GetBinCenter(i_w) ;
+//                                float ww_U = wire_U * geomH->WireToCm() ;
+//                                float time_U = hTrackROIzoomout[0] -> GetYaxis() -> GetBinCenter(i_t) ;
+//                                float tt_U = time_U * geomH->TimeToCm() ;
+//                                float  adc_U = hTrackROIzoomout[0] -> GetBinContent( i_w , i_t );
+//                                larutil::Point2D * projection_U = new larutil::Point2D( 0 , ww_U , tt_U );
+//                                
+//                                float wire_V = hTrackROIzoomout[1] -> GetXaxis() -> GetBinCenter(i_w) ;
+//                                float ww_V = wire_V * geomH->WireToCm();
+//                                float time_V = hTrackROIzoomout[1] -> GetYaxis() -> GetBinCenter(i_t) ;
+//                                float tt_V = time_V * geomH->TimeToCm();
+//                                float  adc_V = hTrackROIzoomout[1] -> GetBinContent( i_w , i_t );
+//                                larutil::Point2D * projection_V = new larutil::Point2D( 1 , ww_V , tt_V );
+//                                
+//                                
+//                                
+//                                Double_t yz[2];
+//                                geomH -> GetYZ( projection_U , projection_V , yz );
+//                                
+//                                int bin_z = (int)hTrack_zy -> GetXaxis() -> FindBin(yz[1]);
+//                                int bin_y = (int)hTrack_zy -> GetYaxis() -> FindBin(yz[0]);
+//                                adc_UV[bin_z][bin_y] += adc_U + adc_V;
+//                                if(debug>2){
+//
+//                                    SHOW3( wire_U , time_U , adc_U );
+//
+//                                    SHOW3( wire_V , time_V , adc_V );
+//
+//                                    Printf( "z = %f , y = %f , adc_U = %f , adc_V = %f" , yz[1] , yz[0] , adc_U , adc_V );
+//                                    Printf( "bin_z = %d , bin_y = %d , adc_UV = %f" , bin_z , bin_y , adc_UV[bin_z][bin_y] );
+//                                }
+//
+//                            }
+//                        }
+//                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
+//                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
+//                                hTrack_zy -> SetBinContent( bin_z , bin_y , adc_UV[bin_z][bin_y] );
+//                            }
+//                        }
 
 
                         // suffix - add (5)

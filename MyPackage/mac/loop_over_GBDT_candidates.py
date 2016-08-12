@@ -27,7 +27,7 @@ elif flags.worker == 'uboone':
     production_path = "/uboone/app/users/ecohen/AnalysisTreesAna"
 
 
-DATAPath        = Path+"/EXTBNB_DATA"
+DATAPath  = Path+"/EXTBNB_DATA"
 
 
 if flags.MCmode == True:
