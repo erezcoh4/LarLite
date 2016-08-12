@@ -18,6 +18,7 @@ create_images   = True
 if flags.worker == 'erez':
     Path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons"
     production_path = "/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna"
+    infilename      = "larlite_14evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
 
 
 elif flags.worker == 'uboone':
@@ -26,7 +27,7 @@ elif flags.worker == 'uboone':
 
 DATAPath = Path+"/MC_DATA" if flags.MCmode == True else Path+"/EXTBNB_DATA"
 
-images_path = Path+"/"+image_name
+images_path = Path+"/images/"+image_name
 roi_map_path = production_path+"/"+production_name;
 
 
@@ -38,7 +39,7 @@ my_proc.add_input_file(DATAPath+"/larlite_files/"+infilename)
 
 my_proc.set_io_mode(fmwk.storage_manager.kREAD)
 
-my_proc.set_ana_output_file(Path+"/AnaFiles/Ana_%s"%infilename)
+my_proc.set_ana_output_file(Path+"/../AnaFiles/Ana_%s"%infilename)
 
 #my_proc.add_process( fmwk.AnaPandoraNuTracks() )
 

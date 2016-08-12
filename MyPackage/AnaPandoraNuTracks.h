@@ -34,7 +34,7 @@
 
 #define ADC_threshold 5
 #define time_tick_max_distance 15
-
+#define MAXbins 500
 
 using namespace std;
 struct box {
@@ -100,6 +100,7 @@ namespace larlite {
                                    , TString froi_map_path = "" , TString froi_map_name = "" );
         
         bool             SetFrame ( TH2F*h , TString xtit , TString ytit );
+        bool FirstSeedWireAndTime ( int bin_w, int bin_t );
 
         //        bool    inBDTcandidates (TVector3 vertex , TVector3 end, box Box); // unused - delete Sep-09,2016
         
@@ -112,8 +113,8 @@ namespace larlite {
         
         int     TTreeEntry;
         int     run , subrun ,  event , track_id ,  start_wire[3] , end_wire[3] , NgoodTracks;
-        int     Nbins_w , Nbins_t   ;
-        int     Nbins_x , Nbins_y , Nbins_z ;
+        int     Nbins_w , Nbins_t   , Nbins_w_zoomout , Nbins_t_zoomout;
+        int     Nbins_x , Nbins_y   , Nbins_z ;
         Int_t   debug;
 
         float   start_t[3] , end_t[3];
@@ -130,9 +131,13 @@ namespace larlite {
         Double_t SumADC_around_rt , SumADC_around_rt_in_track_direction  ,  SumADC_around_rb , SumADC_around_rb_in_track_direction;
         Double_t ADC_ratio_around_lt , ADC_ratio_around_lb , ADC_ratio_around_rt , ADC_ratio_around_rb;
         
-        int time_tick;
+        int     time_tick , FirstTickZoomout , FirstTickZoomin;
+        double  time_shift =  802;
+
+        int bin_x , bin_y , bin_z;
         size_t i;
-        TH2F * hTrackROI[3] , * hTrackROIzoomout[3] , * hTrack_xy , * hTrack_yz;
+        TH2F * hTrackROI[3] , * hTrackROIzoomout[3] , * hTrack_xy , * hTrack_zy;
+
         
         
     #ifndef __CINT__
@@ -145,7 +150,8 @@ namespace larlite {
         
         Int_t N_close_tracks;
         std::vector<Double_t> Angle_close_track;
-        
+        std::vector< std::vector<int> > wire_and_time_bins;
+
         
         // tracks
         TTree             * TracksTree;
