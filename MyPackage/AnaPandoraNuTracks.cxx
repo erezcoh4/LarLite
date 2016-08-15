@@ -14,7 +14,8 @@ namespace larlite {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnaPandoraNuTracks::SetWorker( TString worker , Int_t fdebug
                                        , bool fCreateImagas , TString fimages_path
-                                       , TString froi_map_path , TString froi_map_name ) {
+                                       , TString froi_map_path , TString froi_map_name
+                                       , int fNMaxEntries ) {
         
         if (worker == "erez")
         on_uboone_grid = false ;
@@ -29,6 +30,7 @@ namespace larlite {
         images_path     = fimages_path;
         roi_map_path    = froi_map_path;
         roi_map_name    = froi_map_name;
+        NMaxEntries     = fNMaxEntries;
         calculate_adc_in_corners = false;
         
         std::cout << "worker: " << worker << ", debug: " << debug << std::endl;
@@ -109,7 +111,8 @@ namespace larlite {
     bool AnaPandoraNuTracks::analyze(storage_manager* storage) {
         
         TTreeEntry++;
-        //        if ( 1 < TTreeEntry || TTreeEntry > 2 ) return true; // just for playing a little before runnig the entire script
+        if (NMaxEntries > 0 && TTreeEntry > NMaxEntries) return false;
+        
         
         auto ev_track = storage -> get_data<event_track> ("pandoraNu");
         auto ev_wire  = storage -> get_data<event_wire> ("caldata");
@@ -313,6 +316,90 @@ namespace larlite {
                     if (CreatingTrackImage) {
 
                         
+                        // for now, we are mostly interested in the directionality of
+                        // the tracks, so we plot the wire information
+                        // along the segmented track points....
+//                        SHOW3(t.NumberdQdx(larlite::geo::kU),t.NumberdQdx(larlite::geo::kV),t.NumberdQdx(larlite::geo::k3D));
+                        
+                        for (bin_x = 0; bin_x < Nbins_x ; bin_x++) {
+                            for (bin_y = 0; bin_y < Nbins_y ; bin_y++) {
+                                ADC_xy[bin_x][bin_y] = 0;
+                            }
+                        }
+                        for (bin_z = 0; bin_z < Nbins_z ; bin_z++) {
+                            for (bin_y = 0; bin_y < Nbins_y ; bin_y++) {
+                                ADC_yz[bin_z][bin_y] = 0;
+                            }
+                        }
+
+                        if(!wire_and_time_bins.empty()) wire_and_time_bins.clear();
+                        for (auto i = 0 ; i < t.NumberTrajectoryPoints() ; i++ ) {
+                            
+                            TVector3 position_at_point( t.LocationAtPoint(i) );
+//                            SHOW(position_at_point.x());
+//                            double dqdx_at_point = t.DQdxAtPoint( i , larlite::geo::k3D );
+//                            SHOW(dqdx_at_point);
+                            
+                            // project on the collection plane
+                            larutil::Point2D projection_Y = geomH->Point_3Dto2D(position_at_point.X() ,
+                                                                                position_at_point.Y() ,
+                                                                                position_at_point.Z() , 2 );
+                            // find the ADC value on the collection plane
+                            auto wire_Y = projection_Y.w / geomH->WireToCm();
+                            auto time_Y = projection_Y.t / geomH->TimeToCm() + time_shift;
+                            
+//                            int   bin_w = wire_Y - b[2]._start_wire + 20;
+//                            int   bin_t = time_Y - b[2]._start_t + 40;
+//                            SHOW3( bin_w , bin_t , hTrackROIzoomout[2] -> GetBinContent( bin_w, bin_t ) );
+                            
+                            int bin_w_Y = hTrackROIzoomout[2] -> GetXaxis() -> FindBin( wire_Y );
+                            int bin_t_Y = hTrackROIzoomout[2] -> GetYaxis() -> FindBin( time_Y );
+                            SHOW3( bin_w_Y , bin_t_Y , hTrackROIzoomout[2] -> GetBinContent( bin_w_Y, bin_t_Y ) );
+                            if (FirstSeedWireAndTime ( bin_w_Y , bin_t_Y ) ){
+                                
+                                std::vector<int> c_wire_and_time_bins = {bin_w_Y , bin_t_Y};
+                                wire_and_time_bins.push_back( c_wire_and_time_bins );
+                                
+                                float ADC_Y = hTrackROIzoomout[2] -> GetBinContent( bin_w_Y, bin_t_Y );
+                                
+                                // plugh this ADC value into the right bin in the det. coor. histograms
+                                bin_x = hTrack_xy->GetXaxis() -> FindBin(position_at_point.X());
+                                bin_y = hTrack_xy->GetXaxis() -> FindBin(position_at_point.Y());
+                                ADC_xy[bin_x][bin_y] += ADC_Y;
+                                
+                                bin_y = hTrack_zy->GetXaxis() -> FindBin(position_at_point.Y());
+                                bin_z = hTrack_zy->GetYaxis() -> FindBin(position_at_point.Z());
+                                ADC_yz[bin_y][bin_z] += ADC_Y;
+
+//                                hTrack_zy -> SetBinContent( bin_y , bin_z , ADC_Y );
+                                
+                                if (debug>2) {
+                                    Printf("point %d: (%.2f,%.2f,%.2f), projection on Y plane: (w=%f,t=%f) ",
+                                           i,
+                                           position_at_point.X() ,
+                                           position_at_point.Y() ,
+                                           position_at_point.Z() ,
+                                           //                                       dqdx_at_point,
+                                           wire_Y, time_Y);
+                                    SHOW3(bin_w_Y, bin_t_Y,ADC_Y);
+                                    SHOW3(bin_x,bin_y,bin_z);
+                                    PrintLine();
+                                }
+
+                            }
+
+                            
+                        }
+                        for (bin_x = 0; bin_x < Nbins_x ; bin_x++) {
+                            for (bin_y = 0; bin_y < Nbins_y ; bin_y++) {
+                                hTrack_xy -> SetBinContent( bin_x , bin_y , ADC_xy[bin_x][bin_y] );
+                            }
+                        }
+                        for (bin_z = 0; bin_z < Nbins_z ; bin_z++) {
+                            for (bin_y = 0; bin_y < Nbins_y ; bin_y++) {
+                                hTrack_zy -> SetBinContent( bin_y , bin_z , ADC_yz[bin_z][bin_y] );
+                            }
+                        }
 
                         
 //
@@ -324,12 +411,12 @@ namespace larlite {
 //
 //                                float ADC_U = 0;
 //                                if(!wire_and_time_bins.empty()) wire_and_time_bins.clear();
-//                                
-//                                
+//
+//
 //                                float z = (Zmin+Zmax)/2.;
 //                                double xyz[3] = { x , y , z };
-//                                
-//                                
+//
+//
 //                                
 //                                // project on the collection plane
 //                                larutil::Point2D projection_U = geomH->Point_3Dto2D( xyz , 0 );
@@ -425,54 +512,54 @@ namespace larlite {
 //                            }
 //                        }
                         
-                        float adc_UV[MAXbins][MAXbins];
-                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
-                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
-                                adc_UV[bin_z][bin_y] = 0;
-                            }
-                        }
-                        for (int i_w = 0 ; i_w < Nbins_w_zoomout; i_w++) {
-                            for (int i_t = 0 ; i_t < Nbins_t_zoomout; i_t++) {
-                                
-                                float wire_U = hTrackROIzoomout[0] -> GetXaxis() -> GetBinCenter(i_w) ;
-                                float ww_U = wire_U * geomH->WireToCm() ;
-                                float time_U = hTrackROIzoomout[0] -> GetYaxis() -> GetBinCenter(i_t) ;
-                                float tt_U = time_U * geomH->TimeToCm() ;
-                                float  adc_U = hTrackROIzoomout[0] -> GetBinContent( i_w , i_t );
-                                larutil::Point2D * projection_U = new larutil::Point2D( 0 , ww_U , tt_U );
-                                
-                                float wire_V = hTrackROIzoomout[1] -> GetXaxis() -> GetBinCenter(i_w) ;
-                                float ww_V = wire_V * geomH->WireToCm();
-                                float time_V = hTrackROIzoomout[1] -> GetYaxis() -> GetBinCenter(i_t) ;
-                                float tt_V = time_V * geomH->TimeToCm();
-                                float  adc_V = hTrackROIzoomout[1] -> GetBinContent( i_w , i_t );
-                                larutil::Point2D * projection_V = new larutil::Point2D( 1 , ww_V , tt_V );
-                                
-                                
-                                
-                                Double_t yz[2];
-                                geomH -> GetYZ( projection_U , projection_V , yz );
-                                
-                                int bin_z = (int)hTrack_zy -> GetXaxis() -> FindBin(yz[1]);
-                                int bin_y = (int)hTrack_zy -> GetYaxis() -> FindBin(yz[0]);
-                                adc_UV[bin_z][bin_y] += adc_U + adc_V;
-                                if(debug>2){
-
-                                    SHOW3( wire_U , time_U , adc_U );
-
-                                    SHOW3( wire_V , time_V , adc_V );
-
-                                    Printf( "z = %f , y = %f , adc_U = %f , adc_V = %f" , yz[1] , yz[0] , adc_U , adc_V );
-                                    Printf( "bin_z = %d , bin_y = %d , adc_UV = %f" , bin_z , bin_y , adc_UV[bin_z][bin_y] );
-                                }
-
-                            }
-                        }
-                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
-                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
-                                hTrack_zy -> SetBinContent( bin_z , bin_y , adc_UV[bin_z][bin_y] );
-                            }
-                        }
+//                        float adc_UV[MAXbins][MAXbins];
+//                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
+//                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
+//                                adc_UV[bin_z][bin_y] = 0;
+//                            }
+//                        }
+//                        for (int i_w = 0 ; i_w < Nbins_w_zoomout; i_w++) {
+//                            for (int i_t = 0 ; i_t < Nbins_t_zoomout; i_t++) {
+//                                
+//                                float wire_U = hTrackROIzoomout[0] -> GetXaxis() -> GetBinCenter(i_w) ;
+//                                float ww_U = wire_U * geomH->WireToCm() ;
+//                                float time_U = hTrackROIzoomout[0] -> GetYaxis() -> GetBinCenter(i_t) ;
+//                                float tt_U = time_U * geomH->TimeToCm() ;
+//                                float  adc_U = hTrackROIzoomout[0] -> GetBinContent( i_w , i_t );
+//                                larutil::Point2D * projection_U = new larutil::Point2D( 0 , ww_U , tt_U );
+//                                
+//                                float wire_V = hTrackROIzoomout[1] -> GetXaxis() -> GetBinCenter(i_w) ;
+//                                float ww_V = wire_V * geomH->WireToCm();
+//                                float time_V = hTrackROIzoomout[1] -> GetYaxis() -> GetBinCenter(i_t) ;
+//                                float tt_V = time_V * geomH->TimeToCm();
+//                                float  adc_V = hTrackROIzoomout[1] -> GetBinContent( i_w , i_t );
+//                                larutil::Point2D * projection_V = new larutil::Point2D( 1 , ww_V , tt_V );
+//                                
+//                                
+//                                
+//                                Double_t yz[2];
+//                                geomH -> GetYZ( projection_U , projection_V , yz );
+//                                
+//                                int bin_z = (int)hTrack_zy -> GetXaxis() -> FindBin(yz[1]);
+//                                int bin_y = (int)hTrack_zy -> GetYaxis() -> FindBin(yz[0]);
+//                                adc_UV[bin_z][bin_y] += adc_U + adc_V;
+//                                if(debug>2){
+//
+//                                    SHOW3( wire_U , time_U , adc_U );
+//
+//                                    SHOW3( wire_V , time_V , adc_V );
+//
+//                                    Printf( "z = %f , y = %f , adc_U = %f , adc_V = %f" , yz[1] , yz[0] , adc_U , adc_V );
+//                                    Printf( "bin_z = %d , bin_y = %d , adc_UV = %f" , bin_z , bin_y , adc_UV[bin_z][bin_y] );
+//                                }
+//
+//                            }
+//                        }
+//                        for (int bin_z = 0 ; bin_z < Nbins_z ; bin_z ++ ) {
+//                            for (int bin_y = 0 ; bin_y < Nbins_y ; bin_y ++  ) {
+//                                hTrack_zy -> SetBinContent( bin_z , bin_y , adc_UV[bin_z][bin_y] );
+//                            }
+//                        }
 
 
                         // suffix - add (5)
@@ -504,20 +591,20 @@ namespace larlite {
                             cZoomIn[plane] -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_ROI_plane%d.pdf",images_path.Data(),run,subrun,event,track_id,track_id,plane));
                             delete cZoomIn[plane];
                         }
-//                        // (2-d-2) in detector coordinates planes
-//                        TCanvas * cxy = new TCanvas("track ROI x-y plane");
-//                        hTrack_xy -> Draw("colz");
-//                        plot -> Box(t.Vertex().x(),t.Vertex().y(),t.End().x(),t.End().y() , 46 , 0 , 1);
-//                        gStyle->SetOptStat(0000);
-//                        cxy -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_xy.pdf",images_path.Data(),run,subrun,event,track_id,track_id));
-//                        delete cxy;
-//                        
-//                        TCanvas * cyz = new TCanvas("track ROI y-z plane");
-//                        hTrack_zy -> Draw("colz");
-//                        plot -> Box(t.Vertex().z(),t.Vertex().y(),t.End().z(),t.End().y() , 46 , 0 , 1);
-//                        gStyle->SetOptStat(0000);
-//                        cyz -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_yz.pdf",images_path.Data(),run,subrun,event,track_id,track_id));
-//                        delete cyz;
+                        // (2-d-2) in detector coordinates planes
+                        TCanvas * cxy = new TCanvas("track ROI x-y plane");
+                        hTrack_xy -> Draw("colz");
+                        plot -> Box(t.Vertex().x(),t.Vertex().y(),t.End().x(),t.End().y() , 46 , 0 , 1);
+                        gStyle->SetOptStat(0000);
+                        cxy -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_xy.pdf",images_path.Data(),run,subrun,event,track_id,track_id));
+                        delete cxy;
+                        
+                        TCanvas * cyz = new TCanvas("track ROI y-z plane");
+                        hTrack_zy -> Draw("colz");
+                        plot -> Box(t.Vertex().z(),t.Vertex().y(),t.End().z(),t.End().y() , 46 , 0 , 1);
+                        gStyle->SetOptStat(0000);
+                        cyz -> SaveAs(Form("%s/r%d/s%d_e%d_t%d/t%d_yz.pdf",images_path.Data(),run,subrun,event,track_id,track_id));
+                        delete cyz;
                         
                     }
                     
@@ -814,48 +901,6 @@ namespace larlite {
 
 // (suffix - add 3)
 
-//                        for (auto i = 0 ; i < t.NumberTrajectoryPoints() ; i++ ) {
-//
-//                            TVector3 position_at_point( t.LocationAtPoint(i) );
-//                            // project on the collection plane
-//                            larutil::Point2D projection_Y = geomH->Point_3Dto2D(position_at_point.X() ,
-//                                                                                position_at_point.Y() ,
-//                                                                                position_at_point.Z() , 2 );
-//                            // find the ADC value on the collection plane
-//                            auto wire_Y = projection_Y.w / geomH->WireToCm();
-//                            auto time_Y = projection_Y.t / geomH->TimeToCm() + time_shift;
-//
-//                            int   bin_w = wire_Y - b[2]._start_wire + 20;
-//                            int   bin_t = time_Y - b[2]._start_t + 40;
-//                            SHOW3( bin_w , bin_t , hTrackROIzoomout[2] -> GetBinContent( bin_w, bin_t ) );
-//
-//                            int bin_w_Y = hTrackROIzoomout[2] -> GetXaxis()->FindBin( wire_Y );
-//                            int bin_t_Y = hTrackROIzoomout[2] -> GetYaxis()->FindBin( time_Y + FirstTickZoomout );
-//                            SHOW3( bin_w_Y , bin_t_Y , hTrackROIzoomout[2] -> GetBinContent( bin_w_Y, bin_t_Y ) );
-//
-//                            float ADC_Y = hTrackROIzoomout[2] -> GetBinContent( bin_w, bin_t );
-//
-//                            // plugh this ADC value into the right bin in the det. coor. histograms
-//                            bin_x = hTrack_xy->GetXaxis() -> FindBin(position_at_point.X());
-//                            bin_y = hTrack_xy->GetXaxis() -> FindBin(position_at_point.Y());
-//                            hTrack_xy -> SetBinContent( bin_x , bin_y , ADC_Y );
-//
-//                            bin_y = hTrack_zy->GetXaxis() -> FindBin(position_at_point.Y());
-//                            bin_z = hTrack_zy->GetYaxis() -> FindBin(position_at_point.Z());
-//                            hTrack_zy -> SetBinContent( bin_y , bin_z , ADC_Y );
-//
-//                            if (debug>2) {
-//                                Printf("position_at_point: (%.2f,%.2f,%.2f), projection on Y plane: (w=%f,t=%f) ",
-//                                       position_at_point.X() ,
-//                                       position_at_point.Y() ,
-//                                       position_at_point.Z() ,
-//                                       wire_Y, time_Y);
-//                                SHOW3(bin_w,bin_t,ADC_Y);
-//                                SHOW3(bin_x,bin_y,bin_z);
-//                                PrintLine();
-//                            }
-//
-//                        }
 
 
 // (suffix - add 4)

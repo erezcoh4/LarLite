@@ -95,9 +95,10 @@ namespace larlite {
         
         // my methods...
         bool    LoadBDTCandidates ();
-        bool            SetWorker (TString worker = "uboone", Int_t fdebug = 0, bool fCreateImagas = false
+        bool            SetWorker ( TString worker = "uboone", Int_t fdebug = 0, bool fCreateImagas = false
                                    , TString fimages_path = ""
-                                   , TString froi_map_path = "" , TString froi_map_name = "" );
+                                   , TString froi_map_path = "" , TString froi_map_name = ""
+                                   , int fNMaxEntries = - 1 );
         
         bool             SetFrame ( TH2F*h , TString xtit , TString ytit );
         bool FirstSeedWireAndTime ( int bin_w, int bin_t );
@@ -111,7 +112,7 @@ namespace larlite {
         bool    GoodTrack;
         bool    on_uboone_grid  , CreateImagas , calculate_adc_in_corners ;
         
-        int     TTreeEntry;
+        int     TTreeEntry  , NMaxEntries;
         int     run , subrun ,  event , track_id ,  start_wire[3] , end_wire[3] , NgoodTracks;
         int     Nbins_w , Nbins_t   , Nbins_w_zoomout , Nbins_t_zoomout;
         int     Nbins_x , Nbins_y   , Nbins_z ;
@@ -133,7 +134,7 @@ namespace larlite {
         
         int     time_tick , FirstTickZoomout , FirstTickZoomin;
         double  time_shift =  802;
-
+        double ADC_xy[MAXbins][MAXbins] , ADC_yz[MAXbins][MAXbins];
         int bin_x , bin_y , bin_z;
         size_t i;
         TH2F * hTrackROI[3] , * hTrackROIzoomout[3] , * hTrack_xy , * hTrack_zy;
