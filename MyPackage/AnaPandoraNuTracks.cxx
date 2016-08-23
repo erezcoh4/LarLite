@@ -207,12 +207,12 @@ namespace larlite {
                                                         , Nbins_t  , b[plane]._start_t - 10 , b[plane]._end_t + 10 );
                             SetFrame( hTrackROI[plane] , "wire number" , "time tick" );
                             
-                            Nbins_w_zoomout = b[plane]._end_wire - b[plane]._start_wire + 81;
-                            Nbins_t_zoomout = (int)(b[plane]._end_t - b[plane]._start_t) + 161;
+                            Nbins_w_zoomout = b[plane]._end_wire - b[plane]._start_wire + 161;
+                            Nbins_t_zoomout = (int)(b[plane]._end_t - b[plane]._start_t) + 321;
                             
                             hTrackROIzoomout[plane] = new TH2F(Form("%s_zoomout",hName.Data()) ,Form("%s zoomout",hName.Data())
-                                                               , Nbins_w_zoomout  , b[plane]._start_wire - 40 , b[plane]._end_wire + 40
-                                                               , Nbins_t_zoomout  , b[plane]._start_t - 80 , b[plane]._end_t + 80);
+                                                               , Nbins_w_zoomout  , b[plane]._start_wire - 80 , b[plane]._end_wire + 80
+                                                               , Nbins_t_zoomout  , b[plane]._start_t - 160 , b[plane]._end_t + 160);
                             SetFrame( hTrackROIzoomout[plane] , "wire number" , "time tick" );
                             
                         }
@@ -271,15 +271,15 @@ namespace larlite {
                         if (CreateImagas) {
                             for (int plane = 0 ; plane < 3 ; plane++){
                                 // accumulate the ADC signal around the left bottom corner of the track ROI box
-                                if ( b[plane]._start_wire - 40 <= detWire && detWire <= b[plane]._end_wire + 40 ) {
+                                if ( b[plane]._start_wire - 80 <= detWire && detWire <= b[plane]._end_wire + 80 ) {
                                     for (auto & iROI : wire.SignalROI().get_ranges()) {
                                         const int FirstTick = iROI.begin_index();
                                         time_tick = FirstTick;
                                         FirstTickZoomout = FirstTick;
                                         for (float ADC : iROI) {
-                                            if ( b[plane]._start_t - 80 <= time_tick && time_tick <= b[plane]._end_t + 80 ) {
-                                                hTrackROIzoomout[plane] -> SetBinContent( detWire - b[plane]._start_wire + 40 ,
-                                                                                         time_tick - b[plane]._start_t + 80 , ADC );
+                                            if ( b[plane]._start_t - 160 <= time_tick && time_tick <= b[plane]._end_t + 160 ) {
+                                                hTrackROIzoomout[plane] -> SetBinContent( detWire - b[plane]._start_wire + 80 ,
+                                                                                         time_tick - b[plane]._start_t + 160 , ADC );
 
                                             }
                                             time_tick++;
