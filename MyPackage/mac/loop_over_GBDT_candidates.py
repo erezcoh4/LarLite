@@ -1,3 +1,12 @@
+'''
+    
+    usage:
+    ------
+    > python mac/loop_over_GBDT_candidates.py --DataType=EXTBNB -wuboone -v2 
+    
+'''
+
+
 import sys
 from larlite import larlite as fmwk
 sys.path.insert(0, '/Users/erezcohen/larlite/UserDev/mySoftware/MySoftwarePackage/mac')
