@@ -21,7 +21,7 @@ flags = input_flags.get_args()
 infilename      = "larlite_extBNB9131runs_cosmic_trained_only_on_mc_pscore_0.99_1598evts_23aug2016.root"
 roi_map_name    = "passedGBDT_extBNB_AnalysisTrees_cosmic_trained_only_on_mc_score_0.99.csv"
 
-image_name      = "cosmic_mctraining_pscore0.99"
+image_name      = "cosmic_trained_only_on_mc_score_0.99"
 production_name = "PassedGBDTFiles"
 create_images   = True
 
@@ -32,7 +32,7 @@ if flags.worker == 'erez':
     Path = "/Users/erezcohen/Desktop/uBoone/GBDTprotons"
     production_path = "/Users/erezcohen/Desktop/uBoone/AnalysisTreesAna"
     infilename      = "larlite_14evts_mccosmicmc_goodprotonsandbad9999_mcinfo.root"
-    flags.MCmode    = True 
+#    flags.MCmode    = True 
     n_max_entries   = 3
 
 elif flags.worker == 'uboone':
@@ -44,11 +44,11 @@ elif flags.worker == 'uboone':
 
 DATAPath  = Path + "/" + flags.DataType + "_DATA"
 
-
-if flags.MCmode == True:
-    roi_map_name    = "mc_good_bad_tofilter_ROIs.csv"
-    image_name      = "MCgoodbad"
-    DATAPath        = Path+"/MC_DATA"
+#
+#if flags.MCmode == True:
+#    roi_map_name    = "mc_good_bad_tofilter_ROIs.csv"
+#    image_name      = "MCgoodbad"
+#    DATAPath        = Path+"/MC_DATA"
 
 
 
