@@ -2,7 +2,9 @@
     
     usage:
     ------
-    > python mac/loop_over_GBDT_candidates.py --DataType=EXTBNB -wuboone -v2 
+    > python mac/loop_over_GBDT_candidates.py --DataType=EXTBNB -wuboone -v2 -evf=3
+    
+    evf represents the maximal number of images it will create (=n_max_entries)
     
 '''
 
@@ -15,8 +17,9 @@ import input_flags
 flags = input_flags.get_args()
 
 
-infilename      = "larlite_9131runs_JustMCtraining_pscore_0.99_914evts_11Aug2016.root"
-roi_map_name    = "passedGBDT_extBNB_AnalysisTrees_JustMCtraining_score_0.99.csv"
+
+infilename      = "larlite_extBNB9131runs_cosmic_trained_only_on_mc_pscore_0.99_1598evts_23aug2016.root"
+roi_map_name    = "passedGBDT_extBNB_AnalysisTrees_cosmic_trained_only_on_mc_score_0.99.csv"
 
 image_name      = "cosmic_mctraining_pscore0.99"
 production_name = "PassedGBDTFiles"
@@ -35,11 +38,11 @@ if flags.worker == 'erez':
 elif flags.worker == 'uboone':
     Path = "/uboone/data/users/ecohen/GBDTprotons"
     production_path = "/uboone/app/users/ecohen/AnalysisTreesAna"
-    n_max_entries   = -1 # this means we analyze all TTree entries
+    n_max_entries   = -1 if flags.evnts_frac < 1 else flags.evnts_frac # this means we analyze all TTree entries
 
 
 
-DATAPath  = Path+"/EXTBNB_DATA"
+DATAPath  = Path + "/" + flags.DataType + "_DATA"
 
 
 if flags.MCmode == True:
