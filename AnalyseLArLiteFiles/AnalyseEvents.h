@@ -16,6 +16,11 @@
 #define LARLITE_ANALYSEEVENTS_H
 
 #include "Analysis/ana_base.h"
+#include "MySoftwarePackage/myIncludes.h"
+#include "PandoraNuTrack.h"
+#include "DataFormat/track.h"
+#include "DataFormat/wire.h"
+
 
 namespace larlite {
   /**
@@ -47,8 +52,23 @@ namespace larlite {
     */
     virtual bool finalize();
 
+      void  CreateEvdImages ( event_wire * wire , int fRSE[3] , std::vector<box> fROIs , std::vector<TString> fLabels );
+      bool      LoadROIsMap ( TString , Int_t );
+      
+      Int_t     debug;
+      Int_t     RSE[3];
+      Int_t     run , subrun ,  event , start_w[3] , end_w[3] , start_t[3] , end_t[3];
+
+      std::vector<box>      ROIs;
+      std::vector<TString>  Labels;
+
+      
+      
+      //         run              subrun           event            Boxes
+      std::map < int , std::map < int , std::map < int , std::vector<std::vector<box>> > > > ROImap;
+
   protected:
-    
+      
   };
 }
 #endif
