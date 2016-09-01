@@ -58,7 +58,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::larlite::AnalyseEvents));
       static ::ROOT::TGenericClassInfo 
          instance("larlite::AnalyseEvents", "AnalyseEvents.h", 30,
-                  typeid(::larlite::AnalyseEvents), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  typeid(::larlite::AnalyseEvents), DefineBehavior(ptr, ptr),
                   &larlitecLcLAnalyseEvents_Dictionary, isa_proxy, 4,
                   sizeof(::larlite::AnalyseEvents) );
       instance.SetNew(&new_larlitecLcLAnalyseEvents);
@@ -90,10 +90,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_larlitecLcLAnalyseEvents(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::AnalyseEvents : new ::larlite::AnalyseEvents;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::AnalyseEvents : new ::larlite::AnalyseEvents;
    }
    static void *newArray_larlitecLcLAnalyseEvents(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::AnalyseEvents[nElements] : new ::larlite::AnalyseEvents[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::AnalyseEvents[nElements] : new ::larlite::AnalyseEvents[nElements];
    }
    // Wrapper around operator delete
    static void delete_larlitecLcLAnalyseEvents(void *p) {
@@ -123,8 +123,8 @@ namespace ROOT {
       vector<vector<box> > *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<vector<box> >));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<vector<box> >", -2, "vector", 477,
-                  typeid(vector<vector<box> >), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("vector<vector<box> >", -2, "vector", 457,
+                  typeid(vector<vector<box> >), DefineBehavior(ptr, ptr),
                   &vectorlEvectorlEboxgRsPgR_Dictionary, isa_proxy, 0,
                   sizeof(vector<vector<box> >) );
       instance.SetNew(&new_vectorlEvectorlEboxgRsPgR);
@@ -153,10 +153,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_vectorlEvectorlEboxgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<vector<box> > : new vector<vector<box> >;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<vector<box> > : new vector<vector<box> >;
    }
    static void *newArray_vectorlEvectorlEboxgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<vector<box> >[nElements] : new vector<vector<box> >[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<vector<box> >[nElements] : new vector<vector<box> >[nElements];
    }
    // Wrapper around operator delete
    static void delete_vectorlEvectorlEboxgRsPgR(void *p) {
@@ -186,8 +186,8 @@ namespace ROOT {
       vector<box> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<box>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<box>", -2, "vector", 477,
-                  typeid(vector<box>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("vector<box>", -2, "vector", 457,
+                  typeid(vector<box>), DefineBehavior(ptr, ptr),
                   &vectorlEboxgR_Dictionary, isa_proxy, 0,
                   sizeof(vector<box>) );
       instance.SetNew(&new_vectorlEboxgR);
@@ -216,10 +216,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_vectorlEboxgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<box> : new vector<box>;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<box> : new vector<box>;
    }
    static void *newArray_vectorlEboxgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<box>[nElements] : new vector<box>[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<box>[nElements] : new vector<box>[nElements];
    }
    // Wrapper around operator delete
    static void delete_vectorlEboxgR(void *p) {
@@ -249,8 +249,8 @@ namespace ROOT {
       vector<TString> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<TString>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<TString>", -2, "vector", 477,
-                  typeid(vector<TString>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("vector<TString>", -2, "vector", 457,
+                  typeid(vector<TString>), DefineBehavior(ptr, ptr),
                   &vectorlETStringgR_Dictionary, isa_proxy, 0,
                   sizeof(vector<TString>) );
       instance.SetNew(&new_vectorlETStringgR);
@@ -279,10 +279,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_vectorlETStringgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<TString> : new vector<TString>;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<TString> : new vector<TString>;
    }
    static void *newArray_vectorlETStringgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<TString>[nElements] : new vector<TString>[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<TString>[nElements] : new vector<TString>[nElements];
    }
    // Wrapper around operator delete
    static void delete_vectorlETStringgR(void *p) {
@@ -312,8 +312,8 @@ namespace ROOT {
       map<int,vector<vector<box> > > *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,vector<vector<box> > >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,vector<vector<box> > >", -2, "map", 783,
-                  typeid(map<int,vector<vector<box> > >), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("map<int,vector<vector<box> > >", -2, "map", 830,
+                  typeid(map<int,vector<vector<box> > >), DefineBehavior(ptr, ptr),
                   &maplEintcOvectorlEvectorlEboxgRsPgRsPgR_Dictionary, isa_proxy, 0,
                   sizeof(map<int,vector<vector<box> > >) );
       instance.SetNew(&new_maplEintcOvectorlEvectorlEboxgRsPgRsPgR);
@@ -342,10 +342,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_maplEintcOvectorlEvectorlEboxgRsPgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) map<int,vector<vector<box> > > : new map<int,vector<vector<box> > >;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,vector<vector<box> > > : new map<int,vector<vector<box> > >;
    }
    static void *newArray_maplEintcOvectorlEvectorlEboxgRsPgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) map<int,vector<vector<box> > >[nElements] : new map<int,vector<vector<box> > >[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,vector<vector<box> > >[nElements] : new map<int,vector<vector<box> > >[nElements];
    }
    // Wrapper around operator delete
    static void delete_maplEintcOvectorlEvectorlEboxgRsPgRsPgR(void *p) {
@@ -375,8 +375,8 @@ namespace ROOT {
       map<int,map<int,vector<vector<box> > > > *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,vector<vector<box> > > >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,map<int,vector<vector<box> > > >", -2, "map", 783,
-                  typeid(map<int,map<int,vector<vector<box> > > >), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("map<int,map<int,vector<vector<box> > > >", -2, "map", 830,
+                  typeid(map<int,map<int,vector<vector<box> > > >), DefineBehavior(ptr, ptr),
                   &maplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgR_Dictionary, isa_proxy, 0,
                   sizeof(map<int,map<int,vector<vector<box> > > >) );
       instance.SetNew(&new_maplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgR);
@@ -405,10 +405,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_maplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) map<int,map<int,vector<vector<box> > > > : new map<int,map<int,vector<vector<box> > > >;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,vector<vector<box> > > > : new map<int,map<int,vector<vector<box> > > >;
    }
    static void *newArray_maplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) map<int,map<int,vector<vector<box> > > >[nElements] : new map<int,map<int,vector<vector<box> > > >[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,vector<vector<box> > > >[nElements] : new map<int,map<int,vector<vector<box> > > >[nElements];
    }
    // Wrapper around operator delete
    static void delete_maplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgR(void *p) {
@@ -438,8 +438,8 @@ namespace ROOT {
       map<int,map<int,map<int,vector<vector<box> > > > > *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(map<int,map<int,map<int,vector<vector<box> > > > >));
       static ::ROOT::TGenericClassInfo 
-         instance("map<int,map<int,map<int,vector<vector<box> > > > >", -2, "map", 783,
-                  typeid(map<int,map<int,map<int,vector<vector<box> > > > >), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("map<int,map<int,map<int,vector<vector<box> > > > >", -2, "map", 830,
+                  typeid(map<int,map<int,map<int,vector<vector<box> > > > >), DefineBehavior(ptr, ptr),
                   &maplEintcOmaplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgRsPgR_Dictionary, isa_proxy, 0,
                   sizeof(map<int,map<int,map<int,vector<vector<box> > > > >) );
       instance.SetNew(&new_maplEintcOmaplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgRsPgR);
@@ -468,10 +468,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_maplEintcOmaplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgRsPgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) map<int,map<int,map<int,vector<vector<box> > > > > : new map<int,map<int,map<int,vector<vector<box> > > > >;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,vector<vector<box> > > > > : new map<int,map<int,map<int,vector<vector<box> > > > >;
    }
    static void *newArray_maplEintcOmaplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgRsPgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) map<int,map<int,map<int,vector<vector<box> > > > >[nElements] : new map<int,map<int,map<int,vector<vector<box> > > > >[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) map<int,map<int,map<int,vector<vector<box> > > > >[nElements] : new map<int,map<int,map<int,vector<vector<box> > > > >[nElements];
    }
    // Wrapper around operator delete
    static void delete_maplEintcOmaplEintcOmaplEintcOvectorlEvectorlEboxgRsPgRsPgRsPgRsPgR(void *p) {
@@ -498,12 +498,12 @@ namespace {
 "/Users/erezcohen/larlite/UserDev/AnalysisTreesInformation/AnaTreesPackage",
 "/Users/erezcohen/larlite/UserDev/BasicTool/GeoAlgo",
 "/Users/erezcohen/larlite/core",
-"/usr/local/Cellar/root6/6.06.02/include/root",
-"/Users/erezcohen/larlite/UserDev/LarLite/AnalyseLArLiteFiles/",
+"/Users/erezcohen/root6/root-6.04.10/include",
+"/Users/erezcohen/larlite/UserDev/MyLarLite/AnalyseLArLiteFiles/",
 0
     };
-    static const char* fwdDeclCode = R"DICTFWDDCLS(
-#line 1 "libMyLarLite_AnalyseLArLiteFiles dictionary forward declarations' payload"
+    static const char* fwdDeclCode = 
+R"DICTFWDDCLS(
 #pragma clang diagnostic ignored "-Wkeyword-compat"
 #pragma clang diagnostic ignored "-Wignored-attributes"
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
@@ -511,7 +511,6 @@ extern int __Cling_Autoloading_Map;
 namespace larlite{class __attribute__((annotate("$clingAutoload$AnalyseEvents.h")))  AnalyseEvents;}
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
-#line 1 "libMyLarLite_AnalyseLArLiteFiles dictionary payload"
 
 #ifndef G__VECTOR_HAS_CLASS_ITERATOR
   #define G__VECTOR_HAS_CLASS_ITERATOR 1

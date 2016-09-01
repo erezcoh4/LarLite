@@ -5,9 +5,27 @@
 
 namespace larlite {
     
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::initialize() {
         return true;
-        // define the 2d histograms?
+    }
+    
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    void AnalyseEvents::SetWorker ( TString fworker ){
+        worker = fworker;
+        if (worker == "uboone"){
+            gROOT->SetBatch(kTRUE);
+        }
+    };
+
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    bool AnalyseEvents::SetArgs ( TString fworker, Int_t fdebug, TString fimages_path ){
+        SetWorker       (fworker);
+        SetDebug        (fdebug);
+        SetImagesPath   (fimages_path);
+        return true;
     }
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -16,29 +34,50 @@ namespace larlite {
         
         auto ev_track = storage -> get_data<event_track> ("pandoraNu");
         auto ev_wire  = storage -> get_data<event_wire> ("caldata");
-
-        CreateEvdImages( ev_wire , RSE , ROIs , Labels );
+        
+        
+        
+        if(ev_wire){
+            
+            run = ev_wire->run(); subrun = ev_wire->subrun(); event = ev_wire->event_id();
+            
+            //Search run
+            auto run_iter = ROImap.find(run);
+            if(run_iter == ROImap.end()) {
+                std::cout << " run " << run << " not found..." << std::endl;
+                return false;
+            }
+            // Grab run-map's value (i.e. subrun map)
+            auto const& subrun_map = (*run_iter).second;
+            //Search sub run
+            auto subrun_iter = subrun_map.find(subrun);
+            if(subrun_iter == subrun_map.end()) {
+                std::cout << " subrun " << subrun << " not found..." << std::endl;
+                return false;
+            }
+            // Grab subrun-map's value (i.e. event map)
+            auto const& event_map = (*subrun_iter).second;
+            // Search event
+            auto event_iter = event_map.find(event);
+            if(event_iter == event_map.end()) {
+                std::cout << " event " << event << " not found..." << std::endl;
+                return false;
+            }
+            
+            
+            // Grab event-map's value (i.e. track-id map)
+            auto const& track_id_map = (*event_iter).second;
+            
+            
+            CreateEvdImages( ev_wire , RSE , ROIs , Labels );
+        }
         
         return true;
     }
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::finalize() {
-        
-        // This function is called at the end of event loop.
-        // Do all variable finalization you wish to do here.
-        // If you need, you can store your ROOT class instance in the output
-        // file. You have an access to the output file through "_fout" pointer.
-        //
-        // Say you made a histogram pointer h1 to store. You can do this:
-        //
-        // if(_fout) { _fout->cd(); h1->Write(); }
-        //
-        // else
-        //   print(MSG::ERROR,__FUNCTION__,"Did not find an output file pointer!!! File not opened?");
-        //
-        
-        return true;
+         return true;
     }
     
     
@@ -64,7 +103,7 @@ namespace larlite {
             
             istringstream ss(line);
             
-            ss >> run >> subrun >>  event;
+            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
             
             for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
                 
@@ -81,16 +120,19 @@ namespace larlite {
         // check
         if (debug > 3) {
             for(auto it : ROImap) {
-                std::cout << "run"  << it.first << "\n";
+                std::cout << "run "  << it.first ;
                 for(auto inner_it : it.second ) {
-                    std::cout  << "subrun " << inner_it.first;
+                    std::cout  << ", subrun " << inner_it.first ;
                     for(auto inner_inner_it : inner_it.second ) {
-                        std::cout  << ",event " << inner_inner_it.first;
-                        std::cout  << ",ROIs: " << "\n";
+                        std::cout  << ", event " << inner_inner_it.first;
+                        std::cout  << ", ROIs: " << "\n";
                             auto boxes = inner_inner_it.second ;
                             for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
+                                SHOW(i_roi);
                                 for (int plane = 0 ; plane < 3 ; plane ++ ) {
-                                    PrintBox(boxes[i_roi][plane]);
+                                    box roi = boxes[i_roi][plane];
+                                    SHOW(plane);
+                                    PrintBox(roi);
                             }
                         }
                     }
