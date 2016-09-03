@@ -16,8 +16,10 @@
 #define LARLITE_ANALYSEEVENTS_H
 
 #include "Analysis/ana_base.h"
-#include "MySoftwarePackage/myIncludes.h"
+#include "myIncludes.h"
+#include "TPlots.h"
 #include "PandoraNuTrack.h"
+#include "MyLArTools.h"
 #include "DataFormat/track.h"
 #include "DataFormat/wire.h"
 
@@ -42,33 +44,48 @@ namespace larlite {
         
         
         // setters
-        bool          SetArgs ( TString fworker="erez", Int_t fdebug=0, TString fimages_path="" );
+        bool          SetArgs ( TString fworker="erez", Int_t fdebug=0, TString fimages_path="" , Int_t fNMaxEntries=-1 );
         void        SetWorker ( TString fworker );
         void         SetDebug ( Int_t fdebug )          {debug = fdebug;};
+        void   SetNMaxEntries ( Int_t fNMaxEntries)     {NMaxEntries = fNMaxEntries;};
+
         void    SetImagesPath ( TString fimages_path )  {images_path = fimages_path;};
 
         // running
-        void  CreateEvdImages ( event_wire *, int[3], std::vector<box>, std::vector<TString> );
+        void  CreateEvdImages ( event_wire *, int[3], std::vector<std::vector<box>>, std::vector<Int_t> , std::vector<TString> , std::vector<TLorentzVector> );
         bool      LoadROIsMap ( TString , Int_t );
         
         
         
         
-        
-        Int_t       debug;
-        Int_t       RSE[3];
-        Int_t       ivtx, itrkMuon , itrkProton;
-        Int_t       run , subrun ,  event , start_w[3] , end_w[3] , start_t[3] , end_t[3];
-        
-        
+        int         time_tick ;
+
+        Int_t       debug   , TTreeEntry, NMaxEntries;
+        Int_t       ivtx    , itrkMuon  , itrkProton;
+        Int_t       run     , subrun    , event     , start_w[3]    , end_w[3]      , start_t[3]    , end_t[3];
+        Int_t       w_min[3] , w_max[3] , t_min[3]  , t_max[3]      , Nbins_w[3]    , Nbins_t[3];
+
         TString     worker  , images_path ;
+        TString     hName   , hTitle;
         
         
+        TH2F        * hROI[3];
+        TPlots      * plot;
+        MyLArTools  * lar_tools;
+
         
+        
+        Float_t     VertexMomentum;
+        
+        TVector3    VertexDirection;
+        
+        TLorentzVector muon_momentum , proton_momentum;
         
     #ifndef __CINT__
     protected:
         
+        //         run              subrun           event            vtx/µ-trk/p-trk ids
+        std::map < int , std::map < int , std::map < int , std::vector<Int_t> > > > VtxTrksIDmap;
         //         run              subrun           event            Boxes
         std::map < int , std::map < int , std::map < int , std::vector<std::vector<box>> > > > ROImap;
 

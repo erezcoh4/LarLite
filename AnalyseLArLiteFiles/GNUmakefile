@@ -10,8 +10,9 @@ OBJECTS = $(SOURCES:.cxx=.o)
 
 # include options for this package
 INCFLAGS  = -I.                       #Include itself
-INCFLAGS += -I$(LARLITE_USERDEVDIR)/mySoftware
+INCFLAGS += -I$(LARLITE_USERDEVDIR)/mySoftware/MySoftwarePackage
 INCFLAGS += -I$(LARLITE_USERDEVDIR)/MyLarLite/MyPackage
+INCFLAGS += -I$(LARLITE_USERDEVDIR)/LarLite/MyPackage
 INCFLAGS += -I$(LARLITE_USERDEVDIR)/AnalysisTreesInformation/AnaTreesPackage
 INCFLAGS += -I$(LARLITE_USERDEVDIR)/BasicTool/GeoAlgo
 

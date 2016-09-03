@@ -48,7 +48,8 @@ my_fwk.set_ana_output_file( data_Path + "/../AnaFiles/Ana_%s" % latlitefilename)
 # call the analysis unit
 ana_process = fmwk.AnalyseEvents()
 # set its important arguments (verbosity, worker, etc.)
-ana_process.SetArgs( flags.worker , flags.verbose , images_path )
+NMaxEntries = -1 if flags.evnts_frac <= 1 else int(flags.evnts_frac)
+ana_process.SetArgs( flags.worker , flags.verbose , images_path , NMaxEntries )
 # load ROIs map
 NroiPerEvent = 3
 ana_process.LoadROIsMap( roi_map_path + "/" + roi_map_name , NroiPerEvent )
