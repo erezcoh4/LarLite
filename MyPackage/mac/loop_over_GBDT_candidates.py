@@ -18,10 +18,12 @@ flags = input_flags.get_args()
 
 
 
-infilename      = "larlite_extBNB9131runs_cosmic_trained_only_on_mc_pscore_0.99_1598evts_23aug2016.root"
-roi_map_name    = "passedGBDT_extBNB_AnalysisTrees_cosmic_trained_only_on_mc_score_0.99.csv"
-
-image_name      = "cosmic_trained_only_on_mc_score_0.99"
+infilename      = "larlite_BNB_5e19POT_TrainedOn_only_MC_BNB_pscore0.99_3942evts_5nov2016.root"
+# "larlite_extBNB9131runs_cosmic_trained_only_on_mc_pscore_0.99_1598evts_23aug2016.root"
+roi_map_name    = "passedGBDT_BNB_5e19POT_AnalysisTrees_BNB_TrainedOn_only_MC_BNB_score_0.99.csv"
+# "passedGBDT_extBNB_AnalysisTrees_cosmic_trained_only_on_mc_score_0.99.csv"
+image_name      = "BNB_trained_only_on_mc_BNB_pscore_0.99"
+# "cosmic_trained_only_on_mc_score_0.99"
 production_name = "PassedGBDTFiles"
 create_images   = True
 
