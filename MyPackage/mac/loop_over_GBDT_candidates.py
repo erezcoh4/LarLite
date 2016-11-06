@@ -55,7 +55,7 @@ DATAPath  = Path + "/" + flags.DataType + "_DATA"
 
 
 
-images_path = Path+"/images/"+image_name
+images_path = Path+"../GBDTprotons/images/"+image_name
 roi_map_path = production_path+"/"+production_name;
 
 
