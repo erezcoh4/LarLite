@@ -38,7 +38,7 @@ if flags.worker == 'erez':
     n_max_entries   = 3
 
 elif flags.worker == 'uboone':
-    Path = "/uboone/data/users/ecohen/GBDTprotons"
+    Path = "/uboone/data/users/ecohen/DATA"
     production_path = "/uboone/app/users/ecohen/AnalysisTreesAna"
     n_max_entries   = -1 if flags.evnts_frac < 1 else int(flags.evnts_frac) # this means we analyze all TTree entries
 
