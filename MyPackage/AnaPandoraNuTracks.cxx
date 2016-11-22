@@ -746,7 +746,7 @@ namespace larlite {
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnaPandoraNuTracks::LoadBDTCandidates(){
-        
+        // loads a map for muon-proton vertex ROIs (3 ROIs: 1 for muon, 1 for proton, 1 for both)
         ifstream fin(Form("%s/%s",roi_map_path.Data(),roi_map_name.Data()));
         
         if (debug > 0)
