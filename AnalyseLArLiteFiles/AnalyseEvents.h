@@ -48,8 +48,8 @@ namespace larlite {
         void        SetWorker ( TString fworker );
         void         SetDebug ( Int_t fdebug )          {debug = fdebug;};
         void   SetNMaxEntries ( Int_t fNMaxEntries)     {NMaxEntries = fNMaxEntries;};
-
         void    SetImagesPath ( TString fimages_path )  {images_path = fimages_path;};
+        void   SetImageFormat ( TString fFormat="pdf" ) {ImageFormat = fFormat; }
 
         // running
         void  CreateEvdImages ( event_wire *, int[3], std::vector<std::vector<box>>, std::vector<Int_t> , std::vector<TString> , std::vector<TLorentzVector> );
@@ -65,7 +65,7 @@ namespace larlite {
         Int_t       run     , subrun    , event     , start_w[3]    , end_w[3]      , start_t[3]    , end_t[3];
         Int_t       w_min[3] , w_max[3] , t_min[3]  , t_max[3]      , Nbins_w[3]    , Nbins_t[3];
 
-        TString     worker  , images_path ;
+        TString     worker  , images_path , ImageFormat;
         TString     hName   , hTitle;
         
         

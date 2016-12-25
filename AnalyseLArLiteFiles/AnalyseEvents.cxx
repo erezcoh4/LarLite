@@ -96,13 +96,13 @@ namespace larlite {
                     if (t.ID() == itrkMuon){
                         VertexMomentum = lar_tools -> Get_muonMomentumFromRange( (t.End() - t.Vertex()).Mag() );
                         VertexDirection = t.VertexDirection();
-                        muon_momentum.SetVectMag( VertexMomentum * VertexDirection , 106 );
+                        muon_momentum.SetVectMag( VertexMomentum * VertexDirection , 105.6 );
                         if (debug > 3) SHOW3(itrkMuon,VertexMomentum,muon_momentum.P());
                     }
                     if (t.ID() == itrkProton){
                         VertexMomentum = lar_tools -> Get_protonMomentumFromRange( (t.End() - t.Vertex()).Mag() );
                         VertexDirection = t.VertexDirection();
-                        proton_momentum.SetVectMag( VertexMomentum * VertexDirection , 938 );
+                        proton_momentum.SetVectMag( VertexMomentum * VertexDirection , 938.3 );
                         if (debug > 3) SHOW3(itrkProton,VertexMomentum,proton_momentum.P());
                     }
                 }
@@ -131,8 +131,11 @@ namespace larlite {
     
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-    void AnalyseEvents::CreateEvdImages( event_wire * ev_wire , Int_t RSE[3] , std::vector<std::vector<box>> fROIs ,
-                                        std::vector<Int_t> tracks_id , std::vector<TString> fLabels , std::vector<TLorentzVector> tracks_momenta ){
+    void AnalyseEvents::CreateEvdImages( event_wire * ev_wire , Int_t RSE[3] ,
+                                        std::vector<std::vector<box>> fROIs ,
+                                        std::vector<Int_t> tracks_id ,
+                                        std::vector<TString> fLabels ,
+                                        std::vector<TLorentzVector> tracks_momenta ){
         
         if (debug > 2) { cout << "creating image for "; SHOW3( RSE[0],RSE[1],RSE[2] );}
         
@@ -194,23 +197,26 @@ namespace larlite {
             
         }
         
-        
+        TString c_image_directory = Form("%s/run%d_subrun%d_event%d",images_path.Data(),RSE[0],RSE[1],RSE[2]);
         // save the 2d histograms to images
-        if (debug > 3) std::cout << "saving images of " << Form("R%d S%d E%d",RSE[0],RSE[1],RSE[2])  << ", to " << Form("%s/Run%d_Subrun%d_Event%d",images_path.Data(),RSE[0],RSE[1],RSE[2]) << std::endl;
-        gSystem -> mkdir(Form("%s/Run%d_Subrun%d_Event%d",images_path.Data(),RSE[0],RSE[1],RSE[2]));
+        if (debug > 3) std::cout << "saving images of " + c_image_directory << std::endl;
+        gSystem -> mkdir(c_image_directory);
         TCanvas * c[3] ;
-        gStyle->SetOptStat(0000);
-        for (int plane = 0 ; plane < 3 ; plane++){
+        gStyle -> SetOptStat(0000);
+        for ( int plane = 0 ; plane < 3 ; plane++ ){
             c[plane] = new TCanvas(Form("track ROI plane %d",plane));
             c[plane] -> SetRightMargin(0.20);
             hROI[plane] -> Draw("col");
         }
+        
         // add ROIs
         std::vector<Int_t> colors = {1 , 4 , 0};
+        
         int i_roi = 0;
         for (auto ROIs : fROIs) {
             
             for (int plane = 0 ; plane < 3 ; plane++){
+            
                 ROIs[plane].start_wire -= i_roi;
                 ROIs[plane].start_time -= i_roi;
                 ROIs[plane].end_wire += i_roi;
@@ -221,18 +227,23 @@ namespace larlite {
                 double xNDC = 0.82 , yNDC = 0.9 , dyNDC = 0.05;
                 plot -> Latex( xNDC , yNDC , Form("plane %d",plane) , 1 , 0.03 );
                 if ( i_roi < tracks_momenta.size() ) {
+                    
                     plot -> ROI((double)ROIs[plane].start_wire,(double)ROIs[plane].start_time,(double)ROIs[plane].end_wire,(double)ROIs[plane].end_time , colors[i_roi]);
                     if(debug > 2) cout << "adding information about "<< Labels[i_roi] << " at plane " << plane << endl;
                     // label
                     plot -> Latex( xNDC , yNDC - (1+4*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
                     // direction
+                    plot -> Latex( xNDC , yNDC - (2+4*i_roi)*dyNDC  ,
+                                  Form("(%d,%d)=>(%d,%d)",
+                                       ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.03 );
                     TVector3 dir = tracks_momenta[i_roi].Vect().Unit();
-                    plot -> Latex( xNDC , yNDC - (2+4*i_roi)*dyNDC  , Form("dir. (%.1f,%.1f,%.1f)",dir.x(),dir.y(),dir.z()) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (3+4*i_roi)*dyNDC  , Form("dir. (%.2f,%.2f,%.2f)",dir.x(),dir.y(),dir.z()) , colors[i_roi] , 0.03 );
+                    
                     // momentum and kinetic energy
                     double p = tracks_momenta[i_roi].P() / 1000. , pErr = 0.05*p;
                     double K = (tracks_momenta[i_roi].E()- tracks_momenta[i_roi].M()) / 1000. , KErr = 0.05*K;
-                    plot -> Latex( xNDC , yNDC - (3+4*i_roi)*dyNDC , Form("p: %.2f(%.0f) GeV/c", p , 100*pErr ) , colors[i_roi] , 0.03 );
-                    plot -> Latex( xNDC , yNDC - (4+4*i_roi)*dyNDC , Form("K: %.2f(%.0f) GeV" , K , 100*KErr ) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (4+4*i_roi)*dyNDC , Form("p: %.3f(%.0f) GeV/c", p , 100*pErr ) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (5+4*i_roi)*dyNDC , Form("K: %.3f(%.0f) GeV" , K , 100*KErr ) , colors[i_roi] , 0.03 );
                 }
             }
             
@@ -242,7 +253,8 @@ namespace larlite {
         
         // save and delete
         for (int plane = 0 ; plane < 3 ; plane++){
-            c[plane] -> SaveAs(Form("%s/Run%d_Subrun%d_Event%d/ROI_plane%d.pdf",images_path.Data(),RSE[0],RSE[1],RSE[2],plane));
+            c[plane] -> SaveAs(Form("%s/Run%d_Subrun%d_Event%d/ROI_plane%d.%s",
+                                    images_path.Data(),RSE[0],RSE[1],RSE[2],plane,ImageFormat.Data()));
             delete c[plane];
         }
         
