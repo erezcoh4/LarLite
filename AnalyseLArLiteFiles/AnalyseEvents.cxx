@@ -316,8 +316,9 @@ namespace larlite {
         if (debug > 0) std::cout << "loading data from file \n" << ROIMapName << endl;
         
         // Read one line at a time.
-        string line ;
+        string line;
         std::vector<box> ROIs;
+        getline(fin, line); // header line
         
         while ( getline(fin, line) ) {
             
