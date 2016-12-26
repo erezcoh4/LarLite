@@ -334,7 +334,7 @@ namespace larlite {
         std::vector<box> ROIs;
         getline(fin, line, '\n'); // header line
         cout << "header line:" <<  line ;
-
+        
         while ( getline(fin, line) ) {
             
 //            istringstream ss(line);
@@ -342,6 +342,7 @@ namespace larlite {
 //            ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
             std::stringstream  lineStream(line);
             std::string        cell;
+            std::vector<int> input;
             while(std::getline(lineStream,cell,','))
             {
                 cout << cell << endl;
