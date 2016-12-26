@@ -339,10 +339,11 @@ namespace larlite {
             
             istringstream ss(line);
             cout << "line:" <<  line  << endl;
-            cout << "ss:" <<  ss  << endl;
             ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
-            cout << "run:" <<  run  << endl;
-
+            if (debug > 3) {
+                SHOW3(run,  subrun ,   event);
+                SHOW3(ivtx , itrkMuon , itrkProton);
+            }
 //            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
 
             std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
