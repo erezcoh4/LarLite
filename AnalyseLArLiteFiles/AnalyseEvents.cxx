@@ -335,11 +335,20 @@ namespace larlite {
         getline(fin, line, '\n'); // header line
         cout << "header line:" <<  line ;
 
-        while ( getline(fin, line , ',') ) {
+        while ( getline(fin, line) ) {
             
-            istringstream ss(line);
-            cout << "line:" <<  line  << endl;
-            ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
+//            istringstream ss(line);
+//            cout << "line:" <<  line  << endl;
+//            ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
+            std::stringstream  lineStream(line);
+            std::string        cell;
+            while(std::getline(lineStream,cell,','))
+            {
+                cout << cell << endl;
+                input.push_back(cell);
+            }
+            run = input[0];  subrun = input[1];    event = input[2];
+            ivtx = input[3]; itrkMuon = input[4]; itrkProton = input[5];
             if (debug > 3) {
                 SHOW3(run,  subrun ,   event);
                 SHOW3(ivtx , itrkMuon , itrkProton);
