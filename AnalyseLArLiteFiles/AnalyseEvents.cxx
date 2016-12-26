@@ -281,9 +281,9 @@ namespace larlite {
                     
                     // lines of the pandoraNu tracking
                     if (Labels[i_roi] == "Sel. II #mu-track")
-                    {plot -> Line( mu_start_wire[plane] , mu_start_time[plane] , mu_end_wire[plane] , mu_end_time[plane] , colors[i_roi] , 2 );}
+                    {plot -> Line( mu_start_wire[plane] , mu_start_time[plane] , mu_end_wire[plane] , mu_end_time[plane] , colors[i_roi] , 1 , 3 );}
                     else if (Labels[i_roi] == "GBDT p-track")
-                    {plot -> Line( p_start_wire[plane] , p_start_time[plane] , p_end_wire[plane] , p_end_time[plane] , colors[i_roi] , 2 );}
+                    {plot -> Line( p_start_wire[plane] , p_start_time[plane] , p_end_wire[plane] , p_end_time[plane] , colors[i_roi] , 1 , 3 );}
                     
 
                 }
