@@ -231,19 +231,19 @@ namespace larlite {
                     plot -> ROI((double)ROIs[plane].start_wire,(double)ROIs[plane].start_time,(double)ROIs[plane].end_wire,(double)ROIs[plane].end_time , colors[i_roi]);
                     if(debug > 2) cout << "adding information about "<< Labels[i_roi] << " at plane " << plane << endl;
                     // label
-                    plot -> Latex( xNDC , yNDC - (1+4*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (1+5*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
                     // direction
-                    plot -> Latex( xNDC , yNDC - (2+4*i_roi)*dyNDC  ,
+                    plot -> Latex( xNDC , yNDC - (2+5*i_roi)*dyNDC  ,
                                   Form("(%d,%d)=>(%d,%d)",
-                                       ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.03 );
+                                       ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.015 );
                     TVector3 dir = tracks_momenta[i_roi].Vect().Unit();
-                    plot -> Latex( xNDC , yNDC - (3+4*i_roi)*dyNDC  , Form("dir. (%.2f,%.2f,%.2f)",dir.x(),dir.y(),dir.z()) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (3+5*i_roi)*dyNDC  , Form("dir. (%.2f,%.2f,%.2f)",dir.x(),dir.y(),dir.z()) , colors[i_roi] , 0.03 );
                     
                     // momentum and kinetic energy
                     double p = tracks_momenta[i_roi].P() / 1000. , pErr = 0.05*p;
                     double K = (tracks_momenta[i_roi].E()- tracks_momenta[i_roi].M()) / 1000. , KErr = 0.05*K;
-                    plot -> Latex( xNDC , yNDC - (4+4*i_roi)*dyNDC , Form("p: %.3f(%.0f) GeV/c", p , 100*pErr ) , colors[i_roi] , 0.03 );
-                    plot -> Latex( xNDC , yNDC - (5+4*i_roi)*dyNDC , Form("K: %.3f(%.0f) GeV" , K , 100*KErr ) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (4+5*i_roi)*dyNDC , Form("p: %.3f(%.0f) GeV/c", p , 100*pErr ) , colors[i_roi] , 0.03 );
+                    plot -> Latex( xNDC , yNDC - (5+5*i_roi)*dyNDC , Form("K: %.3f(%.0f) GeV" , K , 100*KErr ) , colors[i_roi] , 0.03 );
                 }
             }
             
