@@ -332,9 +332,9 @@ namespace larlite {
         // Read one line at a time.
         string line , tmp;
         std::vector<box> ROIs;
-        getline(fin, line); // header line
+        getline(fin, line, ','); // header line
         
-        while ( getline(fin, line) ) {
+        while ( getline(fin, line , ',') ) {
             
             istringstream ss(line);
             cout << "ss:" <<  ss ;
