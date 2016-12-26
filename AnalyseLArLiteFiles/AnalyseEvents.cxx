@@ -335,7 +335,6 @@ namespace larlite {
         string line , tmp;
         std::vector<box> ROIs;
         getline(fin, line, '\n'); // header line
-        cout << "header line:" <<  line ;
         
         while ( getline(fin, line) ) {
             
