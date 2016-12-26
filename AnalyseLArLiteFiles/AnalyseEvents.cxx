@@ -346,7 +346,10 @@ namespace larlite {
             while(std::getline(lineStream,cell,','))
             {
                 cout << cell << endl;
-                input.push_back(cell);
+                istringstream ss(cell);
+
+                
+                input.push_back(ss);
             }
             run = input[0];  subrun = input[1];    event = input[2];
             ivtx = input[3]; itrkMuon = input[4]; itrkProton = input[5];
