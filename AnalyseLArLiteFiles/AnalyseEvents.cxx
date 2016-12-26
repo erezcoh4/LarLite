@@ -349,26 +349,27 @@ namespace larlite {
             }
             run = input[0];  subrun = input[1];    event = input[2];
             ivtx = input[3]; itrkMuon = input[4]; itrkProton = input[5];
+            
             if (debug > 3) {
                 SHOW3(run,  subrun ,   event);
                 SHOW3(ivtx , itrkMuon , itrkProton);
             }
 //            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
 
-            std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
-            VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
-
-            for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
-                
-                if (!ROIs.empty()) ROIs.clear();
-                
-                for (int plane = 0 ; plane < 3 ; plane ++ ) {
-                    ss  >>  start_w[plane] >>  start_t[plane] >> end_w[plane] >> end_t[plane];
-                    ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
-                }
-                
-                ROImap[run][subrun][event].push_back( ROIs );
-            }
+//            std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
+//            VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
+//
+//            for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
+//                
+//                if (!ROIs.empty()) ROIs.clear();
+//                
+//                for (int plane = 0 ; plane < 3 ; plane ++ ) {
+//                    ss  >>  start_w[plane] >>  start_t[plane] >> end_w[plane] >> end_t[plane];
+//                    ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
+//                }
+//                
+//                ROImap[run][subrun][event].push_back( ROIs );
+//            }
         }
         // check
         if (debug > 3) {
