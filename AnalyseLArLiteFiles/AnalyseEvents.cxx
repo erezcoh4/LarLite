@@ -267,7 +267,7 @@ namespace larlite {
                     plot -> Latex( xNDC , yNDC - (1+5*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
                     // ROI box
                     if (debug > 2) {
-                        cout << Labels[i_roi] << " ROI from rois-file: " << 
+                        cout << Labels[i_roi] << " ROI from rois-file: " <<
                         Form("(%d,%d)->(%d,%d)",ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time)
                         << endl;
                     }
@@ -338,6 +338,8 @@ namespace larlite {
         
         while ( getline(fin, line) ) {
             
+            
+            // read all the cells in the line
             std::stringstream  lineStream(line);
             std::string        cell;
             int in;
@@ -348,14 +350,11 @@ namespace larlite {
                 ss >> in;
                 input.push_back(in);
             }
+            
+            // plug the cells into the proper variables
             run = input[0];  subrun = input[1];    event = input[2];
             ivtx = input[3]; itrkMuon = input[4]; itrkProton = input[5];
             
-            if (debug > 3) {
-                SHOW3(run,  subrun ,   event);
-                SHOW3(ivtx , itrkMuon , itrkProton);
-            }
-
             std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
             VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
 
@@ -364,10 +363,10 @@ namespace larlite {
                 if (!ROIs.empty()) ROIs.clear();
                 
                 for (int plane = 0 ; plane < 3 ; plane ++ ) {
-                    start_w[plane] = input[6 + 4*plane + 0];
-                    start_t[plane] = input[6 + 4*plane + 1];
-                    end_w[plane]   = input[6 + 4*plane + 2];
-                    end_t[plane]   = input[6 + 4*plane + 3];
+                    start_w[plane] = input[6 + 4*(plane+3*i_roi) + 0];
+                    start_t[plane] = input[6 + 4*(plane+3*i_roi) + 1];
+                    end_w[plane]   = input[6 + 4*(plane+3*i_roi) + 2];
+                    end_t[plane]   = input[6 + 4*(plane+3*i_roi) + 3];
                     ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
                 }
                 
@@ -375,7 +374,7 @@ namespace larlite {
             }
         }
         // check
-        if (debug > 3) {
+        if (debug > 2) {
             for(auto it : ROImap) {
                 std::cout << "run "  << it.first ;
                 for(auto inner_it : it.second ) {
