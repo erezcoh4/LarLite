@@ -267,7 +267,7 @@ namespace larlite {
                     plot -> Latex( xNDC , yNDC - (1+5*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
                     // ROI box
                     if (debug > 2) {
-                        cout << Labels[i_roi] << " ROI from rois-file: "
+                        cout << Labels[i_roi] << " ROI from rois-file: " << 
                         Form("(%d,%d)->(%d,%d)",ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time)
                         << endl;
                     }
