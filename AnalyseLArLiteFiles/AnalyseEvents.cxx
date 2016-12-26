@@ -346,10 +346,8 @@ namespace larlite {
             std::vector<int> input;
             while(std::getline(lineStream,cell,','))
             {
-                cout << cell << endl;
                 istringstream ss(cell);
                 ss >> in;
-                
                 input.push_back(in);
             }
             run = input[0];  subrun = input[1];    event = input[2];
@@ -361,20 +359,24 @@ namespace larlite {
             }
 //            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
 
-//            std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
-//            VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
-//
-//            for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
-//                
-//                if (!ROIs.empty()) ROIs.clear();
-//                
-//                for (int plane = 0 ; plane < 3 ; plane ++ ) {
+            std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
+            VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
+
+            for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
+                
+                if (!ROIs.empty()) ROIs.clear();
+                
+                for (int plane = 0 ; plane < 3 ; plane ++ ) {
+                    start_w[plane] = input[6 + 4*plane + 0];
+                    start_t[plane] = input[6 + 4*plane + 1];
+                    end_w[plane]   = input[6 + 4*plane + 2];
+                    end_t[plane]   = input[6 + 4*plane + 3];
 //                    ss  >>  start_w[plane] >>  start_t[plane] >> end_w[plane] >> end_t[plane];
-//                    ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
-//                }
-//                
-//                ROImap[run][subrun][event].push_back( ROIs );
-//            }
+                    ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
+                }
+                
+                ROImap[run][subrun][event].push_back( ROIs );
+            }
         }
         // check
         if (debug > 3) {
