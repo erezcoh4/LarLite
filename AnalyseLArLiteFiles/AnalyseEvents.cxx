@@ -333,11 +333,12 @@ namespace larlite {
         string line , tmp;
         std::vector<box> ROIs;
         getline(fin, line, '\n'); // header line
-        
+        cout << "header line:" <<  line ;
+
         while ( getline(fin, line , '\n') ) {
             
             istringstream ss(line);
-            cout << "ss:" <<  ss ;
+            cout << "ss:" <<  ss  << endl;
             ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
             
 //            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
