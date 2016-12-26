@@ -342,14 +342,15 @@ namespace larlite {
 //            ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
             std::stringstream  lineStream(line);
             std::string        cell;
+            int in;
             std::vector<int> input;
             while(std::getline(lineStream,cell,','))
             {
                 cout << cell << endl;
                 istringstream ss(cell);
-
+                ss >> in;
                 
-                input.push_back(ss);
+                input.push_back(in);
             }
             run = input[0];  subrun = input[1];    event = input[2];
             ivtx = input[3]; itrkMuon = input[4]; itrkProton = input[5];
