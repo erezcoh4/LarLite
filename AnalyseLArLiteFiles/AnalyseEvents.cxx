@@ -337,9 +337,6 @@ namespace larlite {
         
         while ( getline(fin, line) ) {
             
-//            istringstream ss(line);
-//            cout << "line:" <<  line  << endl;
-//            ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
             std::stringstream  lineStream(line);
             std::string        cell;
             int in;
@@ -357,7 +354,6 @@ namespace larlite {
                 SHOW3(run,  subrun ,   event);
                 SHOW3(ivtx , itrkMuon , itrkProton);
             }
-//            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
 
             std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
             VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
@@ -371,7 +367,6 @@ namespace larlite {
                     start_t[plane] = input[6 + 4*plane + 1];
                     end_w[plane]   = input[6 + 4*plane + 2];
                     end_t[plane]   = input[6 + 4*plane + 3];
-//                    ss  >>  start_w[plane] >>  start_t[plane] >> end_w[plane] >> end_t[plane];
                     ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
                 }
                 
