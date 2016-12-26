@@ -146,7 +146,7 @@ namespace larlite {
         // define the 2-d histogram
         for (int plane = 0 ; plane < 3; plane++) {
             hName   = Form("r%d_s%d_e%d_p%d", RSE[0] , RSE[1] , RSE[2] , plane);
-            hTitle  = Form("Run-%d/Subrun-%d/Event-%d/plane-%d", RSE[0] , RSE[1] , RSE[2] , plane);
+            hTitle  = Form("run-%d/subrun-%d/event-%d/plane-%d", RSE[0] , RSE[1] , RSE[2] , plane);
             
             w_min[plane] = LargestBox[plane].start_wire  - 20;
             w_max[plane] = LargestBox[plane].end_wire    + 20;
@@ -253,7 +253,7 @@ namespace larlite {
         
         // save and delete
         for (int plane = 0 ; plane < 3 ; plane++){
-            c[plane] -> SaveAs(Form("%s/Run%d_Subrun%d_Event%d/ROI_plane%d.%s",
+            c[plane] -> SaveAs(Form("%s/run%d_subrun%d_event%d/ROI_plane%d.%s",
                                     images_path.Data(),RSE[0],RSE[1],RSE[2],plane,ImageFormat.Data()));
             delete c[plane];
         }
