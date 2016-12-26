@@ -265,10 +265,14 @@ namespace larlite {
                     if(debug > 2) cout << "adding information about "<< Labels[i_roi] << " at plane " << plane << endl;
                     // label
                     plot -> Latex( xNDC , yNDC - (1+5*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
-                    // direction
+                    // ROI box
+                    if (debug > 2) { cout <<
+                    Form("(%d,%d)->(%d,%d)",ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time)
+                        << endl;}
                     plot -> Latex( xNDC , yNDC - (2+5*i_roi)*dyNDC  ,
                                   Form("(%d,%d)->(%d,%d)",
                                        ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.02 );
+                    // direction
                     TVector3 dir = tracks_momenta[i_roi].Vect().Unit();
                     plot -> Latex( xNDC , yNDC - (3+5*i_roi)*dyNDC  , Form("dir. (%.2f,%.2f,%.2f)",dir.x(),dir.y(),dir.z()) , colors[i_roi] , 0.03 );
                     
@@ -281,9 +285,19 @@ namespace larlite {
                     
                     // lines of the pandoraNu tracking
                     if (Labels[i_roi] == "Sel. II #mu-track")
-                    {plot -> Line( mu_start_wire[plane] , mu_start_time[plane] , mu_end_wire[plane] , mu_end_time[plane] , colors[i_roi] , 1 , 3 );}
+                    {
+                        if (debug > 2) { cout <<
+                            Form("muon: (%d,%d)->(%d,%d)",mu_start_wire[plane],mu_start_time[plane],mu_end_wire[plane],mu_end_time[plane])
+                            << endl; }
+                        plot -> Line( mu_start_wire[plane] , mu_start_time[plane] , mu_end_wire[plane] , mu_end_time[plane] , colors[i_roi] , 1 , 3 );
+                    }
                     else if (Labels[i_roi] == "GBDT p-track")
-                    {plot -> Line( p_start_wire[plane] , p_start_time[plane] , p_end_wire[plane] , p_end_time[plane] , colors[i_roi] , 1 , 3 );}
+                    {
+                        if (debug > 2) { cout <<
+                            Form("proton: (%d,%d)->(%d,%d)",p_start_wire[plane],p_start_time[plane],p_end_wire[plane],p_end_time[plane])
+                            << endl; }
+
+                        plot -> Line( p_start_wire[plane] , p_start_time[plane] , p_end_wire[plane] , p_end_time[plane] , colors[i_roi] , 1 , 3 );}
                     
 
                 }
