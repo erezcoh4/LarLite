@@ -330,15 +330,17 @@ namespace larlite {
         if (debug > 0) std::cout << "loading data from file \n" << ROIMapName << endl;
         
         // Read one line at a time.
-        string line;
+        string line , tmp;
         std::vector<box> ROIs;
         getline(fin, line); // header line
         
         while ( getline(fin, line) ) {
             
             istringstream ss(line);
+            cout << "ss:" <<  ss ;
+            ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
             
-            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
+//            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
 
             std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
             VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
