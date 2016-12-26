@@ -58,7 +58,7 @@ namespace ROOT {
       ::larlite::AnalyseEvents *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::larlite::AnalyseEvents));
       static ::ROOT::TGenericClassInfo 
-         instance("larlite::AnalyseEvents", "AnalyseEvents.h", 32,
+         instance("larlite::AnalyseEvents", "AnalyseEvents.h", 33,
                   typeid(::larlite::AnalyseEvents), DefineBehavior(ptr, ptr),
                   &larlitecLcLAnalyseEvents_Dictionary, isa_proxy, 0,
                   sizeof(::larlite::AnalyseEvents) );

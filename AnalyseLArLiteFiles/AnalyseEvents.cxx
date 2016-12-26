@@ -5,6 +5,7 @@
 #include "TPlots.cxx"
 #include "MyLArTools.cxx"
 #include "TSystem.h"
+#include "LArUtil/GeometryHelper.h"
 
 namespace larlite {
     
@@ -78,6 +79,7 @@ namespace larlite {
             auto const& ROIs = (*event_iter).second;
 
             if (ev_track){
+                mutrack_vertex = mutrack_end = ptrack_vertex = ptrack_end = TVector3();
                 
                 auto run_iter = VtxTrksIDmap.find(run);
                 if(run_iter == VtxTrksIDmap.end())          return false;
@@ -94,12 +96,17 @@ namespace larlite {
                 // loop over the tracks
                 for (auto const& t: *ev_track){
                     if (t.ID() == itrkMuon){
+                        mutrack_vertex = t.Vertex();
+                        mutrack_end = t.End();
                         VertexMomentum = lar_tools -> Get_muonMomentumFromRange( (t.End() - t.Vertex()).Mag() );
                         VertexDirection = t.VertexDirection();
                         muon_momentum.SetVectMag( VertexMomentum * VertexDirection , 105.6 );
                         if (debug > 3) SHOW3(itrkMuon,VertexMomentum,muon_momentum.P());
                     }
                     if (t.ID() == itrkProton){
+                        ptrack_vertex = t.Vertex();
+                        ptrack_end = t.End();
+
                         VertexMomentum = lar_tools -> Get_protonMomentumFromRange( (t.End() - t.Vertex()).Mag() );
                         VertexDirection = t.VertexDirection();
                         proton_momentum.SetVectMag( VertexMomentum * VertexDirection , 938.3 );
@@ -212,6 +219,32 @@ namespace larlite {
         // add ROIs
         std::vector<Int_t> colors = {1 , 4 , 0};
         
+        // load GeometryHelper utility
+        auto geomHelper = ::larutil::GeometryHelper::GetME();
+        double mu_start_xyz[3] = {mutrack_vertex.x() , mutrack_vertex.y() , mutrack_vertex.z() };
+        double mu_end_xyz[3] = {mutrack_end.x() , mutrack_end.y() , mutrack_end.z() };
+        double p_start_xyz[3] = {ptrack_vertex.x() , ptrack_vertex.y() , ptrack_vertex.z() };
+        double p_end_xyz[3] = {ptrack_end.x() , ptrack_end.y() , ptrack_end.z() };
+        double time_shift =  802;
+        int mu_start_wire[3] , mu_start_time[3] , mu_end_wire[3] , mu_end_time[3];
+        int p_start_wire[3] , p_start_time[3] , p_end_wire[3] , p_end_time[3];
+        
+        for (int plane = 0 ; plane < 3 ; plane++){
+            auto const& mu_start_projection2D = geomHelper->Point_3Dto2D(mu_start_xyz, plane);
+            auto const& mu_end_projection2D = geomHelper->Point_3Dto2D(mu_end_xyz, plane);
+            mu_start_wire[plane] = (int) ( mu_start_projection2D.w / geomHelper->WireToCm() );
+            mu_start_time[plane] = (int) ( mu_start_projection2D.t / geomHelper->TimeToCm() ) + time_shift;
+            mu_end_wire[plane] = (int) ( mu_end_projection2D.w / geomHelper->WireToCm() );
+            mu_end_time[plane] = (int) ( mu_end_projection2D.t / geomHelper->TimeToCm() ) + time_shift;
+            
+            auto const& p_start_projection2D = geomHelper->Point_3Dto2D(p_start_xyz, plane);
+            auto const& p_end_projection2D = geomHelper->Point_3Dto2D(p_end_xyz, plane);
+            p_start_wire[plane] = (int) ( p_start_projection2D.w / geomHelper->WireToCm() );
+            p_start_time[plane] = (int) ( p_start_projection2D.t / geomHelper->TimeToCm() ) + time_shift;
+            p_end_wire[plane] = (int) ( p_end_projection2D.w / geomHelper->WireToCm() );
+            p_end_time[plane] = (int) ( p_end_projection2D.t / geomHelper->TimeToCm() ) + time_shift;
+        }
+
         int i_roi = 0;
         for (auto ROIs : fROIs) {
             
@@ -234,8 +267,8 @@ namespace larlite {
                     plot -> Latex( xNDC , yNDC - (1+5*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
                     // direction
                     plot -> Latex( xNDC , yNDC - (2+5*i_roi)*dyNDC  ,
-                                  Form("(%d,%d)=>(%d,%d)",
-                                       ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.015 );
+                                  Form("(%d,%d)->(%d,%d)",
+                                       ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.02 );
                     TVector3 dir = tracks_momenta[i_roi].Vect().Unit();
                     plot -> Latex( xNDC , yNDC - (3+5*i_roi)*dyNDC  , Form("dir. (%.2f,%.2f,%.2f)",dir.x(),dir.y(),dir.z()) , colors[i_roi] , 0.03 );
                     
@@ -244,6 +277,15 @@ namespace larlite {
                     double K = (tracks_momenta[i_roi].E()- tracks_momenta[i_roi].M()) / 1000. , KErr = 0.05*K;
                     plot -> Latex( xNDC , yNDC - (4+5*i_roi)*dyNDC , Form("p: %.3f(%.0f) GeV/c", p , 100*pErr ) , colors[i_roi] , 0.03 );
                     plot -> Latex( xNDC , yNDC - (5+5*i_roi)*dyNDC , Form("K: %.3f(%.0f) GeV" , K , 100*KErr ) , colors[i_roi] , 0.03 );
+                    
+                    
+                    // lines of the pandoraNu tracking
+                    if (Labels[i_roi] == "Sel. II #mu-track")
+                    {plot -> Line( mu_start_wire[plane] , mu_start_time[plane] , mu_end_wire[plane] , mu_end_time[plane] , colors[i_roi] , 2 );}
+                    else if (Labels[i_roi] == "GBDT p-track")
+                    {plot -> Line( p_start_wire[plane] , p_start_time[plane] , p_end_wire[plane] , p_end_time[plane] , colors[i_roi] , 2 );}
+                    
+
                 }
             }
             

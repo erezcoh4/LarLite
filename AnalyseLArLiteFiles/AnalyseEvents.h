@@ -23,6 +23,7 @@
 #include "DataFormat/track.h"
 #include "DataFormat/wire.h"
 
+#include "LArUtil/Geometry.h"
 
 namespace larlite {
     /**
@@ -78,6 +79,7 @@ namespace larlite {
         Float_t     VertexMomentum;
         
         TVector3    VertexDirection;
+        TVector3    mutrack_vertex , mutrack_end , ptrack_vertex , ptrack_end;
         
         TLorentzVector muon_momentum , proton_momentum;
         
