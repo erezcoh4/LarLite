@@ -338,9 +338,11 @@ namespace larlite {
         while ( getline(fin, line , '\n') ) {
             
             istringstream ss(line);
+            cout << "line:" <<  line  << endl;
             cout << "ss:" <<  ss  << endl;
             ss >> run >> tmp >> subrun >> tmp >>  event >> tmp >> ivtx >> tmp >> itrkMuon >> tmp >> itrkProton;
-            
+            cout << "run:" <<  run  << endl;
+
 //            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
 
             std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
