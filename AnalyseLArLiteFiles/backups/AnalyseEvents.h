@@ -57,11 +57,11 @@ namespace larlite {
         void     SetDoExtractInfo ( bool fDoExtractTracks)  {DoExtractTracks = fDoExtractTracks;};
         void     SetFeaturesFName ( TString fname)          {FeaturesFileName = fname; };
         void       SetImageFormat ( TString fFormat="pdf" ) {ImageFormat = fFormat; }
-        
+
         // running
         void      CreateEvdImages ( event_wire *, int[3], std::vector<std::vector<box>>,
                                    std::vector<Int_t> , std::vector<TString> , std::vector<TLorentzVector> );
-        bool          LoadROIsMap ( TString , Int_t n = 3 );
+        bool          LoadROIsMap ( TString , Int_t n = 0 );
         bool    ExtractTracksInfo ();
         bool  ExtractTracksHeader ();
         
@@ -88,7 +88,9 @@ namespace larlite {
         TVector3    VertexDirection;
         TVector3    mutrack_vertex , mutrack_end , ptrack_vertex , ptrack_end;
         
+        
         TLorentzVector muon_momentum , proton_momentum;
+        
         
         ofstream fout;
     #ifndef __CINT__

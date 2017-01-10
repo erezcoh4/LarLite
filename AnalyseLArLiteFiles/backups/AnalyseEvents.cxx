@@ -47,11 +47,11 @@ namespace larlite {
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::InitFeaturesFile(){
-        fout.open (FeaturesFileName);
+        fout = ofstream( FeaturesFileName );
         ExtractTracksHeader();
         return true;
     }
-
+    
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::analyze(storage_manager* storage) {
     
@@ -118,18 +118,18 @@ namespace larlite {
                         VertexMomentum = lar_tools -> Get_muonMomentumFromRange( (t.End() - t.Vertex()).Mag() );
                         VertexDirection = t.VertexDirection();
                         muon_momentum.SetVectMag( VertexMomentum * VertexDirection , 105.6 );
-                        
+
                         if (debug > 3) SHOW3(itrkMuon,VertexMomentum,muon_momentum.P());
                     }
                     if (t.ID() == itrkProton){
                         found_proton = true;
                         ptrack_vertex = t.Vertex();
                         ptrack_end = t.End();
-                        
+
                         VertexMomentum = lar_tools -> Get_protonMomentumFromRange( (t.End() - t.Vertex()).Mag() );
                         VertexDirection = t.VertexDirection();
                         proton_momentum.SetVectMag( VertexMomentum * VertexDirection , 938.3 );
-                        
+
                         if (debug > 3) SHOW3(itrkProton,VertexMomentum,proton_momentum.P());
                     }
                 }
@@ -150,7 +150,7 @@ namespace larlite {
             if (DoExtractTracks) {
                 ExtractTracksInfo();
             }
-            
+
             
             
         }
@@ -160,7 +160,6 @@ namespace larlite {
     
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::finalize() {
-        fout.close();
          return true;
     }
     
@@ -294,11 +293,9 @@ namespace larlite {
                     // label
                     plot -> Latex( xNDC , yNDC - (1+5*i_roi)*dyNDC , Labels[i_roi] + Form(" [t %d]",tracks_id[i_roi]) , colors[i_roi] , 0.03 );
                     // ROI box
-                    if (debug > 2) {
-                        cout << Labels[i_roi] << " ROI from rois-file: " <<
-                        Form("(%d,%d)->(%d,%d)",ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time)
-                        << endl;
-                    }
+                    if (debug > 2) { cout <<
+                    Form("(%d,%d)->(%d,%d)",ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time)
+                        << endl;}
                     plot -> Latex( xNDC , yNDC - (2+5*i_roi)*dyNDC  ,
                                   Form("(%d,%d)->(%d,%d)",
                                        ROIs[plane].start_wire,ROIs[plane].start_time,ROIs[plane].end_wire,ROIs[plane].end_time) , colors[i_roi] , 0.02 );
@@ -317,14 +314,14 @@ namespace larlite {
                     if (Labels[i_roi] == "Sel. II #mu-track")
                     {
                         if (debug > 2) { cout <<
-                            Form("muon ROI from track information: (%d,%d)->(%d,%d)",mu_start_wire[plane],mu_start_time[plane],mu_end_wire[plane],mu_end_time[plane])
+                            Form("muon: (%d,%d)->(%d,%d)",mu_start_wire[plane],mu_start_time[plane],mu_end_wire[plane],mu_end_time[plane])
                             << endl; }
                         plot -> Line( mu_start_wire[plane] , mu_start_time[plane] , mu_end_wire[plane] , mu_end_time[plane] , colors[i_roi] , 1 , 3 );
                     }
                     else if (Labels[i_roi] == "GBDT p-track")
                     {
                         if (debug > 2) { cout <<
-                            Form("proton ROI from track information: (%d,%d)->(%d,%d)",p_start_wire[plane],p_start_time[plane],p_end_wire[plane],p_end_time[plane])
+                            Form("proton: (%d,%d)->(%d,%d)",p_start_wire[plane],p_start_time[plane],p_end_wire[plane],p_end_time[plane])
                             << endl; }
 
                         plot -> Line( p_start_wire[plane] , p_start_time[plane] , p_end_wire[plane] , p_end_time[plane] , colors[i_roi] , 1 , 3 );}
@@ -351,26 +348,23 @@ namespace larlite {
     }
     
     
-    
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::ExtractTracksHeader(){
         
         fout
-        << "run"          << ',' << "subrun"        << ',' << "event"           << ','
+        << "run"          << ',' << "subrun"        << ',' << "event"  << ','
         << "ivtx"         << ',' << "itrk_NuSelMuon"<< ',' << "itrk_GBDTproton" << ','
-        << "mu_P"         << ',' << "mu_theta"      << ',' << "mu_phi"          << ','
-        << "mu_Px"        << ',' << "mu_Py"         << ',' << "mu_Pz"           << ','
-        << "mu_start_x"   << ',' << "mu_start_y"    << ',' << "mu_start_z"      << ','
-        << "mu_end_x"     << ',' << "mu_end_y"      << ',' << "mu_end_z"        << ','
-        << "p_P"          << ',' << "p_theta"       << ',' << "p_phi"           << ','
-        << "p_Px"         << ',' << "p_Py"          << ',' << "p_Pz"            << ','
-        << "p_start_x"    << ',' << "p_start_y"     << ',' << "p_start_z"       << ','
+        << "mu_P"         << ',' << "mu_theta"      << ',' << "mu_phi" << ','
+        << "mu_start_x"   << ',' << "mu_start_y"    << ',' << "mu_start_z" << ','
+        << "mu_end_x"     << ',' << "mu_end_y"      << ',' << "mu_end_z" << ','
+        << "p_P"          << ',' << "p_theta"       << ',' << "p_phi" << ','
+        << "p_start_x"    << ',' << "p_start_y"     << ',' << "p_start_z" << ','
         << "p_end_x"      << ',' << "p_end_y"       << ',' << "p_end_z"
         << endl;
         
         return true;
     }
-    
+
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
     bool AnalyseEvents::ExtractTracksInfo(){
         
@@ -379,16 +373,14 @@ namespace larlite {
         fout
         << run          << ',' << subrun        << ',' << event  << ','
         << ivtx         << ',' << itrkMuon<< ',' << itrkProton << ','
-        << muon_momentum.P()   << ',' << muon_momentum.Theta()  << ',' << muon_momentum.Phi()   << ','
-        << muon_momentum.Px()  << ',' << muon_momentum.Py()     << ',' << muon_momentum.Pz()    << ','
-        << mutrack_vertex.x()  << ',' << mutrack_vertex.y()     << ',' << mutrack_vertex.z()    << ','
-        << mutrack_end.x()     << ',' << mutrack_end.y()        << ',' << mutrack_end.z()       << ','
+        << muon_momentum.P()   << ',' << muon_momentum.Theta()  << ',' << muon_momentum.Phi() << ','
+        << mutrack_vertex.x()  << ',' << mutrack_vertex.y()     << ',' << mutrack_vertex.z() << ','
+        << mutrack_end.x()     << ',' << mutrack_end.y()        << ',' << mutrack_end.z() << ','
         << proton_momentum.P() << ',' << proton_momentum.Theta()<< ',' << proton_momentum.Phi() << ','
-        << proton_momentum.Px()<< ',' << proton_momentum.Py()   << ',' << proton_momentum.Pz()  << ','
-        << ptrack_vertex.x()   << ',' << ptrack_vertex.y()      << ',' << ptrack_vertex.z()     << ','
-        << ptrack_end.x()      << ',' << ptrack_end.y()         << ',' << ptrack_end.z() 
+        << ptrack_vertex.x()   << ',' << ptrack_vertex.y()      << ',' << ptrack_vertex.z() << ','
+        << ptrack_end.x()      << ',' << ptrack_end.y()         << ',' << ptrack_end.z() << ','
         << endl;
-        
+
         return true;
     }
     
@@ -401,29 +393,16 @@ namespace larlite {
         if (debug > 0) std::cout << "loading data from file \n" << ROIMapName << endl;
         
         // Read one line at a time.
-        string line , tmp;
+        string line;
         std::vector<box> ROIs;
-        getline(fin, line, '\n'); // header line
+        getline(fin, line); // header line
         
         while ( getline(fin, line) ) {
             
+            istringstream ss(line);
             
-            // read all the cells in the line
-            std::stringstream  lineStream(line);
-            std::string        cell;
-            int in;
-            std::vector<int> input;
-            while(std::getline(lineStream,cell,','))
-            {
-                istringstream ss(cell);
-                ss >> in;
-                input.push_back(in);
-            }
-            
-            // plug the cells into the proper variables
-            run = input[0];  subrun = input[1];    event = input[2];
-            ivtx = input[3]; itrkMuon = input[4]; itrkProton = input[5];
-            
+            ss >> run >> subrun >>  event >> ivtx >> itrkMuon >> itrkProton;
+
             std::vector<Int_t> VtxTrksIDs = {ivtx , itrkMuon , itrkProton};
             VtxTrksIDmap[run][subrun][event] = VtxTrksIDs ;
 
@@ -432,10 +411,7 @@ namespace larlite {
                 if (!ROIs.empty()) ROIs.clear();
                 
                 for (int plane = 0 ; plane < 3 ; plane ++ ) {
-                    start_w[plane] = input[6 + 4*(plane+3*i_roi) + 0];
-                    start_t[plane] = input[6 + 4*(plane+3*i_roi) + 1];
-                    end_w[plane]   = input[6 + 4*(plane+3*i_roi) + 2];
-                    end_t[plane]   = input[6 + 4*(plane+3*i_roi) + 3];
+                    ss  >>  start_w[plane] >>  start_t[plane] >> end_w[plane] >> end_t[plane];
                     ROIs.push_back( box ( start_w[plane] ,  start_t[plane] , end_w[plane] , end_t[plane] ) );
                 }
                 
@@ -443,14 +419,13 @@ namespace larlite {
             }
         }
         // check
-        if (debug > 2) {
-            Printf("ROImap: \n------------\n");
+        if (debug > 3) {
             for(auto it : ROImap) {
-                std::cout << "run "  << it.first << '\n';
+                std::cout << "run "  << it.first ;
                 for(auto inner_it : it.second ) {
-                    std::cout  << "\t subrun " << inner_it.first  << '\n';
+                    std::cout  << ", subrun " << inner_it.first ;
                     for(auto inner_inner_it : inner_it.second ) {
-                        std::cout  << "\t \t event " << inner_inner_it.first;
+                        std::cout  << ", event " << inner_inner_it.first;
                         std::cout  << ", ROIs: " << "\n";
                         auto boxes = inner_inner_it.second ;
                         for (int i_roi = 0 ; i_roi < NroiPerEvent ; i_roi++ ) {
@@ -465,13 +440,12 @@ namespace larlite {
                 }
                 std::cout << std::endl;
             }
-            Printf("VtxTrksIDmap: \n------------\n");
             for(auto it : VtxTrksIDmap) {
-                std::cout << "run "  << it.first  << '\n';
+                std::cout << "run "  << it.first ;
                 for(auto inner_it : it.second ) {
-                    std::cout  << "\t subrun " << inner_it.first << '\n';
+                    std::cout  << ", subrun " << inner_it.first ;
                     for(auto inner_inner_it : inner_it.second ) {
-                        std::cout  << "\t \t event " << inner_inner_it.first ;
+                        std::cout  << ", event " << inner_inner_it.first;
                         std::cout  << ", IDs: " << "\n";
                         auto IDs = inner_inner_it.second ;
                         std::cout  << "vertex: " << IDs[0] << ", muon track:" << IDs[1] << ", proton track: " << IDs[2] << "\n";
