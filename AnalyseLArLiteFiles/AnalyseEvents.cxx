@@ -144,6 +144,8 @@ namespace larlite {
             Int_t RSE[3] = { run , subrun , event };
             std::vector<TLorentzVector> tracks_momenta = { muon_momentum , proton_momentum };
             
+            Find_nu_mu_p_Anlges();
+            
             if (DoCreateEvdImages) {
                 CreateEvdImages( ev_wire , RSE , ROIs , tracks_id , Labels , tracks_momenta );
             }
@@ -155,6 +157,16 @@ namespace larlite {
             
         }
         
+        return true;
+    }
+    
+    
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    bool AnalyseEvents::Find_nu_mu_p_Anlges(){
+        //    Shapiro angle, is the angle that the mu-p plane forms with the neutrino direction (z)
+        TVector3 Zdirection( 0 , 0 , 1 );
+        angle_z_mup_plane = 90 - RAD2DEG*( Zdirection.Angle(muon_momentum.Vect().Cross(proton_momentum.Vect()).Unit()) );
+        if (debug>3) PrintPhys(angle_z_mup_plane,'deg.');
         return true;
     }
     
@@ -365,7 +377,8 @@ namespace larlite {
         << "p_P"          << ',' << "p_theta"       << ',' << "p_phi"           << ','
         << "p_Px"         << ',' << "p_Py"          << ',' << "p_Pz"            << ','
         << "p_start_x"    << ',' << "p_start_y"     << ',' << "p_start_z"       << ','
-        << "p_end_x"      << ',' << "p_end_y"       << ',' << "p_end_z"
+        << "p_end_x"      << ',' << "p_end_y"       << ',' << "p_end_z"         << ','
+        << "angle_z_mup_plane"
         << endl;
         
         return true;
@@ -377,8 +390,8 @@ namespace larlite {
         
         
         fout
-        << run          << ',' << subrun        << ',' << event  << ','
-        << ivtx         << ',' << itrkMuon<< ',' << itrkProton << ','
+        << run                 << ',' << subrun                 << ',' << event                 << ','
+        << ivtx                << ',' << itrkMuon               << ',' << itrkProton            << ','
         << muon_momentum.P()   << ',' << muon_momentum.Theta()  << ',' << muon_momentum.Phi()   << ','
         << muon_momentum.Px()  << ',' << muon_momentum.Py()     << ',' << muon_momentum.Pz()    << ','
         << mutrack_vertex.x()  << ',' << mutrack_vertex.y()     << ',' << mutrack_vertex.z()    << ','
@@ -386,7 +399,8 @@ namespace larlite {
         << proton_momentum.P() << ',' << proton_momentum.Theta()<< ',' << proton_momentum.Phi() << ','
         << proton_momentum.Px()<< ',' << proton_momentum.Py()   << ',' << proton_momentum.Pz()  << ','
         << ptrack_vertex.x()   << ',' << ptrack_vertex.y()      << ',' << ptrack_vertex.z()     << ','
-        << ptrack_end.x()      << ',' << ptrack_end.y()         << ',' << ptrack_end.z() 
+        << ptrack_end.x()      << ',' << ptrack_end.y()         << ',' << ptrack_end.z()        << ','
+        << angle_z_mup_plane
         << endl;
         
         return true;

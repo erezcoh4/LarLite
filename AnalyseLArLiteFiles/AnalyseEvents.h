@@ -24,6 +24,7 @@
 #include "DataFormat/wire.h"
 
 #include "LArUtil/Geometry.h"
+#define RAD2DEG TMath::RadToDeg()
 
 namespace larlite {
     /**
@@ -64,6 +65,7 @@ namespace larlite {
         bool          LoadROIsMap ( TString , Int_t n = 3 );
         bool    ExtractTracksInfo ();
         bool  ExtractTracksHeader ();
+        bool  Find_nu_mu_p_Anlges ();
         
         bool        DoCreateEvdImages , DoExtractTracks , found_muon , found_proton;
         int         time_tick ;
@@ -83,7 +85,7 @@ namespace larlite {
 
         
         
-        Float_t     VertexMomentum;
+        Float_t     VertexMomentum , angle_z_mup_plane;
         
         TVector3    VertexDirection;
         TVector3    mutrack_vertex , mutrack_end , ptrack_vertex , ptrack_end;
