@@ -61,7 +61,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::larlite::MyAna));
       static ::ROOT::TGenericClassInfo 
          instance("larlite::MyAna", "MyAna.h", 28,
-                  typeid(::larlite::MyAna), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  typeid(::larlite::MyAna), DefineBehavior(ptr, ptr),
                   &larlitecLcLMyAna_Dictionary, isa_proxy, 4,
                   sizeof(::larlite::MyAna) );
       instance.SetNew(&new_larlitecLcLMyAna);
@@ -106,7 +106,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::larlite::AnaPandoraNuTracks));
       static ::ROOT::TGenericClassInfo 
          instance("larlite::AnaPandoraNuTracks", "AnaPandoraNuTracks.h", 78,
-                  typeid(::larlite::AnaPandoraNuTracks), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  typeid(::larlite::AnaPandoraNuTracks), DefineBehavior(ptr, ptr),
                   &larlitecLcLAnaPandoraNuTracks_Dictionary, isa_proxy, 0,
                   sizeof(::larlite::AnaPandoraNuTracks) );
       instance.SetNew(&new_larlitecLcLAnaPandoraNuTracks);
@@ -151,7 +151,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::MyLArTools));
       static ::ROOT::TGenericClassInfo 
          instance("MyLArTools", "MyLArTools.h", 29,
-                  typeid(::MyLArTools), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  typeid(::MyLArTools), DefineBehavior(ptr, ptr),
                   &MyLArTools_Dictionary, isa_proxy, 4,
                   sizeof(::MyLArTools) );
       instance.SetNew(&new_MyLArTools);
@@ -183,10 +183,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_larlitecLcLMyAna(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::MyAna : new ::larlite::MyAna;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::MyAna : new ::larlite::MyAna;
    }
    static void *newArray_larlitecLcLMyAna(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::MyAna[nElements] : new ::larlite::MyAna[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::MyAna[nElements] : new ::larlite::MyAna[nElements];
    }
    // Wrapper around operator delete
    static void delete_larlitecLcLMyAna(void *p) {
@@ -204,10 +204,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_larlitecLcLAnaPandoraNuTracks(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::AnaPandoraNuTracks : new ::larlite::AnaPandoraNuTracks;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::AnaPandoraNuTracks : new ::larlite::AnaPandoraNuTracks;
    }
    static void *newArray_larlitecLcLAnaPandoraNuTracks(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::AnaPandoraNuTracks[nElements] : new ::larlite::AnaPandoraNuTracks[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::AnaPandoraNuTracks[nElements] : new ::larlite::AnaPandoraNuTracks[nElements];
    }
    // Wrapper around operator delete
    static void delete_larlitecLcLAnaPandoraNuTracks(void *p) {
@@ -258,8 +258,8 @@ namespace ROOT {
       vector<float> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<float>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<float>", -2, "vector", 477,
-                  typeid(vector<float>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("vector<float>", -2, "vector", 457,
+                  typeid(vector<float>), DefineBehavior(ptr, ptr),
                   &vectorlEfloatgR_Dictionary, isa_proxy, 0,
                   sizeof(vector<float>) );
       instance.SetNew(&new_vectorlEfloatgR);
@@ -288,10 +288,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_vectorlEfloatgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<float> : new vector<float>;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<float> : new vector<float>;
    }
    static void *newArray_vectorlEfloatgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<float>[nElements] : new vector<float>[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<float>[nElements] : new vector<float>[nElements];
    }
    // Wrapper around operator delete
    static void delete_vectorlEfloatgR(void *p) {
@@ -321,8 +321,8 @@ namespace ROOT {
       vector<TLorentzVector> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<TLorentzVector>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<TLorentzVector>", -2, "vector", 477,
-                  typeid(vector<TLorentzVector>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+         instance("vector<TLorentzVector>", -2, "vector", 457,
+                  typeid(vector<TLorentzVector>), DefineBehavior(ptr, ptr),
                   &vectorlETLorentzVectorgR_Dictionary, isa_proxy, 0,
                   sizeof(vector<TLorentzVector>) );
       instance.SetNew(&new_vectorlETLorentzVectorgR);
@@ -351,10 +351,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_vectorlETLorentzVectorgR(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<TLorentzVector> : new vector<TLorentzVector>;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<TLorentzVector> : new vector<TLorentzVector>;
    }
    static void *newArray_vectorlETLorentzVectorgR(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) vector<TLorentzVector>[nElements] : new vector<TLorentzVector>[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) vector<TLorentzVector>[nElements] : new vector<TLorentzVector>[nElements];
    }
    // Wrapper around operator delete
    static void delete_vectorlETLorentzVectorgR(void *p) {
@@ -381,12 +381,12 @@ namespace {
     static const char* includePaths[] = {
 "/Users/erezcohen/larlite/UserDev/mySoftware",
 "/Users/erezcohen/larlite/core",
-"/usr/local/Cellar/root6/6.06.02/include/root",
-"/Users/erezcohen/larlite/UserDev/LarLite/MyPackage/",
+"/Users/erezcohen/root6/root-6.04.10/include",
+"/Users/erezcohen/larlite/UserDev/MyLarLite/MyPackage/",
 0
     };
-    static const char* fwdDeclCode = R"DICTFWDDCLS(
-#line 1 "libMyRepo_MyPackage dictionary forward declarations' payload"
+    static const char* fwdDeclCode = 
+R"DICTFWDDCLS(
 #pragma clang diagnostic ignored "-Wkeyword-compat"
 #pragma clang diagnostic ignored "-Wignored-attributes"
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
@@ -396,7 +396,6 @@ namespace larlite{class __attribute__((annotate("$clingAutoload$AnaPandoraNuTrac
 class __attribute__((annotate("$clingAutoload$AnaPandoraNuTracks.h")))  MyLArTools;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
-#line 1 "libMyRepo_MyPackage dictionary payload"
 
 #ifndef G__VECTOR_HAS_CLASS_ITERATOR
   #define G__VECTOR_HAS_CLASS_ITERATOR 1

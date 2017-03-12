@@ -5,8 +5,8 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 MyLArTools::MyLArTools(){
-    cout << "hello..." << endl;
-    
+    cout << "MyLArTools..." << endl;
+    // range in gr/cm2
     Float_t Range_grampercm_proton[31] =
     {1.887E-1, 3.823E-1, 6.335E-1, 1.296, 2.159, 7.375, 1.092E1,
         2.215E1, 3.627E1, 5.282E1, 7.144E1, 9.184E1, 1.138E2,
@@ -27,7 +27,7 @@ MyLArTools::MyLArTools(){
     Float_t Range_grampercm_proton_LAr[31];
     Float_t p_MeVc_proton[31];
     for (int i = 0 ; i < 31; i++) {
-        Range_grampercm_proton_LAr[i] = Range_grampercm_proton[i] * LAr_density;
+        Range_grampercm_proton_LAr[i] = Range_grampercm_proton[i] / LAr_density; // range [cm] = range [gr/cm^2] / rho [gr/cm^3]
         E = 938.272 + KE_MeV_proton[i];
         p_MeVc_proton[i] = sqrt(E*E - 938.272*938.272);
     }
@@ -37,7 +37,7 @@ MyLArTools::MyLArTools(){
     p_vs_range_proton = new TGraph(31, Range_grampercm_proton_LAr, p_MeVc_proton);
     p_vs_range_proton_s3 = new TSpline3("p_vs_range_proton", p_vs_range_proton);
 
-    
+    // range in gr/cm2
     Float_t Range_grampercm_muon[29] = {9.833E-1, 1.786E0, 3.321E0, 6.598E0, 1.058E1, 3.084E1, 4.250E1,
         6.732E1, 1.063E2, 1.725E2, 2.385E2, 4.934E2,
         6.163E2, 8.552E2, 1.202E3, 1.758E3, 2.297E3,
@@ -53,7 +53,7 @@ MyLArTools::MyLArTools(){
     Float_t Range_grampercm_muon_LAr[29];
     Float_t p_MeVc_muon[29];
     for (int i = 0 ; i < 29; i++) {
-        Range_grampercm_muon_LAr[i] = Range_grampercm_muon[i] * LAr_density;
+        Range_grampercm_muon_LAr[i] = Range_grampercm_muon[i] / LAr_density;
         E = 105.6 + KE_MeV_muon[i];
         p_MeVc_muon[i] = sqrt(E*E - 105.6*105.6);
     }

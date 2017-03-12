@@ -59,7 +59,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::larlite::AnalyseEvents));
       static ::ROOT::TGenericClassInfo 
          instance("larlite::AnalyseEvents", "AnalyseEvents.h", 34,
-                  typeid(::larlite::AnalyseEvents), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  typeid(::larlite::AnalyseEvents), DefineBehavior(ptr, ptr),
                   &larlitecLcLAnalyseEvents_Dictionary, isa_proxy, 0,
                   sizeof(::larlite::AnalyseEvents) );
       instance.SetNew(&new_larlitecLcLAnalyseEvents);
@@ -91,10 +91,10 @@ namespace ROOT {
 namespace ROOT {
    // Wrappers around operator new
    static void *new_larlitecLcLAnalyseEvents(void *p) {
-      return  p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::AnalyseEvents : new ::larlite::AnalyseEvents;
+      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::AnalyseEvents : new ::larlite::AnalyseEvents;
    }
    static void *newArray_larlitecLcLAnalyseEvents(Long_t nElements, void *p) {
-      return p ? ::new((::ROOT::Internal::TOperatorNewHelper*)p) ::larlite::AnalyseEvents[nElements] : new ::larlite::AnalyseEvents[nElements];
+      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::larlite::AnalyseEvents[nElements] : new ::larlite::AnalyseEvents[nElements];
    }
    // Wrapper around operator delete
    static void delete_larlitecLcLAnalyseEvents(void *p) {
@@ -123,12 +123,12 @@ namespace {
 "/Users/erezcohen/larlite/UserDev/AnalysisTreesInformation/AnaTreesPackage",
 "/Users/erezcohen/larlite/UserDev/BasicTool/GeoAlgo",
 "/Users/erezcohen/larlite/core",
-"/usr/local/Cellar/root6/6.06.02/include/root",
-"/Users/erezcohen/larlite/UserDev/LarLite/AnalyseLArLiteFiles/",
+"/Users/erezcohen/root6/root-6.04.10/include",
+"/Users/erezcohen/larlite/UserDev/MyLarLite/AnalyseLArLiteFiles/",
 0
     };
-    static const char* fwdDeclCode = R"DICTFWDDCLS(
-#line 1 "libMyLarLite_AnalyseLArLiteFiles dictionary forward declarations' payload"
+    static const char* fwdDeclCode = 
+R"DICTFWDDCLS(
 #pragma clang diagnostic ignored "-Wkeyword-compat"
 #pragma clang diagnostic ignored "-Wignored-attributes"
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
@@ -136,7 +136,6 @@ extern int __Cling_Autoloading_Map;
 namespace larlite{class __attribute__((annotate("$clingAutoload$AnalyseEvents.h")))  AnalyseEvents;}
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
-#line 1 "libMyLarLite_AnalyseLArLiteFiles dictionary payload"
 
 #ifndef G__VECTOR_HAS_CLASS_ITERATOR
   #define G__VECTOR_HAS_CLASS_ITERATOR 1
